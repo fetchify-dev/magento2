@@ -18,3 +18,9 @@ Then, add the module to the required list either via the composer.json, or execu
 composer require craftyclicks/module-clicktoaddress
 ```
 (or composer require craftyclicks/module-clicktoaddress:dev-branch for a specific branch)
+
+Then execute
+```
+php -f bin/magento module:enable --clear-static-content Craftyclicks_Clicktoaddress
+php -f bin/magento setup:upgrade
+```
