@@ -1,0 +1,119 @@
+.search-container input{
+	outline: none;
+	border: 0px;
+	font-size: 14px;
+	padding: 8px 12px;
+	color: #85888d;
+	width: 100%;
+	min-width: 300px;
+	background: #fff;
+	border: 1px solid #c2c2c2;
+	border-top-left-radius: 1px;
+	border-bottom-left-radius: 1px;
+}
+.search-container input:focus{
+	outline: none;
+}
+.search-container .search-bar{
+}
+.search-container .action{
+	background-image: url('https://dl.dropboxusercontent.com/u/8625455/hexagon1.png');
+	position: absolute;
+	right: -25px;
+	top: -8px;
+	height: 30px;
+	width: 30px;
+	padding: 10px 10px;
+	color: white;
+}
+.search-container .action .icon{
+}
+.search-container .action .icon svg{
+	width: 25px;
+	height: auto;
+}
+	@-moz-keyframes spin {
+		from { -moz-transform: rotate(0deg); }
+		to { -moz-transform: rotate(360deg); }
+	}
+	@-webkit-keyframes spin {
+		from { -webkit-transform: rotate(0deg); }
+		to { -webkit-transform: rotate(360deg); }
+	}
+	@keyframes spin {
+		from {transform:rotate(0deg);}
+		to {transform:rotate(360deg);}
+	}
+.search-container .action .spin.icon svg{
+	-webkit-animation-name: spin;
+	-webkit-animation-duration: 1000ms;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-name: spin;
+	-moz-animation-duration: 1000ms;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-timing-function: linear;
+	-ms-animation-name: spin;
+	-ms-animation-duration: 1000ms;
+	-ms-animation-iteration-count: infinite;
+	-ms-animation-timing-function: linear;
+
+	animation-name: spin;
+	animation-duration: 1000ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+.search-container .extra-info{
+	display: block;
+	color: white;
+	background-color: #1979c3;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding: 4px 8px;
+}
+.search-container{
+	margin: 0px;
+	position: relative;
+	display: inline-block;
+}
+.search-containre .search-list{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc;
+	border-bottom: 0;
+	background: 0;
+	box-shadow: 0 8px 17px 0 rgba(0,0,0,.2);
+}
+.search-container .search-list ul{
+	max-height: 200px;
+	overflow-y: scroll;
+	font-size: 14px;
+	padding: 0px;
+	color: #85888d;
+	list-style: none;
+	margin: 0px;
+	border: 1px solid #c2c2c2;
+	border-top: 0px;
+}
+.search-container .search-list li{
+	//background-color: #e4e8e9;
+	//border-bottom: 1px solid #85888d;
+	padding: 6px 10px;
+	cursor: pointer;
+	margin-bottom: 0px;
+	text-align: left;
+	font-size: 12px;
+}
+.search-container .search-list li:nth-child(odd){
+	//background-color: #f1f3f4;
+}
+.search-container .search-list li:hover{
+	//background-color: white;
+	background-color: #f1f1f1;
+}
+.search-container .search-list li:first-child{
+	border-top: none;
+}
+.search-container .search-list li:last-child{
+	border-bottom: none;
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/system_file.xsd">
+	<system>
+		<tab id="cc_setup" translate="label" sortOrder="900">
+			<label>Crafty Clicks</label>
+		</tab>
+		<section id="cc_uk" translate="label" sortOrder="130" showInDefault="1">
+			<label>Click to Address</label>
+			<tab>cc_setup</tab>
+			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
+			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1">
+				<label>Main Options</label>
+				<field id="cc_info" translate="label" sortOrder="1" showInDefault="1">
+					<label>About Crafty</label>
+					<comment>
+						<![CDATA[
+							To review your access tokens & check your usage, please login to our <a href="https://craftyclicks.co.uk/myaccount/home/login.html">admin panel</a>.
+							]]>
+					</comment>
+				</field>
+				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1">
+					<label>Enable UK Postcode Lookup (frontend)</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="frontend_accesstoken" type="text" sortOrder="2" showInDefault="1">
+					<label>FrontEnd Access Token</label>
+				</field>
+				<field id="backend_enabled" translate="label" type="select" sortOrder="3" showInDefault="1">
+					<label>Enable UK Postcode Lookup (backend)</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="backend_accesstoken" type="text" sortOrder="4" showInDefault="1">
+					<label>Backend Access Token</label>
+				</field>
+			</group>
+			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1">
+				<label>Search Options</label>
+				<field id="searchbar_type" translate="label" type="select" sortOrder="5" showInDefault="1">
+					<label>Postcode Lookup Type</label>
+					<comment><![CDATA[
+						Configuration options<br/>
+						<ul style="list-style: none;">
+							<li style="margin-bottom: 8px;"><div style="display: block; background-color: #f1f1f1; padding: 5px; font-weight: bold">SearchBar</div>
+								<p class="note">Creates a new input line for address lookup. Has a html based
+								 dropdown that can be customized via CSS and can have Auto-Search enabled.</p>
+							</li>
+							<li>
+								<div style="display: block; background-color: #f1f1f1; padding: 5px; font-weight: bold">Traditional</div>
+								<p class="note">Adds a button next to the postcode box. Uses a standard html select dropdown.</p>
+							</li>
+						</ul>
+					]]></comment>
+					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Searchtype</source_model>
+				</field>
+				<!--<field id="searchbar_complete_postcode" translate="label" type="select" sortOrder="20" showInDefault="1">
+					<label>Complete Postcode</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Show a list of possible postcode endings. (only graphical mode)</comment>
+				</field>-->
+				<field id="searchbar_auto_search" translate="label" type="select" sortOrder="30" showInDefault="1">
+					<label>Auto-Search</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Initiates search as soon as the input is a valid UK postcode. (only graphical mode)</comment>
+				</field>
+				<field id="hide_fields" translate="label" type="select" sortOrder="7" showInDefault="1">
+					<label>Hide Address Fields of New Address Entry</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="searchbar_clean_postsearch" translate="label" type="select" sortOrder="32" showInDefault="1">
+					<label>Clean Input after Search</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Cleans the search input after selecting an address from the dropdown. (only graphical mode)</comment>
+				</field>
+				<!--
+				<field id="search_bg" type="select" sortOrder="33" showInDefault="1">
+					<label>Background Element</label>
+					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Searchbg</source_model>
+				</field>
+				<field id="search_bg_color" type="text" sortOrder="34" showInDefault="1">
+					<label>Background Element's Color</label>
+					<comment>Hex-color, starting with # (default black)</comment>
+				</field>
+				<field id="search_icon" type="select" sortOrder="35" showInDefault="1">
+					<label>Icon Element</label>
+					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Searchicon</source_model>
+					<comment>(If "Searchbar + Icon" is selected)</comment>
+				</field>
+				<field id="search_icon_color" type="text" sortOrder="36" showInDefault="1">
+					<label>Icon Element's Color</label>
+					<comment>Hex-color, starting with # (If "Searchbar + Icon" is selected) (default white)</comment>
+				</field>
+				-->
+				<field id="button_class" type="text" sortOrder="40" showInDefault="1">
+					<label>Button Class</label>
+					<comment>Only traditional search mode</comment>
+				</field>
+				<field id="button_image" type="text" sortOrder="50" showInDefault="1">
+					<label>Button Image</label>
+					<comment>Only traditional search mode</comment>
+				</field>
+			</group>
+			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1">
+				<label>Message Options</label>
+				<field id="search_label" type="text" sortOrder="5" showInDefault="1">
+					<label>Search Label</label>
+				</field>
+				<field id="search_placeholder" type="text" sortOrder="5" showInDefault="1">
+					<label>Search Placeholder</label>
+				</field>
+				<field id="search_buttontext" type="text" sortOrder="6" showInDefault="1">
+					<label>Button Text</label>
+					<comment>Traditional / Searchbar + Text mode</comment>
+				</field>
+				<field id="error_msg_1" type="text" sortOrder="10" showInDefault="1">
+					<label>Error Msg #1</label>
+				</field>
+				<field id="error_msg_2" type="text" sortOrder="20" showInDefault="1">
+					<label>Error Msg #2</label>
+				</field>
+				<field id="error_msg_3" type="text" sortOrder="30" showInDefault="1">
+					<label>Error Msg #3</label>
+				</field>
+				<field id="error_msg_4" type="text" sortOrder="40" showInDefault="1">
+					<label>Error Msg #4</label>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>
