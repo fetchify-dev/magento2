@@ -24,6 +24,7 @@ function activate_cc_m2(){
 				*/
 				custom_order: ['company', 'country', 'company', 'postcode']
 			},
+			search_type: crafty_cfg.searchbar_type,
 			hide_fields: crafty_cfg.hide_fields,
 			auto_search: crafty_cfg.auto_search,
 			clean_postsearch: crafty_cfg.clean_postsearch,
@@ -63,7 +64,7 @@ function activate_cc_m2(){
 				jQuery(this).data('cc','active');
 				console.log(cfg.dom);
 
-				cfg.id = jQuery(this).data('name');
+				cfg.id = jQuery(this).attr('name');
 
 				cc_attached.push(new cc_ui_handler(cfg));
 				cc_attached[cc_attached.length - 1].activate();

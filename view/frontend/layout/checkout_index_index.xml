@@ -2,9 +2,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="../../../../../../../../htdocs/lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
 	<head>
-		<script src="Craftyclicks_Clicktoaddress::test.js"/>
-		<remove src="Craftyclicks_Clicktoaddress::test.js"/>
-		<script src="Craftyclicks_Clicktoaddress::cc_svg.js"/>
 		<script src="Craftyclicks_Clicktoaddress::cc_rapid_core.js"/>
 		<script src="Craftyclicks_Clicktoaddress::cc_middleman.js"/>
 		<script src="Craftyclicks_Clicktoaddress::form_integrations/cc_default_checkout.js"/>
