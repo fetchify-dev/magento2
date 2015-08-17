@@ -64,6 +64,9 @@
 			</group>
 			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Message Options</label>
+				<field id="search_label" type="text" sortOrder="5" showInDefault="1">
+					<label>Search Label</label>
+				</field>
 				<field id="search_placeholder" type="text" sortOrder="5" showInDefault="1">
 					<label>Search Placeholder</label>
 				</field>
