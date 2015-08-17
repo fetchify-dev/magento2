@@ -24,51 +24,36 @@ function activate_cc_m2(){
 			clean_postsearch: crafty_cfg.clean_postsearch,
 			only_uk: true,
 			search_wrapper: {
-				before: '<div class="admin__field"><label class="admin__field-label">'+crafty_cfg.txt.search_label+'</label><div class="admin__field-control">',
+				before: '<div class="admin__field field"><label class="label admin__field-label">'+crafty_cfg.txt.search_label+'</label><div class="control admin__field-control">',
 				after: '</div></div>'
 			},
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
 		}
 		var address_dom = {
-			company:	jQuery("[name$='[company]']"),
-			address_1:	jQuery("[name$='[street][0]']"),
-			address_2:	jQuery("[name$='[street][1]']"),
-			postcode:	jQuery("[name$='[postcode]']"),
-			town:		jQuery("[name$='[city]']"),
-			county:		jQuery("[name$='[region]']"),
-			county_list:jQuery("select[name$='[region_id]']"),
-			country:	jQuery("select[name$='[country_id]']")
+			company:	jQuery("[name='company']"),
+			address_1:	jQuery("[name='street[0]']"),
+			address_2:	jQuery("[name='street[1]']"),
+			postcode:	jQuery("[name='postcode']"),
+			town:		jQuery("[name='city']"),
+			county:		jQuery("[name='region']"),
+			county_list:jQuery("[name='region_id']"),
+			country:	jQuery("[name='country_id']")
 		};
-		address_dom;
-		// special for admin panel: search each potential element
-		address_dom.postcode.each(function(index){
-			// different tagging method; tag object as active
-			if(jQuery(this).data('cc') != 'active'){
-				cfg.dom = {
-					company:	jQuery(jQuery("[name$='[company]']")[index]),
-					address_1:	jQuery(jQuery("[name$='[street][0]']")[index]),
-					address_2:	jQuery(jQuery("[name$='[street][1]']")[index]),
-					postcode:	jQuery(jQuery("[name$='[postcode]']")[index]),
-					town:		jQuery(jQuery("[name$='[city]']")[index]),
-					county:		jQuery(jQuery("[name$='[region]']")[index]),
-					county_list:jQuery(jQuery("select[name$='[region_id]']")[index]),
-					country:	jQuery(jQuery("select[name$='[country_id]']")[index])
-				}
-				jQuery(this).data('cc','active');
-				console.log(cfg.dom);
-
-				cfg.id = jQuery(this).data('name');
-
-				var cc_billing = new cc_ui_handler(cfg);
-				cc_billing.activate();
-			}
-		});
+		cfg.dom = address_dom;
+		cfg.id = "m2_address";
+		if(cc_activate_flags.indexOf(cfg.id) == -1 && cfg.dom.postcode.length == 1){
+			cc_activate_flags.push(cfg.id);
+			var cc_billing = new cc_ui_handler(cfg);
+			cc_billing.activate();
+		}
 	}
 }
 
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		setInterval(activate_cc_m2,200);
+		if(crafty_cfg.enabled){
+			setInterval(activate_cc_m2,200);
+		}
 	});
 });

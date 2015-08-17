@@ -11,11 +11,31 @@
 			<main_options>
 				<frontend_enabled>0</frontend_enabled>
 				<backend_enabled>0</backend_enabled>
+				<frontend_accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</frontend_accesstoken>
+				<backend_accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</backend_accesstoken>
 			</main_options>
+			<gfx_options>
+				<searchbar_type>searchbar_icon</searchbar_type>
+				<searchbar_auto_search>1</searchbar_auto_search>
+				<searchbar_clean_postsearch>1</searchbar_clean_postsearch>
+				<hide_fields>0</hide_fields>
+				<!--
+				<search_bg>hex</search_bg>
+				<search_bg_color>#000000</search_bg_color>
+				<search_icon>search</search_icon>
+				<search_icon_color>#ffffff</search_icon_color>
+				-->
+				<button_class>btn</button_class>
+				<button_image></button_image>
+			</gfx_options>
 			<txt_options>
 				<search_placeholder>Type your postcode here</search_placeholder>
-				<search_buttontext>Search</search_buttontext>
+				<search_buttontext>Find Address</search_buttontext>
 				<search_label>Postcode Lookup</search_label>
+				<error_msg_1>This postcode could not be found, please try again or enter your address manually.</error_msg_1>
+				<error_msg_2>This postcode is not valid.</error_msg_2>
+				<error_msg_3>Unable to connect to address lookup server.</error_msg_3>
+				<error_msg_4>An unexpected error occured.</error_msg_4>
 			</txt_options>
 		</cc_uk>
 	</default>

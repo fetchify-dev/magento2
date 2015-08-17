@@ -1,5 +1,5 @@
 
-var cc_activate_flags = [];
+var cc_attached = [];
 function activate_cc_m2(){
 	if(crafty_cfg.enabled){
 		var cfg = {
@@ -17,7 +17,12 @@ function activate_cc_m2(){
 			dom: {},
 			sort_fields: {
 				active: true,
-				parent: 'div.admin__field'
+				parent: 'div.admin__field',
+				/*	special structure workaround.
+					can't move easily the street objects (special parent?!)
+					Use company to move country up to a proper position & leave the rest as usual
+				*/
+				custom_order: ['company', 'country', 'company', 'postcode']
 			},
 			hide_fields: crafty_cfg.hide_fields,
 			auto_search: crafty_cfg.auto_search,
@@ -60,8 +65,8 @@ function activate_cc_m2(){
 
 				cfg.id = jQuery(this).data('name');
 
-				var cc_billing = new cc_ui_handler(cfg);
-				cc_billing.activate();
+				cc_attached.push(new cc_ui_handler(cfg));
+				cc_attached[cc_attached.length - 1].activate();
 			}
 		});
 	}
@@ -69,6 +74,8 @@ function activate_cc_m2(){
 
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		setInterval(activate_cc_m2,200);
+		if(crafty_cfg.enabled){
+			setInterval(activate_cc_m2,200);
+		}
 	});
 });

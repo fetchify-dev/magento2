@@ -6,6 +6,7 @@
 	color: #85888d;
 	width: 100%;
 	min-width: 300px;
+	max-width: 75%;
 	background: #fff;
 	border: 1px solid #c2c2c2;
 	border-top-left-radius: 1px;
@@ -15,36 +16,59 @@
 	outline: none;
 }
 .search-container .search-bar{
+	min-width: 300px;
+	max-width: 66%;
 }
-.search-container .action{
-	background-image: url('https://dl.dropboxusercontent.com/u/8625455/hexagon1.png');
+.search-container.type_1 .action{
 	position: absolute;
-	right: -25px;
-	top: -8px;
-	height: 30px;
-	width: 30px;
-	padding: 10px 10px;
+	right: 10px;
+	top: -4px;
+	height: 40px;
+	width: 33%;
 	color: white;
 }
-.search-container .action .icon{
+.search-container.type_3 .action{
+	position: absolute;
+	right: 0px;
+	top: 0px;
 }
-.search-container .action .icon svg{
-	width: 25px;
+.search-container.type_2 .action{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+.search-container.type_1 .action .icon, .search-container.type_1 .action .icon_bg{
+	position: absolute;
+	top: 0px;
+}
+.search-container.type_1 .action .icon svg{
+	width: 20px;
+	height: auto;
+	padding: 10px;
+}
+.search-container.type_1 .action .icon_bg svg{
+	width: 40px;
 	height: auto;
 }
-	@-moz-keyframes spin {
-		from { -moz-transform: rotate(0deg); }
-		to { -moz-transform: rotate(360deg); }
-	}
-	@-webkit-keyframes spin {
-		from { -webkit-transform: rotate(0deg); }
-		to { -webkit-transform: rotate(360deg); }
-	}
-	@keyframes spin {
-		from {transform:rotate(0deg);}
-		to {transform:rotate(360deg);}
-	}
-.search-container .action .spin.icon svg{
+.search-container.type_1 .action .icon_bg svg.bg_flat{
+	width: auto;
+	height: 32px;
+	margin-top: 4px;
+}
+.search-container.type_1 .action .icon_bg svg.bg_spike{
+	width: auto;
+	height: 32px;
+	margin-top: 4px;
+	padding-left: 12px;
+}
+.search-container.type_1 .action .icon_bg svg.bg_convex{
+	width: auto;
+	height: 32px;
+	margin-top: 4px;
+	padding-left: 9px;
+}
+
+.search-container.type_1 .action .spin.icon svg{
 	-webkit-animation-name: spin;
 	-webkit-animation-duration: 1000ms;
 	-webkit-animation-iteration-count: infinite;
@@ -69,20 +93,24 @@
 	background-color: #1979c3;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-	padding: 4px 8px;
+	border: 1px solid #1979c3;
+
+	min-width: inherit;
+	max-width: inherit;
 }
 .search-container{
 	margin: 0px;
 	position: relative;
+	width: 100%;
 	display: inline-block;
 }
-.search-containre .search-list{
-	border-width: 1px;
-	border-style: solid;
-	border-color: #ccc;
-	border-bottom: 0;
-	background: 0;
-	box-shadow: 0 8px 17px 0 rgba(0,0,0,.2);
+.search-container .search-list{
+	min-width: 300px;
+	max-width: 66%;
+}
+.search-container .search-list{
+	min-width: 300px;
+	max-width: 66%;
 }
 .search-container .search-list ul{
 	max-height: 200px;
@@ -92,17 +120,21 @@
 	color: #85888d;
 	list-style: none;
 	margin: 0px;
-	border: 1px solid #c2c2c2;
-	border-top: 0px;
+	border-left: 1px solid #c2c2c2;
+	border-right: 1px solid #c2c2c2;
+
+	min-width: inherit;
+	max-width: inherit;
 }
 .search-container .search-list li{
 	//background-color: #e4e8e9;
 	//border-bottom: 1px solid #85888d;
-	padding: 6px 10px;
+	padding: 0.25em 0.5em;
 	cursor: pointer;
 	margin-bottom: 0px;
 	text-align: left;
 	font-size: 12px;
+
 }
 .search-container .search-list li:nth-child(odd){
 	//background-color: #f1f3f4;
@@ -116,4 +148,42 @@
 }
 .search-container .search-list li:last-child{
 	border-bottom: none;
+}
+.search-container .error{
+	font-size: 0.8em;
+	display: none;
+	color: white;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	font-weight: bold;
+	text-align: center;
+
+	min-width: 300px;
+	max-width: 66%;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff5501+0,e33827+100 */
+	background: #e33827; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ff5501 0%, #e33827 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff5501), color-stop(100%,#e33827)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ff5501 0%,#e33827 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ff5501 0%,#e33827 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ff5501 0%,#e33827 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ff5501 0%,#e33827 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff5501', endColorstr='#e33827',GradientType=0 ); /* IE6-9 */
+
+}
+.search-subtext{
+	padding: 0.25em 0.5em;
+}
+
+@-moz-keyframes spin {
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
 }

@@ -19,6 +19,19 @@ function activate_cc_m2(){
 				active: true,
 				parent: 'div.field:not(.additional)'
 			},
+			search_type: crafty_cfg.searchbar_type,
+			/*
+			searchbar_gfx: {
+				bg:		{
+					color: crafty_cfg.search_bg_color,
+					type: crafty_cfg.search_bg
+				},
+				icon:	{
+					color: crafty_cfg.search_icon_color,
+					type: crafty_cfg.search_icon
+				}
+			},
+			*/
 			hide_fields: crafty_cfg.hide_fields,
 			auto_search: crafty_cfg.auto_search,
 			clean_postsearch: crafty_cfg.clean_postsearch,
@@ -69,6 +82,8 @@ function activate_cc_m2(){
 
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		setInterval(activate_cc_m2,200);
+		if(crafty_cfg.enabled){
+			setInterval(activate_cc_m2,200);
+		}
 	});
 });

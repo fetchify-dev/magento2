@@ -53,6 +53,9 @@ function cc_ui_handler(cfg){
 cc_ui_handler.prototype.sort = function(is_uk){
 	var elems = this.cfg.dom;
 	var uk_sort_order = ['country', 'postcode', 'company', 'address_1', 'town', 'county', 'county_list'];
+	if(typeof this.cfg.sort_fields.custom_order != 'undefined'){
+		uk_sort_order = this.cfg.sort_fields.custom_order;
+	}
 	var other_sort_order = ['country', 'company', 'address_1', 'town', 'county', 'county_list', 'postcode'];
 	if(is_uk){
 		for(var i=0; i<uk_sort_order.length - 1; i++){

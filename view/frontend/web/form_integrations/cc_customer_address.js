@@ -19,6 +19,7 @@ function activate_cc_m2(){
 				active: true,
 				parent: 'div.field:not(.additional)'
 			},
+			search_type: crafty_cfg.searchbar_type,
 			hide_fields: crafty_cfg.hide_fields,
 			auto_search: crafty_cfg.auto_search,
 			clean_postsearch: crafty_cfg.clean_postsearch,
@@ -52,6 +53,8 @@ function activate_cc_m2(){
 
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		setInterval(activate_cc_m2,200);
+		if(crafty_cfg.enabled){
+			setInterval(activate_cc_m2,200);
+		}
 	});
 });
