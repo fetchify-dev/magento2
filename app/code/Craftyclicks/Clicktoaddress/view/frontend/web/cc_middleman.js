@@ -4,32 +4,7 @@
  */
 
 function cc_ui_handler(cfg){
-	var core_cfg = {
-		id: '',
-		core: {
-			key: 'xxxxx-xxxxx-xxxxx-xxxxx',
-			preformat: true,
-			capsformat: {
-				address: true,
-				organization: true,
-				county: true,
-				town: true
-			}
-		},
-		dom: {},
-		sort_fields: {
-			active: false
-		},
-		hide_fields: crafty_cfg.hide_fields,
-		auto_search: crafty_cfg.auto_search,
-		clean_postsearch: crafty_cfg.clean_postsearch,
-		only_uk: true
-	}
-	// merge the new config over to the default ones.
-	for (var attrname in cfg) { core_cfg[attrname] = cfg[attrname]; }
-
-	this.cfg = core_cfg;
-	console.log(this.cfg);
+	this.cfg = cfg;
 
 	var lines = 0;
 	if(typeof cfg.dom.address_1 !== "undefined"){
@@ -52,11 +27,8 @@ function cc_ui_handler(cfg){
 
 cc_ui_handler.prototype.sort = function(is_uk){
 	var elems = this.cfg.dom;
-	var uk_sort_order = ['country', 'postcode', 'company', 'address_1', 'town', 'county', 'county_list'];
-	if(typeof this.cfg.sort_fields.custom_order != 'undefined'){
-		uk_sort_order = this.cfg.sort_fields.custom_order;
-	}
-	var other_sort_order = ['country', 'company', 'address_1', 'town', 'county', 'county_list', 'postcode'];
+	var uk_sort_order = ['country', 'postcode', 'company', 'address_1', 'town', 'county'];
+	var other_sort_order = ['country', 'company', 'address_1', 'town', 'county', 'postcode'];
 	if(is_uk){
 		for(var i=0; i<uk_sort_order.length - 1; i++){
 			this.sortTool(elems[uk_sort_order[i]], elems[uk_sort_order[i+1]]);
@@ -66,19 +38,19 @@ cc_ui_handler.prototype.sort = function(is_uk){
 			this.sortTool(elems[other_sort_order[i]], elems[other_sort_order[i+1]]);
 		}
 	}
-	var country = elems['country'].parents(this.cfg.sort_fields.parent).last();
+	var country = jQuery('[name="'+elems['country']+'"]').parents(this.cfg.sort_fields.parent).last();
 	var searchContainer = this.search_object.parents(this.cfg.sort_fields.parent).last();
 	country.after(searchContainer);
 
 	if(this.cfg.hide_fields){
 		for(var i=0; i<uk_sort_order.length; i++){
-			elems[uk_sort_order[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
+			jQuery('[name="'+elems[uk_sort_order[i]]+'"]').parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
 		}
 	}
 }
 cc_ui_handler.prototype.sortTool = function(a,b){
-	var a_holder = a.parents(this.cfg.sort_fields.parent).last();
-	var b_holder = b.parents(this.cfg.sort_fields.parent).last();
+	var a_holder = jQuery('[name="'+a+'"]').parents(this.cfg.sort_fields.parent).last();
+	var b_holder = jQuery('[name="'+b+'"]').parents(this.cfg.sort_fields.parent).last();
 	a_holder.after(b_holder);
 }
 cc_ui_handler.prototype.country_change = function(country){
@@ -95,7 +67,7 @@ cc_ui_handler.prototype.country_change = function(country){
 			this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
 		}
 	}
-	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() == "")){
+	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (jQuery('[name="'+this.cfg.dom.postcode+'"]').val() == "")){
 		jQuery('.crafty_address_field').hide();
 	}
 }
@@ -103,10 +75,10 @@ cc_ui_handler.prototype.country_change = function(country){
 cc_ui_handler.prototype.activate = function(){
 	this.addui();
 	if(this.cfg.only_uk){
-		this.country_change(this.cfg.dom.country.val());
+		this.country_change(jQuery('[name="'+this.cfg.dom.country+'"]').val());
 		// transfer object to event scope
 		var that = this;
-		this.cfg.dom.country.on('change',function(){
+		jQuery('[name="'+this.cfg.dom.country+'"]').on('change',function(){
 			// selected country
 			var sc = jQuery(this).val();
 			that.country_change(sc);
@@ -118,19 +90,17 @@ cc_ui_handler.prototype.addui = function(){
 	// transfer object to event scope
 	var that = this;
 	// apply dom elements
-	var html = '<div class="search-container" id="' + this.cfg.id + '">'
-		+ '<div class="search-bar">'
-			+ '<input class="search-box" type="text"placeholder="' + this.cfg.txt.search_placeholder + '">'
-	//		+ '<div class="action">' + this.cfg.txt.search_buttontext + '</div>'
-			+ '<div class="action"><div class="icon"></div></div>'
-		+ '</div>'
-		+ '<div class="search-list" style="display: none;">'
-			+ '<ul>'
-			+ '</ul>'
-			+ '<div class="extra-info" style="display: none;"></div>'
-		+ '</div>'
-		+ '<div class="error"></div>'
-	+ '</div>';
+	this.container_id = 'cc_275';
+	var html = '<div class="search-container" id="'+this.container_id+'">'+
+	'<div class="search-bar">'+
+	'	<input class="search-box" type="text"placeholder="'+this.cfg.txt.search_placeholder+'">'+
+	'	<div class="action">'+ this.cfg.txt.search_buttontext+'</div>'+
+	'</div>'+
+	'<ul class="search-list" style="display: none;">'+
+	'</ul>'+
+	'<div class="extra-info" style="display: none;"></div>';
+	'<div class="error"></div>'+
+	'</div>';
 	/*
 	switch(gfx_type){
 		case "simple":
@@ -142,10 +112,9 @@ cc_ui_handler.prototype.addui = function(){
 	if(typeof this.cfg.search_wrapper !== 'undefined'){
 		html = this.cfg.search_wrapper.before + html + this.cfg.search_wrapper.after;
 	}
-	this.cfg.dom.country.parents(this.cfg.sort_fields.parent).last().after(html);
-
+	jQuery('[name="'+this.cfg.dom.country+'"]').parents(this.cfg.sort_fields.parent).last().after(html);
 	// apply postcode lookup (by button)
-	this.search_object = jQuery('.search-container#'+this.cfg.id);
+	this.search_object = jQuery('.search-container#'+this.container_id);
 	this.search_object.find('.action').on('click',function(){
 		that.lookup(that.search_object.find('.search-box').val());
 	});
@@ -158,17 +127,13 @@ cc_ui_handler.prototype.addui = function(){
 			that.lookup(that.search_object.find('.search-box').val());
 		}
 	});
-	this.icon_handler("search");
 
 }
 
 cc_ui_handler.prototype.lookup = function(postcode){
-	this.icon_handler("work");
-
 	var dataset = this.cc_core.search(postcode);
 	if(typeof dataset.error_code != "undefined"){
 		this.prompt_error(dataset.error_code);
-		this.icon_handler("error");
 		return;
 	}
 	var new_html = "";
@@ -183,10 +148,10 @@ cc_ui_handler.prototype.lookup = function(postcode){
 			elems.push(endpoint.line_1);
 		if(endpoint.line_2 != "")
 			elems.push(endpoint.line_2);
-		new_html += '<li data-id="'+i+'"><span style="font-weight: bold;">'+dataset.town+', </span><span style="font-style: italic;">' + elems.join(', ') + '</span></li>';
+		new_html += '<li data-id="'+i+'">' + elems.join(', ') + '</li>';
 	}
 	var search_list = this.search_object.find('.search-list');
-	search_list.find('ul').html(new_html);
+	search_list.html(new_html);
 	search_list.show();
 
 	this.search_object.find('.extra-info').html(dataset.town).show();
@@ -194,16 +159,8 @@ cc_ui_handler.prototype.lookup = function(postcode){
 	search_list.find('li').on('click',function(){
 		that.select(postcode, jQuery(this).data('id'));
 		search_list.hide();
+		that.search_object.find('.extra-info').hide();
 	});
-
-	this.search_object.on('focusout',function(){
-		// give a tiny time for the on click event to trigger first
-		setTimeout(function(){
-			search_list.hide();
-		}, 250);
-	});
-
-	this.icon_handler("search");
 }
 cc_ui_handler.prototype.prompt_error = function(errorcode){
 	this.search_object.find('.error').html(this.cfg.error_msg[errorcode]);
@@ -211,8 +168,8 @@ cc_ui_handler.prototype.prompt_error = function(errorcode){
 cc_ui_handler.prototype.select = function(postcode, id){
 	var dataset = this.cc_core.get_store(this.cc_core.clean_input(postcode));
 
-	this.cfg.dom.town.val(dataset.town);
-	this.cfg.dom.postcode.val(dataset.postcode);
+	jQuery('[name="'+this.cfg.dom.town+'"]').val(dataset.town);
+	jQuery('[name="'+this.cfg.dom.postcode+'"]').val(dataset.postcode);
 
 	var company_details = [];
 	if(dataset.delivery_points[id].department_name != ""){
@@ -222,10 +179,10 @@ cc_ui_handler.prototype.select = function(postcode, id){
 		company_details.push(dataset.delivery_points[id].organisation_name);
 	}
 
-	this.cfg.dom.company.val(company_details.join(', '));
+	jQuery('[name="'+this.cfg.dom.company+'"]').val(company_details.join(', '));
 
 	for(var i=1; i<=this.cfg.core.lines; i++){
-		this.cfg.dom["address_"+i].val(dataset.delivery_points[id]["line_"+i]);
+		jQuery('[name="'+this.cfg.dom["address_"+i]+'"]').val(dataset.delivery_points[id]["line_"+i]);
 	}
 
 	if(this.cfg.hide_fields){
@@ -234,32 +191,56 @@ cc_ui_handler.prototype.select = function(postcode, id){
 	if(this.cfg.clean_postsearch){
 		this.search_object.find('.search-box').val('');
 	}
-	// trigger change for checkout validation
-	jQuery.each(this.cfg.dom, function(index, name){
-		name.trigger('change');
-	});
 }
-cc_ui_handler.prototype.icon_handler = function(state){
-	var icon = this.search_object.find('.icon');
-	switch(state){
-		case "search":
-			icon.html(cc_svg_store("icon_search","white"));
-			icon.removeClass('spin');
-			break;
-		case "work":
-			icon.html(cc_svg_store("icon_work","white"));
-			icon.addClass('spin');
-			break;
-		case "error":
-			icon.hide();
-			icon.html(cc_svg_store("icon_error","white"));
-			icon.removeClass('spin');
-			icon.fadeIn(400,function(){
-				icon.fadeOut(400, function(){
-					icon.html(cc_svg_store("icon_search","white"));
-					icon.show();
-				});
-			});
-			break;
+
+var cc_activate_flags = [];
+function activate_cc_m2(){
+	if(crafty_cfg.enabled){
+		var cfg = {
+			core: {
+				key: crafty_cfg.key,
+				preformat: true,
+				capsformat: {
+					address: true,
+					organization: true,
+					county: true,
+					town: true
+				}
+			},
+			dom: {
+				company:	"billingAddress[company]",
+				address_1:	"billingAddress[street][0]",
+				address_2:	"billingAddress[street][1]",
+				postcode:	"billingAddress[postcode]",
+				town:		"billingAddress[city]",
+				county:		"billingAddress[region_id]",
+				country:	"billingAddress[country_id]"
+			},
+			sort_fields: {
+				active: true,
+				parent: 'div.field:not(.additional)'
+			},
+			hide_fields: crafty_cfg.hide_fields,
+			auto_search: crafty_cfg.auto_search,
+			clean_postsearch: crafty_cfg.clean_postsearch,
+			only_uk: true,
+			search_wrapper: {
+				before: '<div class="field"><label class="label">Address Lookup</label><div class="control">',
+				after: '</div></div>'
+			},
+			txt: crafty_cfg.txt,
+			error_msg: crafty_cfg.error_msg
+		}
+		if(cc_activate_flags.indexOf('m2_billing') == -1 && jQuery('input[name="'+cfg.dom.postcode+'"]').length == 1){
+			cc_activate_flags.push('m2_billing');
+			var cc = new cc_ui_handler(cfg);
+			cc.activate();
+		}
 	}
 }
+
+requirejs(['jquery'], function( $ ) {
+	jQuery( document ).ready(function() {
+		setInterval(activate_cc_m2,200);
+	});
+});

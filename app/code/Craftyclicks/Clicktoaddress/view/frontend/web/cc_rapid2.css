@@ -1,15 +1,22 @@
 .search-container input{
 	outline: none;
 	border: 0px;
-	background-color: #e4e8e9;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
 	font-size: 14px;
 	padding: 8px 12px;
 	color: #85888d;
-	width: 200px;
+	width: 100%;
+	min-width: 300px;
+	background: #fff;
+	border: 1px solid #c2c2c2;
+	border-top-left-radius: 1px;
+	border-bottom-left-radius: 1px;
 }
-.search-container .icon{
+.search-container input:focus{
+	outline: none;
+}
+.search-container .search-bar{
+}
+.search-container .action{
 	background-image: url('https://dl.dropboxusercontent.com/u/8625455/hexagon1.png');
 	position: absolute;
 	right: -25px;
@@ -19,9 +26,13 @@
 	padding: 12px 10px;
 	color: white;
 }
-.search-container .icon .fa{
+.search-container .extra-info{
+	display: block;
 	color: white;
-	font-size: 1.5em;
+	background-color: #1979c3;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding: 4px 8px;
 }
 .search-container{
 	margin: 0px;
@@ -34,7 +45,7 @@
 	padding: 0px;
 	color: #85888d;
 	list-style: none;
-	margin: 0px 0px 0px 10px;
+	margin: 0px;
 }
 .search-container .search-list li{
 	border: 1px solid #85888d;
@@ -42,6 +53,8 @@
 	cursor: pointer;
 	border-top: none;
 	margin-bottom: 0px;
+	text-align: right;
+	font-size: 12px;
 }
 .search-container .search-list li:hover{
 	background-color: white;
@@ -51,6 +64,5 @@
 	border-top: none;
 }
 .search-container .search-list li:last-child{
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-bottom: none;
 }
