@@ -1,5 +1,3 @@
-
-var cc_activate_flags = [];
 function activate_cc_m2(){
 	if(crafty_cfg.enabled){
 		var cfg = {
@@ -65,15 +63,16 @@ function activate_cc_m2(){
 		};
 		cfg.dom = billing_dom;
 		cfg.id = "m2_billing";
-		if(cc_activate_flags.indexOf(cfg.id) == -1 && cfg.dom.postcode.length == 1){
-			cc_activate_flags.push(cfg.id);
+		if(cfg.dom.postcode.length == 1 && cfg.dom.postcode.data('cc') != '1'){
+			cfg.dom.postcode.data('cc','1');
 			var cc_billing = new cc_ui_handler(cfg);
 			cc_billing.activate();
 		}
 		cfg.dom = shipping_dom;
 		cfg.id = "m2_shipping";
-		if(cc_activate_flags.indexOf(cfg.id) == -1 && cfg.dom.postcode.length == 1){
-			cc_activate_flags.push(cfg.id);
+		if(cfg.dom.postcode.length == 1 && cfg.dom.postcode.data('cc') != '1'){
+			console.log('apply shipping');
+			cfg.dom.postcode.data('cc','1');
 			var cc_shipping = new cc_ui_handler(cfg);
 			cc_shipping.activate();
 		}

@@ -4,32 +4,8 @@
  */
 
 function cc_ui_handler(cfg){
-	var core_cfg = {
-		id: '',
-		core: {
-			key: 'xxxxx-xxxxx-xxxxx-xxxxx',
-			preformat: true,
-			capsformat: {
-				address: true,
-				organization: true,
-				county: true,
-				town: true
-			}
-		},
-		dom: {},
-		sort_fields: {
-			active: false
-		},
-		hide_fields: crafty_cfg.hide_fields,
-		auto_search: crafty_cfg.auto_search,
-		clean_postsearch: crafty_cfg.clean_postsearch,
-		only_uk: true
-	}
-	// merge the new config over to the default ones.
-	for (var attrname in cfg) { core_cfg[attrname] = cfg[attrname]; }
-
-	this.cfg = core_cfg;
-	console.log(this.cfg);
+	console.log(cfg);
+	this.cfg = cfg;
 
 	var lines = 0;
 	if(typeof cfg.dom.address_1 !== "undefined"){
@@ -52,35 +28,36 @@ function cc_ui_handler(cfg){
 
 cc_ui_handler.prototype.sort = function(is_uk){
 	var elems = this.cfg.dom;
-	var uk_sort_order = ['country', 'postcode', 'company', 'address_1', 'town', 'county', 'county_list'];
-	if(typeof this.cfg.sort_fields.custom_order != 'undefined'){
-		uk_sort_order = this.cfg.sort_fields.custom_order;
-	}
-	var other_sort_order = ['country', 'company', 'address_1', 'town', 'county', 'county_list', 'postcode'];
-	if(is_uk){
-		for(var i=0; i<uk_sort_order.length - 1; i++){
-			this.sortTool(elems[uk_sort_order[i]], elems[uk_sort_order[i+1]]);
-		}
-	} else {
-		for(var i=0; i<other_sort_order.length - 1; i++){
-			this.sortTool(elems[other_sort_order[i]], elems[other_sort_order[i+1]]);
-		}
-	}
 	var country = elems['country'].parents(this.cfg.sort_fields.parent).last();
-	var searchContainer = this.search_object.parents(this.cfg.sort_fields.parent).last();
-	country.after(searchContainer);
+	// Sort disabled; position country on top
+	var company = elems['company'].parents(this.cfg.sort_fields.parent).last();
+	var postcode = elems['postcode'].parents(this.cfg.sort_fields.parent).last();
+	country.insertBefore(company);
+	if(this.cfg.search_type != 'traditional'){
+		var searchContainer = this.search_object.parents(this.cfg.sort_fields.parent).last();
+		country.after(searchContainer);
+	} else {
+		var searchContainer = this.search_object;
+		country.after(searchContainer);
+	}
 
 	if(this.cfg.hide_fields){
-		for(var i=0; i<uk_sort_order.length; i++){
-			elems[uk_sort_order[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
+		if(this.cfg.search_type != 'traditional'){
+			var tagElement = ['postcode', 'company', 'address_1', 'town', 'county', 'county_list'];
+		} else {
+			var tagElement = ['company', 'address_1', 'town', 'county', 'county_list'];
+		}
+		for(var i=0; i < tagElement.length; i++){
+			elems[tagElement[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
 		}
 	}
 }
+/*
 cc_ui_handler.prototype.sortTool = function(a,b){
 	var a_holder = a.parents(this.cfg.sort_fields.parent).last();
 	var b_holder = b.parents(this.cfg.sort_fields.parent).last();
 	a_holder.after(b_holder);
-}
+}*/
 cc_ui_handler.prototype.country_change = function(country){
 
 	var active_countries = ['GB','IM','JE','GY'];
@@ -97,6 +74,8 @@ cc_ui_handler.prototype.country_change = function(country){
 	}
 	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() == "")){
 		jQuery('.crafty_address_field').hide();
+	} else {
+		jQuery('.crafty_address_field').show();
 	}
 }
 
@@ -118,34 +97,48 @@ cc_ui_handler.prototype.addui = function(){
 	// transfer object to event scope
 	var that = this;
 	// apply dom elements
-	var html = '<div class="search-container" id="' + this.cfg.id + '">'
-		+ '<div class="search-bar">'
-			+ '<input class="search-box" type="text"placeholder="' + this.cfg.txt.search_placeholder + '">'
-	//		+ '<div class="action">' + this.cfg.txt.search_buttontext + '</div>'
-			+ '<div class="action"><div class="icon"></div></div>'
-		+ '</div>'
-		+ '<div class="search-list" style="display: none;">'
-			+ '<ul>'
-			+ '</ul>'
-			+ '<div class="extra-info" style="display: none;"></div>'
-		+ '</div>'
-		+ '<div class="error"></div>'
-	+ '</div>';
-	/*
-	switch(gfx_type){
-		case "simple":
-			html = '<div class="primary">'+
-			'<button type="submit" class="action login primary" data-action="checkout-method-login"><span data-bind="text: $t(\'Login\')">Login</span></button>';
-			'</div>';
-			break;
-	}*/
-	if(typeof this.cfg.search_wrapper !== 'undefined'){
+	var html = '';
+	switch(this.cfg.search_type){
+		case "searchbar_text":
+			html = '<div class="search-container type_2" id="' + this.cfg.id + '">'
+				+ '<div class="search-bar">'
+					+ '<input class="search-box" type="text" placeholder="' + this.cfg.txt.search_placeholder + '">'
+					+ '<button type="button" class="action primary">'
+					+ '<span>Find Address</span></button>'
+				+ '</div>'
+				+ '<div class="search-list" style="display: none;">'
+					+ '<ul>'
+					+ '</ul>'
+					+ '<div class="extra-info" style="display: none;"><div class="search-subtext"></div></div>'
+				+ '</div>'
+				+ '<div class="mage-error" generated><div class="search-subtext"></div></div>'
+			+ '</div>';
+		break;
+	}
+
+	if(this.cfg.search_type != 'traditional' && typeof this.cfg.search_wrapper !== 'undefined'){
 		html = this.cfg.search_wrapper.before + html + this.cfg.search_wrapper.after;
 	}
-	this.cfg.dom.country.parents(this.cfg.sort_fields.parent).last().after(html);
+	if(this.cfg.search_type != 'traditional'){
+		this.cfg.dom.country.parents(this.cfg.sort_fields.parent).last().after(html);
+	} else {
+		// input after postcode
+		var postcode_elem = this.cfg.dom.postcode;
+		postcode_elem.wrap('<div class="search-bar"></div>');
+		postcode_elem.addClass('search-box');
+		postcode_elem.after('<button type="button" class="action primary">'
+					+ '<span>Find Address</span></button>');
+		var new_container = postcode_elem.closest(this.cfg.sort_fields.parent);
+		new_container.addClass('search-container').attr('id',this.cfg.id).addClass('type_3');
+		// add search list
+		postcode_elem.closest('.search-bar').after('<div class="search-list" style="display: none;">'
+							+ '<select></select>'
+						+ '</div>'
+						+ '<div class="mage-error" generated><div class="search-subtext"></div></div>');
+	}
 
 	// apply postcode lookup (by button)
-	this.search_object = jQuery('.search-container#'+this.cfg.id);
+	this.search_object = jQuery('.search-container[id="'+this.cfg.id+'"]');
 	this.search_object.find('.action').on('click',function(){
 		that.lookup(that.search_object.find('.search-box').val());
 	});
@@ -153,22 +146,23 @@ cc_ui_handler.prototype.addui = function(){
 	this.search_object.find('.search-box').on('keyup',function(){
 		that.search_object.find('.search-list').hide();
 		that.search_object.find('.extra-info').hide();
-		// apply auto search
-		if(that.cfg.auto_search && (that.cc_core.clean_input(jQuery(this).val()) != null)){
-			that.lookup(that.search_object.find('.search-box').val());
+
+		that.search_object.find('.mage-error').hide();
+
+		if(that.cfg.search_type != 'traditional'){
+			// apply auto search
+			if(that.cfg.auto_search && (that.cc_core.clean_input(jQuery(this).val()) != null)){
+				that.lookup(that.search_object.find('.search-box').val());
+			}
 		}
 	});
-	this.icon_handler("search");
 
 }
 
 cc_ui_handler.prototype.lookup = function(postcode){
-	this.icon_handler("work");
-
 	var dataset = this.cc_core.search(postcode);
 	if(typeof dataset.error_code != "undefined"){
 		this.prompt_error(dataset.error_code);
-		this.icon_handler("error");
 		return;
 	}
 	var new_html = "";
@@ -183,30 +177,48 @@ cc_ui_handler.prototype.lookup = function(postcode){
 			elems.push(endpoint.line_1);
 		if(endpoint.line_2 != "")
 			elems.push(endpoint.line_2);
-		new_html += '<li data-id="'+i+'"><span style="font-weight: bold;">'+dataset.town+', </span><span style="font-style: italic;">' + elems.join(', ') + '</span></li>';
+		if(this.cfg.search_type != 'traditional'){
+			new_html += '<li data-id="'+i+'"><span style="font-weight: bold;">'+dataset.town+', </span><span style="font-style: italic;">' + elems.join(', ') + '</span></li>';
+		} else {
+			new_html += '<option data-id="'+i+'">'+dataset.town+', ' + elems.join(', ') + '</option>';
+		}
 	}
 	var search_list = this.search_object.find('.search-list');
-	search_list.find('ul').html(new_html);
+	if(this.cfg.search_type != 'traditional'){
+		search_list.find('ul').html(new_html);
+	} else {
+		search_list.find('select').html(new_html);
+	}
 	search_list.show();
 
-	this.search_object.find('.extra-info').html(dataset.town).show();
+	this.search_object.find('.extra-info .search-subtext').html(dataset.town)
+	this.search_object.find('.extra-info').show();
 	var that = this;
-	search_list.find('li').on('click',function(){
-		that.select(postcode, jQuery(this).data('id'));
-		search_list.hide();
-	});
 
-	this.search_object.on('focusout',function(){
-		// give a tiny time for the on click event to trigger first
-		setTimeout(function(){
+	if(this.cfg.search_type != 'traditional'){
+		search_list.find('li').on('click',function(){
+			that.select(postcode, jQuery(this).data('id'));
 			search_list.hide();
-		}, 250);
-	});
+		});
+	} else {
+		search_list.find('select').on('change',function(){
+			that.select(postcode, jQuery(this).find('option:selected').data('id'));
+			search_list.hide();
+		});
+	}
 
-	this.icon_handler("search");
+	if(that.cfg.search_type != 'traditional'){
+		this.search_object.on('focusout',function(){
+			// give a tiny time for the on click event to trigger first
+			setTimeout(function(){
+				search_list.hide();
+			}, 250);
+		});
+	}
 }
 cc_ui_handler.prototype.prompt_error = function(errorcode){
-	this.search_object.find('.error').html(this.cfg.error_msg[errorcode]);
+	this.search_object.find('.mage-error .search-subtext').html(this.cfg.error_msg[errorcode]);
+	this.search_object.find('.mage-error').show();
 }
 cc_ui_handler.prototype.select = function(postcode, id){
 	var dataset = this.cc_core.get_store(this.cc_core.clean_input(postcode));
@@ -231,35 +243,11 @@ cc_ui_handler.prototype.select = function(postcode, id){
 	if(this.cfg.hide_fields){
 		jQuery('.crafty_address_field').show();
 	}
-	if(this.cfg.clean_postsearch){
+	if(this.cfg.search_type != 'traditional' && this.cfg.clean_postsearch){
 		this.search_object.find('.search-box').val('');
 	}
 	// trigger change for checkout validation
 	jQuery.each(this.cfg.dom, function(index, name){
 		name.trigger('change');
 	});
-}
-cc_ui_handler.prototype.icon_handler = function(state){
-	var icon = this.search_object.find('.icon');
-	switch(state){
-		case "search":
-			icon.html(cc_svg_store("icon_search","white"));
-			icon.removeClass('spin');
-			break;
-		case "work":
-			icon.html(cc_svg_store("icon_work","white"));
-			icon.addClass('spin');
-			break;
-		case "error":
-			icon.hide();
-			icon.html(cc_svg_store("icon_error","white"));
-			icon.removeClass('spin');
-			icon.fadeIn(400,function(){
-				icon.fadeOut(400, function(){
-					icon.html(cc_svg_store("icon_search","white"));
-					icon.show();
-				});
-			});
-			break;
-	}
 }

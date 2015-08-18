@@ -104,6 +104,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'cc_uk/gfx_options/searchbar_clean_postsearch',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		) == 1;
+
+		$cfg['searchbar_type'] = $this->scopeConfig->getValue(
+			'cc_uk/gfx_options/searchbar_type',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
 		$cfg['error_msg'] = [];
 		$cfg['error_msg']["0001"] = $this->scopeConfig->getValue(
 			'cc_uk/txt_options/error_msg_1',
@@ -122,6 +127,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 		$cfg['txt'] = [];
+		$cfg['txt']["search_label"] = $this->scopeConfig->getValue(
+			'cc_uk/txt_options/search_label',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
 		$cfg['txt']["search_placeholder"] = $this->scopeConfig->getValue(
 			'cc_uk/txt_options/search_placeholder',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
