@@ -74,6 +74,8 @@ cc_ui_handler.prototype.country_change = function(country){
 	}
 	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() == "")){
 		jQuery('.crafty_address_field').hide();
+	} else {
+		jQuery('.crafty_address_field').show();
 	}
 }
 
@@ -136,7 +138,7 @@ cc_ui_handler.prototype.addui = function(){
 	}
 
 	// apply postcode lookup (by button)
-	this.search_object = jQuery('.search-container#'+this.cfg.id);
+	this.search_object = jQuery('.search-container[id="'+this.cfg.id+'"]');
 	this.search_object.find('.action').on('click',function(){
 		that.lookup(that.search_object.find('.search-box').val());
 	});
@@ -199,6 +201,7 @@ cc_ui_handler.prototype.lookup = function(postcode){
 			search_list.hide();
 		});
 	} else {
+		search_list.find('select').off('change');
 		search_list.find('select').on('change',function(){
 			that.select(postcode, jQuery(this).find('option:selected').data('id'));
 			search_list.hide();

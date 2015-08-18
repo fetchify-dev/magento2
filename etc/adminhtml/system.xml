@@ -10,23 +10,23 @@
 			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
 			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1">
 				<label>Main Options</label>
-				<field id="cc_info" translate="label" sortOrder="1" showInDefault="1">
+				<!--<field id="cc_info" translate="label" sortOrder="1" showInDefault="1">
 					<label>About Crafty</label>
 					<comment>
 						<![CDATA[
 							To review your access tokens & check your usage, please login to our <a href="https://craftyclicks.co.uk/myaccount/home/login.html">admin panel</a>.
 							]]>
 					</comment>
-				</field>
+				</field>-->
 				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1">
-					<label>Enable UK Postcode Lookup (frontend)</label>
+					<label>Enable Frontend</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 				<field id="frontend_accesstoken" type="text" sortOrder="2" showInDefault="1">
 					<label>FrontEnd Access Token</label>
 				</field>
 				<field id="backend_enabled" translate="label" type="select" sortOrder="3" showInDefault="1">
-					<label>Enable UK Postcode Lookup (backend)</label>
+					<label>Enable Backend</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 				<field id="backend_accesstoken" type="text" sortOrder="4" showInDefault="1">
@@ -90,7 +90,7 @@
 					<comment>Hex-color, starting with # (If "Searchbar + Icon" is selected) (default white)</comment>
 				</field>
 				-->
-				<field id="button_class" type="text" sortOrder="40" showInDefault="1">
+				<!--<field id="button_class" type="text" sortOrder="40" showInDefault="1">
 					<label>Button Class</label>
 					<comment>Only traditional search mode</comment>
 				</field>
@@ -98,6 +98,7 @@
 					<label>Button Image</label>
 					<comment>Only traditional search mode</comment>
 				</field>
+				-->
 			</group>
 			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1">
 				<label>Message Options</label>
