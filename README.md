@@ -40,13 +40,19 @@ The configuration for the extension is located under Stores -> Configuration -> 
 There are 3 sub-sections.
 #### Main Options
 Enable Frontend - Enable or disable the extension for Checkout / AddressBook areas.
+
 Enable Backend - Enable or disable the extension for Admin -> Order / Customer address detail edit parts.
+
 FrontEnd Access Token - Place your web CraftyClicks access token here.
+
 BackEnd Access Token - Place your internal CraftyClicks access token here.
 #### Search Options
 Postcode Lookup Type - Traditional / Searchbar. (Determines the position of the lookup: postcode or dedicated field)
+
 Hide Address Fields or New Address Entry - Hides address fields until lookup is used.
+
 Auto-Search - Checks if an entered postcode is valid; if it is performs the lookup immediately.
+
 Clean Input after Search - Cleans input after lookup (Searchbar only)
 
 ##End-user Instructions
