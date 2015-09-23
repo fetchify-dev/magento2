@@ -5,7 +5,7 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Store/etc/config.xsd">
 	<default>
 		<cc_uk>
 			<main_options>
@@ -19,14 +19,6 @@
 				<searchbar_auto_search>0</searchbar_auto_search>
 				<searchbar_clean_postsearch>1</searchbar_clean_postsearch>
 				<hide_fields>0</hide_fields>
-				<!--
-				<search_bg>hex</search_bg>
-				<search_bg_color>#000000</search_bg_color>
-				<search_icon>search</search_icon>
-				<search_icon_color>#ffffff</search_icon_color>
-				-->
-				<!--<button_class>action primary</button_class>-->
-				<!--<button_image></button_image>-->
 			</gfx_options>
 			<txt_options>
 				<search_placeholder>Type your postcode here</search_placeholder>
