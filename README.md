@@ -12,7 +12,7 @@ First add the repository:
    }
  ],
 ```
-& make sure that your your minimum-stability is dev.
+& make sure that your your minimum-stability is alpha.
 Then, add the module to the required list either via the composer.json, or execute
 ```
 composer require craftyclicks/module-clicktoaddress
