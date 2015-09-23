@@ -5,7 +5,7 @@
         "magento/framework": "1.0.0-beta"
     },
     "type": "magento2-module",
-    "version": "0.1.6-alpha",
+    "version": "0.1.7-alpha",
     "extra": {
         "map": [
             [
