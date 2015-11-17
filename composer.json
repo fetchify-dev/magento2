@@ -2,7 +2,7 @@
     "name": "craftyclicks/module-clicktoaddress",
     "description": "Apply postcode lookup to Magento 2.",
     "require": {
-        "magento/framework": "1.0.0-beta"
+        "magento/magento2ce": "2.0.*"
     },
     "type": "magento2-module",
     "version": "0.1.7-alpha",
