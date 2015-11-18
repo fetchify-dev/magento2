@@ -5,7 +5,7 @@
 
 First add the repository:
 ```
-composer config repositories.inchoostripe git https://github.com/craftyclicks/magento2.git
+composer config repositories.craftyclicks git https://github.com/craftyclicks/magento2.git
 ```
 & make sure that your your minimum-stability is alpha.
 Then, request composer to fetch the module:
