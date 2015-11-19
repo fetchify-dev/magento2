@@ -5,14 +5,12 @@
  * See COPYING.txt for license details.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Store/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
 	<default>
 		<cc_uk>
 			<main_options>
 				<frontend_enabled>0</frontend_enabled>
 				<backend_enabled>0</backend_enabled>
-				<frontend_accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</frontend_accesstoken>
-				<backend_accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</backend_accesstoken>
 			</main_options>
 			<gfx_options>
 				<searchbar_type>traditional</searchbar_type>
