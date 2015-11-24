@@ -30,7 +30,7 @@ function activate_cc_m2(){
 			},
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
-		}
+		};
 		var address_dom = {
 			company:	jQuery("[name='company']"),
 			address_1:	jQuery("[name='street[0]']"),

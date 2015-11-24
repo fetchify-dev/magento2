@@ -64,16 +64,18 @@ cc_ui_handler.prototype.country_change = function(country){
 	if(active_countries.indexOf(country) != -1){
 		if(this.cfg.sort_fields.active){
 			this.sort(true);
-			this.search_object.parents(this.cfg.sort_fields.parent).last().show();
 		}
+		this.search_object.parents(this.cfg.sort_fields.parent).last().show();
+
 	} else {
 		if(this.cfg.sort_fields.active){
 			this.sort(false);
-			this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
 		}
+		this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
 	}
 	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() == "")){
 		jQuery('.crafty_address_field').hide();
+		jQuery('.search-bar .action')
 	} else {
 		jQuery('.crafty_address_field').show();
 	}
@@ -201,6 +203,7 @@ cc_ui_handler.prototype.lookup = function(postcode){
 			search_list.hide();
 		});
 	} else {
+		search_list.find('select').off('change');
 		search_list.find('select').on('change',function(){
 			that.select(postcode, jQuery(this).find('option:selected').data('id'));
 			search_list.hide();
