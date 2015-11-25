@@ -28,30 +28,32 @@ function cc_ui_handler(cfg){
 
 cc_ui_handler.prototype.sort = function(is_uk){
 	var elems = this.cfg.dom;
-	var country = elems['country'].parents(this.cfg.sort_fields.parent).last();
+	var country = elems.country.parents(this.cfg.sort_fields.parent).last();
 	// Sort disabled; position country on top
-	var company = elems['company'].parents(this.cfg.sort_fields.parent).last();
-	var postcode = elems['postcode'].parents(this.cfg.sort_fields.parent).last();
+	var company = elems.company.parents(this.cfg.sort_fields.parent).last();
+	var postcode = elems.postcode.parents(this.cfg.sort_fields.parent).last();
 	country.insertBefore(company);
+	var searchContainer = {};
 	if(this.cfg.search_type != 'traditional'){
-		var searchContainer = this.search_object.parents(this.cfg.sort_fields.parent).last();
+		searchContainer = this.search_object.parents(this.cfg.sort_fields.parent).last();
 		country.after(searchContainer);
 	} else {
-		var searchContainer = this.search_object;
+		searchContainer = this.search_object;
 		country.after(searchContainer);
 	}
 
 	if(this.cfg.hide_fields){
+		var tagElement = [];
 		if(this.cfg.search_type != 'traditional'){
-			var tagElement = ['postcode', 'company', 'address_1', 'town', 'county', 'county_list'];
+			tagElement = ['postcode', 'company', 'address_1', 'town', 'county', 'county_list'];
 		} else {
-			var tagElement = ['company', 'address_1', 'town', 'county', 'county_list'];
+			tagElement = ['company', 'address_1', 'town', 'county', 'county_list'];
 		}
 		for(var i=0; i < tagElement.length; i++){
 			elems[tagElement[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
 		}
 	}
-}
+};
 /*
 cc_ui_handler.prototype.sortTool = function(a,b){
 	var a_holder = a.parents(this.cfg.sort_fields.parent).last();
@@ -73,13 +75,17 @@ cc_ui_handler.prototype.country_change = function(country){
 		}
 		this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
 	}
-	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() == "")){
+	if(active_countries.indexOf(country) != -1){
+		jQuery('.search-bar .action').show();
+	} else {
+		jQuery('.search-bar .action').hide();
+	}
+	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() === "")){
 		jQuery('.crafty_address_field').hide();
-		jQuery('.search-bar .action')
 	} else {
 		jQuery('.crafty_address_field').show();
 	}
-}
+};
 
 cc_ui_handler.prototype.activate = function(){
 	this.addui();
@@ -93,7 +99,7 @@ cc_ui_handler.prototype.activate = function(){
 			that.country_change(sc);
 		});
 	}
-}
+};
 
 cc_ui_handler.prototype.addui = function(){
 	// transfer object to event scope
@@ -153,13 +159,13 @@ cc_ui_handler.prototype.addui = function(){
 
 		if(that.cfg.search_type != 'traditional'){
 			// apply auto search
-			if(that.cfg.auto_search && (that.cc_core.clean_input(jQuery(this).val()) != null)){
+			if(that.cfg.auto_search && (that.cc_core.clean_input(jQuery(this).val()) !== null)){
 				that.lookup(that.search_object.find('.search-box').val());
 			}
 		}
 	});
 
-}
+};
 
 cc_ui_handler.prototype.lookup = function(postcode){
 	var dataset = this.cc_core.search(postcode);
@@ -171,13 +177,13 @@ cc_ui_handler.prototype.lookup = function(postcode){
 	for(var i=0; i < dataset.delivery_point_count; i++){
 		var elems = [];
 		var endpoint = dataset.delivery_points[i];
-		if(endpoint.department_name != "")
+		if(endpoint.department_name !== "")
 			elems.push(endpoint.department_name);
-		if(endpoint.organisation_name != "")
+		if(endpoint.organisation_name !== "")
 			elems.push(endpoint.organisation_name);
-		if(endpoint.line_1 != "")
+		if(endpoint.line_1 !== "")
 			elems.push(endpoint.line_1);
-		if(endpoint.line_2 != "")
+		if(endpoint.line_2 !== "")
 			elems.push(endpoint.line_2);
 		if(this.cfg.search_type != 'traditional'){
 			new_html += '<li data-id="'+i+'"><span style="font-weight: bold;">'+dataset.town+', </span><span style="font-style: italic;">' + elems.join(', ') + '</span></li>';
@@ -189,11 +195,11 @@ cc_ui_handler.prototype.lookup = function(postcode){
 	if(this.cfg.search_type != 'traditional'){
 		search_list.find('ul').html(new_html);
 	} else {
-		search_list.find('select').html(new_html);
+		search_list.find('select').html('<option>Select Your Address</option>'+new_html);
 	}
 	search_list.show();
 
-	this.search_object.find('.extra-info .search-subtext').html(dataset.town)
+	this.search_object.find('.extra-info .search-subtext').html(dataset.town);
 	this.search_object.find('.extra-info').show();
 	var that = this;
 
@@ -218,11 +224,11 @@ cc_ui_handler.prototype.lookup = function(postcode){
 			}, 250);
 		});
 	}
-}
+};
 cc_ui_handler.prototype.prompt_error = function(errorcode){
 	this.search_object.find('.mage-error .search-subtext').html(this.cfg.error_msg[errorcode]);
 	this.search_object.find('.mage-error').show();
-}
+};
 cc_ui_handler.prototype.select = function(postcode, id){
 	var dataset = this.cc_core.get_store(this.cc_core.clean_input(postcode));
 
@@ -230,10 +236,10 @@ cc_ui_handler.prototype.select = function(postcode, id){
 	this.cfg.dom.postcode.val(dataset.postcode);
 
 	var company_details = [];
-	if(dataset.delivery_points[id].department_name != ""){
+	if(dataset.delivery_points[id].department_name !== ""){
 		company_details.push(dataset.delivery_points[id].department_name);
 	}
-	if(dataset.delivery_points[id].organisation_name != ""){
+	if(dataset.delivery_points[id].organisation_name !== ""){
 		company_details.push(dataset.delivery_points[id].organisation_name);
 	}
 
@@ -253,4 +259,4 @@ cc_ui_handler.prototype.select = function(postcode, id){
 	jQuery.each(this.cfg.dom, function(index, name){
 		name.trigger('change');
 	});
-}
+};

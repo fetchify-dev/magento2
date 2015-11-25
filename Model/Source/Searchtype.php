@@ -2,7 +2,7 @@
 
 namespace Craftyclicks\Clicktoaddress\Model\Source;
 
-class Searchtype implements \Magento\Framework\Option\ArrayInterface
+class Searchtype implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
 	* @return array

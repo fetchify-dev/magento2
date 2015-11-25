@@ -6,7 +6,7 @@
 	 "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",
-    "version": "0.1.8-beta",
+    "version": "0.1.9-beta",
     "extra": {
         "map": [
             [
