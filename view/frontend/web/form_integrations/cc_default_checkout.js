@@ -40,7 +40,8 @@ function activate_cc_m2(){
 			},
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
-		}
+		};
+		/*
 		var billing_dom = {
 			company:	jQuery("[name='billingAddresscheckmo[company]']"),
 			address_1:	jQuery("[name='billingAddresscheckmo[street][0]']"),
@@ -50,35 +51,39 @@ function activate_cc_m2(){
 			county:		jQuery("[name='billingAddresscheckmo[region]']"),
 			county_list:jQuery("[name='billingAddresscheckmo[region_id]']"),
 			country:	jQuery("[name='billingAddresscheckmo[country_id]']")
+		};*/
+		dom = {
+			company:	jQuery("[name='company']"),
+			address_1:	jQuery("[name='street[0]']"),
+			address_2:	jQuery("[name='street[1]']"),
+			postcode:	jQuery("[name='postcode']"),
+			town:		jQuery("[name='city']"),
+			county:		jQuery("[name='region']"),
+			county_list:jQuery("[name='region_id']"),
+			country:	jQuery("[name='country_id']")
 		};
-		var shipping_dom = {
-			company:	jQuery("[name='shippingAddress[company]']"),
-			address_1:	jQuery("[name='shippingAddress[street][0]']"),
-			address_2:	jQuery("[name='shippingAddress[street][1]']"),
-			postcode:	jQuery("[name='shippingAddress[postcode]']"),
-			town:		jQuery("[name='shippingAddress[city]']"),
-			county:		jQuery("[name='shippingAddress[region]']"),
-			county_list:jQuery("[name='shippingAddress[region_id]']"),
-			country:	jQuery("[name='shippingAddress[country_id]']")
-		};
-		cfg.dom = billing_dom;
-		cfg.id = "m2_billing";
-		if(cfg.dom.postcode.length == 1 && cfg.dom.postcode.data('cc') != '1'){
-			cfg.dom.postcode.data('cc','1');
-			var cc_billing = new cc_ui_handler(cfg);
-			cc_billing.activate();
-		}
-		cfg.dom = shipping_dom;
-		cfg.id = "m2_shipping";
-		if(cfg.dom.postcode.length == 1 && cfg.dom.postcode.data('cc') != '1'){
-			console.log('apply shipping');
-			cfg.dom.postcode.data('cc','1');
-			var cc_shipping = new cc_ui_handler(cfg);
-			cc_shipping.activate();
-		}
+		dom.postcode.each(function(index){
+			if(dom.postcode.eq(index).data('cc') != '1'){
+				cfg.id = "m2_"+cc_index;
+				cc_index++;
+				cfg.dom = {
+					company:		dom.company.eq(index),
+					address_1:		dom.address_1.eq(index),
+					address_2:		dom.address_2.eq(index),
+					postcode:		dom.postcode.eq(index),
+					town:			dom.town.eq(index),
+					county:			dom.county.eq(index),
+					county_list:	dom.county_list.eq(index),
+					country:		dom.country.eq(index)
+				};
+				cfg.dom.postcode.data('cc','1');
+				var cc_generic = new cc_ui_handler(cfg);
+				cc_generic.activate();
+			}
+		});
 	}
 }
-
+var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(crafty_cfg.enabled){

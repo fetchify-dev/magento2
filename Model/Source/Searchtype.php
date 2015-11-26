@@ -2,7 +2,7 @@
 
 namespace Craftyclicks\Clicktoaddress\Model\Source;
 
-class Searchtype implements \Magento\Framework\Option\ArrayInterface
+class Searchtype implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
 	* @return array
@@ -10,9 +10,8 @@ class Searchtype implements \Magento\Framework\Option\ArrayInterface
 	public function toOptionArray()
 	{
 		return [
-			//['value' => 'searchbar_icon', 'label' => 'SearchBar + Icon'],
-			['value' => 'searchbar_text', 'label' => 'SearchBar'],
-			['value' => 'traditional', 'label' => 'Traditional']
+			['value' => 'searchbar_text', 'label' => __('SearchBar')],
+			['value' => 'traditional', 'label' => __('Traditional')]
 		];
 	}
 }

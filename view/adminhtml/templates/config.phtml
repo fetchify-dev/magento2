@@ -1,6 +1,6 @@
 <?php /** @var Magento\Framework\View\TemplateEngine\Php $this */
-    $craftyConfig = $this->helper('Craftyclicks\Clicktoaddress\Helper\Data');
+	$craftyConfig = $this->helper('Craftyclicks\Clicktoaddress\Helper\Data');
 ?>
 <script>
-    var crafty_cfg = <?php echo $craftyConfig->get_backend_cfg(); ?>;
+	var crafty_cfg = <?php echo $craftyConfig->getBackendCfg(); ?>;
 </script>

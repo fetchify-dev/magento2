@@ -32,14 +32,14 @@ function activate_cc_m2(){
 			error_msg: crafty_cfg.error_msg
 		};
 		var address_dom = {
-			company:	jQuery("[name='company']"),
-			address_1:	jQuery("[name='street[0]']"),
-			address_2:	jQuery("[name='street[1]']"),
-			postcode:	jQuery("[name='postcode']"),
-			town:		jQuery("[name='city']"),
-			county:		jQuery("[name='region']"),
-			county_list:jQuery("[name='region_id']"),
-			country:	jQuery("[name='country_id']")
+			company:	jQuery("#order-billing_address_company"),
+			address_1:	jQuery("#order-billing_address_street0"),
+			address_2:	jQuery("#order-billing_address_street1"),
+			postcode:	jQuery("#order-billing_address_postcode"),
+			town:		jQuery("#order-billing_address_city"),
+			county:		jQuery("#order-billing_address_region"),
+			county_list:jQuery("#order-billing_address_region_id"),
+			country:	jQuery("#order-billing_address_country_id")
 		};
 		cfg.dom = address_dom;
 		cfg.id = "m2_address";

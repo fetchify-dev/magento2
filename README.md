@@ -5,15 +5,10 @@
 
 First add the repository:
 ```
-"repositories": [
-   {
-     "type": "vcs",
-     "url": "https://github.com/craftyclicks/magento2"
-   }
- ],
+composer config repositories.craftyclicks git https://github.com/craftyclicks/magento2.git
 ```
-& make sure that your your minimum-stability is dev.
-Then, add the module to the required list either via the composer.json, or execute
+& make sure that your your minimum-stability is alpha.
+Then, request composer to fetch the module:
 ```
 composer require craftyclicks/module-clicktoaddress
 ```
@@ -21,7 +16,6 @@ composer require craftyclicks/module-clicktoaddress
 
 Then execute install script
 ```
-php -f bin/magento module:enable --clear-static-content Craftyclicks_Clicktoaddress
 php -f bin/magento setup:upgrade
 ```
 
@@ -31,7 +25,6 @@ php -f bin/magento setup:upgrade
 - Download & copy the git contents to the folder
 - Run install script
 ```
-php -f bin/magento module:enable --clear-static-content Craftyclicks_Clicktoaddress
 php -f bin/magento setup:upgrade
 ```
 

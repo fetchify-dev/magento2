@@ -35,7 +35,7 @@ function activate_cc_m2(){
 			},
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
-		}
+		};
 		var address_dom = {
 			company:	jQuery("[name$='[company]']"),
 			address_1:	jQuery("[name$='[street][0]']"),
@@ -46,7 +46,6 @@ function activate_cc_m2(){
 			county_list:jQuery("select[name$='[region_id]']"),
 			country:	jQuery("select[name$='[country_id]']")
 		};
-		address_dom;
 		// special for admin panel: search each potential element
 		address_dom.postcode.each(function(index){
 			// different tagging method; tag object as active
@@ -60,7 +59,7 @@ function activate_cc_m2(){
 					county:		jQuery(jQuery("[name$='[region]']")[index]),
 					county_list:jQuery(jQuery("select[name$='[region_id]']")[index]),
 					country:	jQuery(jQuery("select[name$='[country_id]']")[index])
-				}
+				};
 				jQuery(this).data('cc','active');
 				console.log(cfg.dom);
 
