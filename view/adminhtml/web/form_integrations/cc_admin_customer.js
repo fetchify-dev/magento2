@@ -1,5 +1,3 @@
-
-var cc_attached = [];
 function activate_cc_m2(){
 	if(crafty_cfg.enabled){
 		var cfg = {
@@ -36,42 +34,44 @@ function activate_cc_m2(){
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
 		};
-		var address_dom = {
-			company:	jQuery("[name$='[company]']"),
-			address_1:	jQuery("[name$='[street][0]']"),
-			address_2:	jQuery("[name$='[street][1]']"),
-			postcode:	jQuery("[name$='[postcode]']"),
-			town:		jQuery("[name$='[city]']"),
-			county:		jQuery("[name$='[region]']"),
-			county_list:jQuery("select[name$='[region_id]']"),
-			country:	jQuery("select[name$='[country_id]']")
+		var dom = {
+			company:	'[name$="[company]"]',
+			address_1:	'[name$="[street][0]"]',
+			address_2:	'[name$="[street][1]"]',
+			postcode:	'[name$="[postcode]"]',
+			town:		'[name$="[city]"]',
+			county:		'[name$="[region]"]',
+			county_list:'select[name$="[region_id]"]',
+			country:	'select[name$="[country_id]"]'
 		};
 		// special for admin panel: search each potential element
-		address_dom.postcode.each(function(index){
-			// different tagging method; tag object as active
-			if(jQuery(this).data('cc') != 'active'){
-				cfg.dom = {
-					company:	jQuery(jQuery("[name$='[company]']")[index]),
-					address_1:	jQuery(jQuery("[name$='[street][0]']")[index]),
-					address_2:	jQuery(jQuery("[name$='[street][1]']")[index]),
-					postcode:	jQuery(jQuery("[name$='[postcode]']")[index]),
-					town:		jQuery(jQuery("[name$='[city]']")[index]),
-					county:		jQuery(jQuery("[name$='[region]']")[index]),
-					county_list:jQuery(jQuery("select[name$='[region_id]']")[index]),
-					country:	jQuery(jQuery("select[name$='[country_id]']")[index])
+		var postcode_elements = jQuery(dom.postcode);
+		postcode_elements.each(function(index){
+			if(postcode_elements.eq(index).data('cc') != '1'){
+				var active_cfg = {};
+				jQuery.extend(active_cfg, cfg);
+				active_cfg.id = "m2_"+cc_index;
+				var form = postcode_elements.eq(index).closest('fieldset');
+				cc_index++;
+				active_cfg.dom = {
+					company:		form.find(dom.company),
+					address_1:		form.find(dom.address_1),
+					address_2:		form.find(dom.address_2),
+					postcode:		postcode_elements.eq(index),
+					town:			form.find(dom.town),
+					county:			form.find(dom.county),
+					county_list:	form.find(dom.county_list),
+					country:		form.find(dom.country)
 				};
-				jQuery(this).data('cc','active');
-				console.log(cfg.dom);
-
-				cfg.id = jQuery(this).attr('name');
-
-				cc_attached.push(new cc_ui_handler(cfg));
-				cc_attached[cc_attached.length - 1].activate();
+				active_cfg.dom.postcode.data('cc','1');
+				var cc_generic = new cc_ui_handler(active_cfg);
+				cc_generic.activate();
 			}
 		});
 	}
 }
 
+var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(crafty_cfg.enabled){

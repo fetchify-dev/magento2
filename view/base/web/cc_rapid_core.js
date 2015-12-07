@@ -55,13 +55,13 @@ cc_rapid.prototype.search = function(input){
 }
 // gets data from storage
 cc_rapid.prototype.get_store = function(postcode){
-	console.warn('retrieving data from store');
+	//console.warn('retrieving data from store');
 	return this.dataStore[postcode];
 }
 // adds data to storage
 cc_rapid.prototype.store = function(postcode, object){
 	this.dataStore[postcode] = object;
-	console.warn('data saved');
+	//console.warn('data saved');
 	return true;
 }
 // checks if postcode related data is already stored
@@ -88,7 +88,7 @@ cc_rapid.prototype.fetch_data = function(postcode){
 			if (this.status >= 200 && this.status < 400){
 				// Success!
 				data = JSON.parse(this.responseText);
-				console.log(data);
+				//console.log(data);
 			} else {
 				data = { error_code: "0004" };
 			}
@@ -124,8 +124,6 @@ cc_rapid.prototype.format_data = function(data){
 				data.delivery_points[i].organisation_name = this.leading_caps(data.delivery_points[i].organisation_name);
 			}
 		}
-	} else {
-		console.log('wat');
 	}
 	return data;
 }

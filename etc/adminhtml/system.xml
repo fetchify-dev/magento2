@@ -54,6 +54,7 @@
 				<field id="hide_fields" translate="label" type="select" sortOrder="7" showInDefault="1">
 					<label>Hide Address Fields of New Address Entry</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Only for the store front</comment>
 				</field>
 				<field id="searchbar_clean_postsearch" translate="label" type="select" sortOrder="32" showInDefault="1">
 					<label>Clean Input after Search</label>
