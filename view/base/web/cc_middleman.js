@@ -4,7 +4,7 @@
  */
 
 function cc_ui_handler(cfg){
-	console.log(cfg);
+	//console.log(cfg);
 	this.cfg = cfg;
 
 	var lines = 0;
@@ -76,14 +76,14 @@ cc_ui_handler.prototype.country_change = function(country){
 		this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
 	}
 	if(active_countries.indexOf(country) != -1){
-		jQuery('.search-bar .action').show();
+		this.search_object.find('.search-bar .action').show();
 	} else {
-		jQuery('.search-bar .action').hide();
+		this.search_object.find('.search-bar .action').hide();
 	}
 	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() === "")){
-		jQuery('.crafty_address_field').hide();
+		this.search_object.closest(this.cfg.sort_fields.parent).parent().find('.crafty_address_field').hide();
 	} else {
-		jQuery('.crafty_address_field').show();
+		this.search_object.closest(this.cfg.sort_fields.parent).parent().find('.crafty_address_field').show();
 	}
 };
 
@@ -225,8 +225,12 @@ cc_ui_handler.prototype.lookup = function(postcode){
 		});
 	}
 };
-cc_ui_handler.prototype.prompt_error = function(errorcode){
-	this.search_object.find('.mage-error .search-subtext').html(this.cfg.error_msg[errorcode]);
+cc_ui_handler.prototype.prompt_error = function(error_code){
+	if(!this.cfg.error_msg.hasOwnProperty(error_code)){
+		// simplyfy complex error messages
+		error_code = "0004";
+	}
+	this.search_object.find('.mage-error .search-subtext').html(this.cfg.error_msg[error_code]);
 	this.search_object.find('.mage-error').show();
 };
 cc_ui_handler.prototype.select = function(postcode, id){

@@ -1,5 +1,3 @@
-
-var cc_activate_flags = [];
 function activate_cc_m2(){
 	if(crafty_cfg.enabled){
 		var cfg = {
@@ -31,26 +29,43 @@ function activate_cc_m2(){
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
 		};
-		var address_dom = {
-			company:	jQuery("[name='company']"),
-			address_1:	jQuery("[name='street[0]']"),
-			address_2:	jQuery("[name='street[1]']"),
-			postcode:	jQuery("[name='postcode']"),
-			town:		jQuery("[name='city']"),
-			county:		jQuery("[name='region']"),
-			county_list:jQuery("[name='region_id']"),
-			country:	jQuery("[name='country_id']")
+		var dom = {
+			company:	'[name="company"]',
+			address_1:	'[name="street[0]"]',
+			address_2:	'[name="street[1]"]',
+			postcode:	'[name="postcode"]',
+			town:		'[name="city"]',
+			county:		'[name="region"]',
+			county_list:'[name="region_id"]',
+			country:	'[name="country_id"]'
 		};
-		cfg.dom = address_dom;
-		cfg.id = "m2_address";
-		if(cc_activate_flags.indexOf(cfg.id) == -1 && cfg.dom.postcode.length == 1){
-			cc_activate_flags.push(cfg.id);
-			var cc_billing = new cc_ui_handler(cfg);
-			cc_billing.activate();
-		}
+		var postcode_elements = jQuery(dom.postcode);
+		postcode_elements.each(function(index){
+			if(postcode_elements.eq(index).data('cc') != '1'){
+				var active_cfg = {};
+				jQuery.extend(active_cfg, cfg);
+				active_cfg.id = "m2_"+cc_index;
+				var form = postcode_elements.eq(index).closest('fieldset');
+				cc_index++;
+				active_cfg.dom = {
+					company:		form.find(dom.company),
+					address_1:		form.find(dom.address_1),
+					address_2:		form.find(dom.address_2),
+					postcode:		postcode_elements.eq(index),
+					town:			form.find(dom.town),
+					county:			form.find(dom.county),
+					county_list:	form.find(dom.county_list),
+					country:		form.find(dom.country)
+				};
+				active_cfg.dom.postcode.data('cc','1');
+				var cc_generic = new cc_ui_handler(active_cfg);
+				cc_generic.activate();
+			}
+		});
 	}
 }
 
+var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(crafty_cfg.enabled){

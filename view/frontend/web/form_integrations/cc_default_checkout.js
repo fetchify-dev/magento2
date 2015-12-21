@@ -18,18 +18,6 @@ function activate_cc_m2(){
 				parent: 'div.field:not(.additional)'
 			},
 			search_type: crafty_cfg.searchbar_type,
-			/*
-			searchbar_gfx: {
-				bg:		{
-					color: crafty_cfg.search_bg_color,
-					type: crafty_cfg.search_bg
-				},
-				icon:	{
-					color: crafty_cfg.search_icon_color,
-					type: crafty_cfg.search_icon
-				}
-			},
-			*/
 			hide_fields: crafty_cfg.hide_fields,
 			auto_search: crafty_cfg.auto_search,
 			clean_postsearch: crafty_cfg.clean_postsearch,
@@ -41,43 +29,36 @@ function activate_cc_m2(){
 			txt: crafty_cfg.txt,
 			error_msg: crafty_cfg.error_msg
 		};
-		/*
-		var billing_dom = {
-			company:	jQuery("[name='billingAddresscheckmo[company]']"),
-			address_1:	jQuery("[name='billingAddresscheckmo[street][0]']"),
-			address_2:	jQuery("[name='billingAddresscheckmo[street][1]']"),
-			postcode:	jQuery("[name='billingAddresscheckmo[postcode]']"),
-			town:		jQuery("[name='billingAddresscheckmo[city]']"),
-			county:		jQuery("[name='billingAddresscheckmo[region]']"),
-			county_list:jQuery("[name='billingAddresscheckmo[region_id]']"),
-			country:	jQuery("[name='billingAddresscheckmo[country_id]']")
-		};*/
-		dom = {
-			company:	jQuery("[name='company']"),
-			address_1:	jQuery("[name='street[0]']"),
-			address_2:	jQuery("[name='street[1]']"),
-			postcode:	jQuery("[name='postcode']"),
-			town:		jQuery("[name='city']"),
-			county:		jQuery("[name='region']"),
-			county_list:jQuery("[name='region_id']"),
-			country:	jQuery("[name='country_id']")
+		var dom = {
+			company:	'[name="company"]',
+			address_1:	'[name="street[0]"]',
+			address_2:	'[name="street[1]"]',
+			postcode:	'[name="postcode"]',
+			town:		'[name="city"]',
+			county:		'[name="region"]',
+			county_list:'[name="region_id"]',
+			country:	'[name="country_id"]'
 		};
-		dom.postcode.each(function(index){
-			if(dom.postcode.eq(index).data('cc') != '1'){
-				cfg.id = "m2_"+cc_index;
+		var postcode_elements = jQuery(dom.postcode);
+		postcode_elements.each(function(index){
+			if(postcode_elements.eq(index).data('cc') != '1'){
+				var active_cfg = {};
+				jQuery.extend(active_cfg, cfg);
+				active_cfg.id = "m2_"+cc_index;
+				var form = postcode_elements.eq(index).closest('form');
 				cc_index++;
-				cfg.dom = {
-					company:		dom.company.eq(index),
-					address_1:		dom.address_1.eq(index),
-					address_2:		dom.address_2.eq(index),
-					postcode:		dom.postcode.eq(index),
-					town:			dom.town.eq(index),
-					county:			dom.county.eq(index),
-					county_list:	dom.county_list.eq(index),
-					country:		dom.country.eq(index)
+				active_cfg.dom = {
+					company:		form.find(dom.company),
+					address_1:		form.find(dom.address_1),
+					address_2:		form.find(dom.address_2),
+					postcode:		postcode_elements.eq(index),
+					town:			form.find(dom.town),
+					county:			form.find(dom.county),
+					county_list:	form.find(dom.county_list),
+					country:		form.find(dom.country)
 				};
-				cfg.dom.postcode.data('cc','1');
-				var cc_generic = new cc_ui_handler(cfg);
+				active_cfg.dom.postcode.data('cc','1');
+				var cc_generic = new cc_ui_handler(active_cfg);
 				cc_generic.activate();
 			}
 		});

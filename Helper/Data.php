@@ -52,7 +52,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 		// special search configs
-
 		$cfg['searchbar_type'] = $this->_escaper->escapeHtml(
 			$this->scopeConfig->getValue(
 				'cc_uk/gfx_options/searchbar_type',
@@ -61,7 +60,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		);
 
 		// errors
-
 		$cfg['error_msg'] = [];
 		$cfg['error_msg']["0001"] = $this->_escaper->escapeHtml(
 			$this->scopeConfig->getValue(
