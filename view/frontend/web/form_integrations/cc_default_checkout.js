@@ -1,93 +1,65 @@
-function activate_cc_m2(){
-	if(crafty_cfg.enabled){
-		var cfg = {
-			id: "",
-			core: {
-				key: crafty_cfg.key,
-				preformat: true,
-				capsformat: {
-					address: true,
-					organization: true,
-					county: true,
-					town: true
-				}
-			},
-			dom: {},
-			sort_fields: {
-				active: true,
-				parent: 'div.field:not(.additional)'
-			},
-			search_type: crafty_cfg.searchbar_type,
-			/*
-			searchbar_gfx: {
-				bg:		{
-					color: crafty_cfg.search_bg_color,
-					type: crafty_cfg.search_bg
+function cc_magento2(){
+	jQuery('[name="postcode"]').each(function(index,elem){
+		if(jQuery(elem).data('cc_attach') != '1'){
+			jQuery(elem).data('cc_attach','1');
+			var form = jQuery(elem).closest('form');
+
+			var tmp_html = '<div class="field"><label class="label">'+c2a_config.texts.search_label+'</label><div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+			form.find('[name="street[0]"]').closest('fieldset').before( tmp_html );
+
+			cc_holder.attach({
+				search:		form.find('#cc_'+cc_index+'_search_input')[0],
+				company:	form.find('[name="company"]')[0],
+				line_1:		form.find('[name="street[0]"]')[0],
+				line_2:		form.find('[name="street[1]"]')[0],
+				postcode:	form.find('[name="postcode"]')[0],
+				town:		form.find('[name="city"]')[0],
+				county:		{
+							input:	form.find('[name="region"]'),
+							list:	form.find('[name="region_id"]')
 				},
-				icon:	{
-					color: crafty_cfg.search_icon_color,
-					type: crafty_cfg.search_icon
-				}
-			},
-			*/
-			hide_fields: crafty_cfg.hide_fields,
-			auto_search: crafty_cfg.auto_search,
-			clean_postsearch: crafty_cfg.clean_postsearch,
-			only_uk: true,
-			search_wrapper: {
-				before: '<div class="field"><label class="label">'+crafty_cfg.txt.search_label+'</label><div class="control">',
-				after: '</div></div>'
-			},
-			txt: crafty_cfg.txt,
-			error_msg: crafty_cfg.error_msg
-		};
-		/*
-		var billing_dom = {
-			company:	jQuery("[name='billingAddresscheckmo[company]']"),
-			address_1:	jQuery("[name='billingAddresscheckmo[street][0]']"),
-			address_2:	jQuery("[name='billingAddresscheckmo[street][1]']"),
-			postcode:	jQuery("[name='billingAddresscheckmo[postcode]']"),
-			town:		jQuery("[name='billingAddresscheckmo[city]']"),
-			county:		jQuery("[name='billingAddresscheckmo[region]']"),
-			county_list:jQuery("[name='billingAddresscheckmo[region_id]']"),
-			country:	jQuery("[name='billingAddresscheckmo[country_id]']")
-		};*/
-		dom = {
-			company:	jQuery("[name='company']"),
-			address_1:	jQuery("[name='street[0]']"),
-			address_2:	jQuery("[name='street[1]']"),
-			postcode:	jQuery("[name='postcode']"),
-			town:		jQuery("[name='city']"),
-			county:		jQuery("[name='region']"),
-			county_list:jQuery("[name='region_id']"),
-			country:	jQuery("[name='country_id']")
-		};
-		dom.postcode.each(function(index){
-			if(dom.postcode.eq(index).data('cc') != '1'){
-				cfg.id = "m2_"+cc_index;
-				cc_index++;
-				cfg.dom = {
-					company:		dom.company.eq(index),
-					address_1:		dom.address_1.eq(index),
-					address_2:		dom.address_2.eq(index),
-					postcode:		dom.postcode.eq(index),
-					town:			dom.town.eq(index),
-					county:			dom.county.eq(index),
-					county_list:	dom.county_list.eq(index),
-					country:		dom.country.eq(index)
-				};
-				cfg.dom.postcode.data('cc','1');
-				var cc_generic = new cc_ui_handler(cfg);
-				cc_generic.activate();
-			}
-		});
-	}
+				country:	form.find('[name="country_id"]')[0]
+			});
+			cc_index++;
+		}
+	});
 }
 var cc_index = 0;
+var cc_holder = null;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(crafty_cfg.enabled){
-			setInterval(activate_cc_m2,200);
+		if(c2a_config.enabled){
+			var config = {
+				accessToken: c2a_config.key,
+				onSetCounty: function(c2a, county, elements){
+					c2a.setCounty(elements.list[0], county);
+					c2a.setCounty(elements.input[0], county);
+				},
+				domMode: 'object',
+				geocode: false,
+				gfxMode: c2a_config.gfx_mode,
+				defaultCountry: 'usa',
+				style: {
+					ambient: c2a_config.gfx_ambient,
+					accent: c2a_config.gfx_accent
+				},
+				showLogo: false,
+				texts: c2a_config.texts,
+				onResultSelected: function(c2a, elements, address){
+					jQuery(elements.country).trigger('change');
+					jQuery(elements.company).trigger('change');
+					jQuery(elements.line_1).trigger('change');
+					jQuery(elements.line_2).trigger('change');
+					jQuery(elements.postcode).trigger('change');
+					jQuery(elements.town).trigger('change');
+					jQuery(elements.county.input).trigger('change');
+					jQuery(elements.county.list).trigger('change');
+				},
+				cssPath: false,
+				tag: 'Magento 2'
+			};
+			cc_holder = new clickToAddress(config);
+			setInterval(cc_magento2,200);
 		}
 	});
 });

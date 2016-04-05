@@ -1,0 +1,22 @@
+.color-cube{
+	height: 20px;
+	width: 20px;
+	margin: 2px;
+	float: left;
+	border: 2px solid white;
+}
+.color-cube:hover{
+	border-color: #63a2f1;
+}
+.color-cube.active{
+	border-color: black;
+}
+
+.cc-login-block{
+	border: 1px solid #e3e3e3;
+	border-left: 3px solid #eb5202;
+	padding: 2rem 4rem 2rem 1rem;
+}
+.cc-login-block input{
+	margin-bottom: 2.2rem;
+}
