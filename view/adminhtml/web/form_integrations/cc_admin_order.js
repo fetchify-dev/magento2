@@ -1,16 +1,4 @@
 function activate_cc_m2(){
-
-		var dom = {
-			company:	'[name="company"]',
-			address_1:	'[name="street[0]"]',
-			address_2:	'[name="street[1]"]',
-			postcode:	'[name="postcode"]',
-			town:		'[name="city"]',
-			county:		'[name="region"]',
-			county_list:'[name="region_id"]',
-			country:	'[name="country_id"]'
-		};
-
 		jQuery('[name="postcode"]').each(function(index,elem){
 			if(jQuery(elem).data('cc_attach') != '1' && !jQuery(elem).prop('disabled')){
 				jQuery(elem).data('cc_attach','1');
