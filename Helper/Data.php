@@ -88,7 +88,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 			"country_button" => $this->_escaper->escapeHtml(
 				$this->scopeConfig->getValue(
-					'cc_uk/txt_options/country_btn',
+					'cc_uk/txt_options/country_button',
 					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 				)
 			),

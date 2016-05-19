@@ -32,9 +32,9 @@ requirejs(['jquery'], function( $ ) {
 		if(c2a_config.enabled){
 			var config = {
 				accessToken: c2a_config.key,
-				onSetCounty: function(c2a, county, elements){
-					c2a.setCounty(elements.list[0], county);
-					c2a.setCounty(elements.input[0], county);
+				onSetCounty: function(c2a, elements, county){
+					c2a.setCounty(elements.county.list[0], county);
+					c2a.setCounty(elements.county.input[0], county);
 				},
 				domMode: 'object',
 				geocode: false,
