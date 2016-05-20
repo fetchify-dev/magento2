@@ -1,7 +1,6 @@
 #Crafty Clicks Magento 2 Integration
-##Quick instructions
 
-###Install via composer
+##Download via composer
 
 First add the repository:
 ```
@@ -14,25 +13,25 @@ composer require craftyclicks/module-clicktoaddress
 ```
 (or composer require craftyclicks/module-clicktoaddress:dev-branch for a specific branch)
 
-Then execute install script
-```
-php -f bin/magento setup:upgrade
-```
+###Manual Download
+
+- Create folder structure /app/code/Craftyclicks/Clicktoaddress/
+- Download & copy the git contents to the folder
 
 #### NOTE!
 There are two versions of this module:
 - Main branch is using the Global Address endpoint. (Search as you type functionality)
 - There's a separate branch for an older version, doing only UK postcode lookup. (different endpoint)
 
+##Install
 
-###Manual Install
-
-- Create folder structure /app/code/Craftyclicks/Clicktoaddress/
-- Download & copy the git contents to the folder
-- Run install script
+Please note that executing these lines will cause a downtime on your Magento shop until they finish.
 ```
 php -f bin/magento setup:upgrade
+php -f bin/magento setup:di:compile
 ```
+- First line allows Magento to recognize the module
+- Second line is required so that Magento would load configuration defaults. (I'm looking for an alternative, more direct command but couldn't find one so far)
 
 ##Configuration Instructions
 The configuration for the extension is located under Stores -> Configuration -> Crafty Clicks -> Global Address Auto-Complete.
