@@ -7,7 +7,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
 	<default>
-		<cc_uk>
+		<cc_global>
 			<main_options>
 				<frontend_enabled>0</frontend_enabled>
 				<accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
@@ -25,6 +25,9 @@
 				<error_msg_1>No results found</error_msg_1>
 				<error_msg_2>An error occured. Please enter your address manually</error_msg_2>
 			</txt_options>
-		</cc_uk>
+			<advanced>
+
+			</advanced>
+		</cc_global>
 	</default>
 </config>

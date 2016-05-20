@@ -4,7 +4,7 @@
 		<tab id="cc_setup" translate="label" sortOrder="900">
 			<label>Crafty Clicks</label>
 		</tab>
-		<section id="cc_uk" translate="label" sortOrder="130" showInDefault="1">
+		<section id="cc_global" translate="label" sortOrder="130" showInDefault="1">
 			<label>Click to Address</label>
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
