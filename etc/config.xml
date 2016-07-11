@@ -26,7 +26,7 @@
 				<error_msg_2>An error occured. Please enter your address manually</error_msg_2>
 			</txt_options>
 			<advanced>
-
+				<match_country_list>0</match_country_list>
 			</advanced>
 		</cc_global>
 	</default>

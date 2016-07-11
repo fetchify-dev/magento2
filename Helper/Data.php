@@ -108,6 +108,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				)
 			)
 		);
+		$match_country_list = $this->scopeConfig->getValue(
+			'cc_global/advanced/match_country_list',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+		if($match_country_list){
+			$cfg['enabled_countries'] = explode(',',$this->_escaper->escapeHtml(
+				$this->scopeConfig->getValue(
+					'general/country/allow',
+					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+				)
+			));
+		}
 		return json_encode($cfg);
 	}
 	public function getBackendCfg(){
@@ -174,7 +186,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 			"country_button" => $this->_escaper->escapeHtml(
 				$this->scopeConfig->getValue(
-					'cc_global/txt_options/country_btn',
+					'cc_global/txt_options/country_button',
 					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 				)
 			),
@@ -193,6 +205,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				)
 			)
 		);
+		$match_country_list = $this->scopeConfig->getValue(
+			'cc_global/advanced/match_country_list',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+		if($match_country_list){
+			$cfg['enabled_countries'] = explode(',',$this->_escaper->escapeHtml(
+				$this->scopeConfig->getValue(
+					'general/country/allow',
+					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+				)
+			));
+		}
 		return json_encode($cfg);
 
 	}
