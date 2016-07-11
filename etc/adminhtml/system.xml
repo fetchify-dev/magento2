@@ -54,6 +54,13 @@
 					<label>Generic Error Message</label>
 				</field>
 			</group>
+			<group id="advanced" translate="label" type="text" sortOrder="40"  showInDefault="1">
+				<label>Advanced</label>
+				<field id="match_country_list" type="select" sortOrder="5" showInDefault="1">
+					<label>Match Country List to Allowed Countries</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
 		</section>
 	</system>
 </config>

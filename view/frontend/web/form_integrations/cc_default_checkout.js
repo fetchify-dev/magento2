@@ -32,6 +32,7 @@ requirejs(['jquery'], function( $ ) {
 			var config = {
 				accessToken: c2a_config.key,
 				onSetCounty: function(c2a, elements, county){
+					jQuery(elements.country).trigger('change');
 					c2a.setCounty(elements.county.list[0], county);
 					c2a.setCounty(elements.county.input[0], county);
 				},
@@ -58,6 +59,10 @@ requirejs(['jquery'], function( $ ) {
 				cssPath: false,
 				tag: 'Magento 2'
 			};
+			if(typeof c2a_config.enabled_countries !== 'undefined'){
+				config.countryMatchWith = 'iso_2';
+				config.enabledCountries = c2a_config.enabled_countries;
+			}
 			cc_holder = new clickToAddress(config);
 			setInterval(cc_magento2,200);
 		}
