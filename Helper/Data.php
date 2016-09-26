@@ -25,6 +25,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->_encryptor = $encryptor;
 		parent::__construct($context);
 	}
+	private function getCfg($cfg_name){
+		return $this->_escaper->escapeHtml(
+			$this->scopeConfig->getValue(
+				'cc_global/'.$cg_name,
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			)
+		);
+	}
+
 	public function getFrontendCfg(){
 		$cfg = [];
 		$cfg['key'] = $this->_escaper->escapeHtml(
@@ -46,25 +55,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 			)
 		);
-		$cfg['gfx_ambient'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/ambient',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_accent'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/accent',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['gfx_ambient'] = $this->getCfg('gfx_options/ambient');
+		$cfg['gfx_accent'] = $this->getCfg('gfx_options/accent');
 		// special search configs
-		$cfg['searchbar_type'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/searchbar_type',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['searchbar_type'] = $this->getCfg('gfx_options/searchbar_type');
 
 		$cfg['texts'] = array(
 			"search_label" => $this->_escaper->escapeHtml(
@@ -137,31 +131,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
-		$cfg['gfx_mode'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/mode',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_ambient'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/ambient',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_accent'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/accent',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['gfx_mode'] = $this->getCfg('gfx_options/mode');
+		$cfg['gfx_ambient'] = $this->getCfg('gfx_options/ambient');
+		$cfg['gfx_accent'] = $this->getCfg('gfx_options/accent');
 		// special search configs
-		$cfg['searchbar_type'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/searchbar_type',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['searchbar_type'] = $this->getCfg('gfx_options/searchbar_type');
 
 		$cfg['texts'] = array(
 			"search_label" => $this->_escaper->escapeHtml(
@@ -217,6 +191,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				)
 			));
 		}
+		$cfg['advanced'] = array(
+			"no_results" =>
+		);
 		return json_encode($cfg);
 
 	}

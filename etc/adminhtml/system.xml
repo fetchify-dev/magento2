@@ -60,6 +60,16 @@
 					<label>Match Country List to Allowed Countries</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
+
+				<field id="hide_fields" type="select" sortOrder="10" showInDefault="1">
+					<label>Hide Address Fields</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="lock_country_to_dropdown" type="select" sortOrder="15" showInDefault="1">
+					<label>Lock country selection</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
 			</group>
 		</section>
 	</system>
