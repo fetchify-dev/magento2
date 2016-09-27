@@ -25,6 +25,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->_encryptor = $encryptor;
 		parent::__construct($context);
 	}
+	private function getCfg($cfg_name){
+		return $this->_escaper->escapeHtml(
+			$this->scopeConfig->getValue(
+				'cc_global/'.$cfg_name,
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			)
+		);
+	}
+
 	public function getFrontendCfg(){
 		$cfg = [];
 		$cfg['key'] = $this->_escaper->escapeHtml(
@@ -40,73 +49,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
-		$cfg['gfx_mode'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/mode',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_ambient'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/ambient',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_accent'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/accent',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['gfx_mode']		= $this->getCfg('gfx_options/mode');
+		$cfg['gfx_ambient']		= $this->getCfg('gfx_options/ambient');
+		$cfg['gfx_accent']		= $this->getCfg('gfx_options/accent');
 		// special search configs
-		$cfg['searchbar_type'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/searchbar_type',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['searchbar_type']	= $this->getCfg('gfx_options/searchbar_type');
 
 		$cfg['texts'] = array(
-			"search_label" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/search_label',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-			"default_placeholder" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/search_placeholder',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"country_placeholder" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/country_placeholder',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"country_button" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/country_button',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"generic_error" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/error_msg_2',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"no_results" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/error_msg_1',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			)
+			"search_label"			 => $this->getCfg('txt_options/search_label'),
+			"default_placeholder"	 => $this->getCfg('txt_options/search_placeholder'),
+			"country_placeholder"	 => $this->getCfg('txt_options/country_placeholder'),
+			"country_button"		 => $this->getCfg('txt_options/country_button'),
+			"generic_error"			 => $this->getCfg('txt_options/error_msg_2'),
+			"no_results"			 => $this->getCfg('txt_options/error_msg_1')
 		);
 		$match_country_list = $this->scopeConfig->getValue(
 			'cc_global/advanced/match_country_list',
@@ -120,6 +75,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				)
 			));
 		}
+
+		$cfg['advanced'] = array(
+			"lock_country_to_dropdown" => $this->getCfg('advanced/lock_country_to_dropdown') == "1",
+			"hide_fields" => $this->getCfg('advanced/hide_fields') == "1"
+		);
 		return json_encode($cfg);
 	}
 	public function getBackendCfg(){
@@ -137,73 +97,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
-		$cfg['gfx_mode'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/mode',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_ambient'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/ambient',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
-		$cfg['gfx_accent'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/accent',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['gfx_mode']		= $this->getCfg('gfx_options/mode');
+		$cfg['gfx_ambient']		= $this->getCfg('gfx_options/ambient');
+		$cfg['gfx_accent']		= $this->getCfg('gfx_options/accent');
 		// special search configs
-		$cfg['searchbar_type'] = $this->_escaper->escapeHtml(
-			$this->scopeConfig->getValue(
-				'cc_global/gfx_options/searchbar_type',
-				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-			)
-		);
+		$cfg['searchbar_type']	= $this->getCfg('gfx_options/searchbar_type');
 
 		$cfg['texts'] = array(
-			"search_label" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/search_label',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-			"default_placeholder" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/search_placeholder',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"country_placeholder" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/country_placeholder',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"country_button" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/country_button',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"generic_error" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/error_msg_2',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			),
-
-			"no_results" => $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'cc_global/txt_options/error_msg_1',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			)
+			"search_label"			=> $this->getCfg('txt_options/search_label'),
+			"default_placeholder"	=> $this->getCfg('txt_options/search_placeholder'),
+			"country_placeholder"	=> $this->getCfg('txt_options/country_placeholder'),
+			"country_button"		=> $this->getCfg('txt_options/country_button'),
+			"generic_error"			=> $this->getCfg('txt_options/error_msg_2'),
+			"no_results"			=> $this->getCfg('txt_options/error_msg_1')
 		);
 		$match_country_list = $this->scopeConfig->getValue(
 			'cc_global/advanced/match_country_list',

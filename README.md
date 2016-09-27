@@ -2,12 +2,7 @@
 
 ##Download via composer
 
-First add the repository:
-```
-composer config repositories.craftyclicks git https://github.com/craftyclicks/magento2.git
-```
-& make sure that your your minimum-stability is beta.
-Then, request composer to fetch the module:
+Request composer to fetch the module:
 ```
 composer require craftyclicks/module-clicktoaddress
 ```
@@ -20,12 +15,12 @@ composer require craftyclicks/module-clicktoaddress
 
 #### NOTE!
 There are two versions of this module:
-- Main branch is using the Global Address endpoint. (Search as you type functionality)
+- Main branch is using the Global Address endpoint. (Address Auto-Complete)
 - There's a separate branch for an older version, doing only UK postcode lookup. (different endpoint)
 
 ##Install
 
-Please note that executing these lines will cause a downtime on your Magento shop until they finish.
+Please note that executing these lines can cause a downtime on your Magento shop until they finish.
 ```
 php -f bin/magento setup:upgrade
 php -f bin/magento setup:di:compile
