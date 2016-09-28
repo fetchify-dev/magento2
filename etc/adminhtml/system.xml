@@ -29,8 +29,9 @@
 					<label>Ambient</label>
 					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Ambient</source_model>
 				</field>
-				<field id="accent" type="text" sortOrder="40" showInDefault="1">
+				<field id="accent" translate="label" type="select" sortOrder="40" showInDefault="1">
 					<label>Accent</label>
+					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Accent</source_model>
 				</field>
 			</group>
 			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1">
@@ -54,7 +55,7 @@
 					<label>Generic Error Message</label>
 				</field>
 			</group>
-			<group id="advanced" translate="label" type="text" sortOrder="40"  showInDefault="1">
+			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1">
 				<label>Advanced</label>
 				<field id="match_country_list" type="select" sortOrder="5" showInDefault="1">
 					<label>Match Country List to Allowed Countries</label>
