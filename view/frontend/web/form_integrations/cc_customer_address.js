@@ -56,6 +56,16 @@ function activate_cc_m2(){
 				config.countryMatchWith = 'iso_2';
 				config.enabledCountries = c2a_config.enabled_countries;
 			}
+			if(c2a_config.advanced.lock_country_to_dropdown){
+				config.countrySelector = false;
+				config.onSearchFocus = function(c2a, dom){
+					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
+					if(currentCountry !== ''){
+						var countryCode = getCountryCode(c2a, currentCountry, 'iso_2');
+						c2a.selectCountry(countryCode);
+					}
+				};
+			}
 			new clickToAddress(config);
 			cc_index++;
 		}
