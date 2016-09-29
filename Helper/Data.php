@@ -67,6 +67,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'cc_global/advanced/match_country_list',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
+		$cfg['default_country'] = $this->_escaper->escapeHtml(
+			$this->scopeConfig->getValue(
+				'general/country/default',
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			)
+		);
 		if($match_country_list){
 			$cfg['enabled_countries'] = explode(',',$this->_escaper->escapeHtml(
 				$this->scopeConfig->getValue(
@@ -114,6 +120,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$match_country_list = $this->scopeConfig->getValue(
 			'cc_global/advanced/match_country_list',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+		$cfg['default_country'] = $this->_escaper->escapeHtml(
+			$this->scopeConfig->getValue(
+				'general/country/default',
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			)
 		);
 		if($match_country_list){
 			$cfg['enabled_countries'] = explode(',',$this->_escaper->escapeHtml(

@@ -30,9 +30,7 @@ function activate_cc_m2(){
 					c2a.setCounty(elements.county.input[0], county);
 				},
 				domMode: 'object',
-				geocode: false,
 				gfxMode: c2a_config.gfx_mode,
-				defaultCountry: 'usa',
 				style: {
 					ambient: c2a_config.gfx_ambient,
 					accent: c2a_config.gfx_accent
@@ -66,6 +64,7 @@ function activate_cc_m2(){
 					}
 				};
 			}
+
 			new clickToAddress(config);
 			cc_index++;
 		}
