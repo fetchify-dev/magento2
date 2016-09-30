@@ -46,9 +46,7 @@ requirejs(['jquery'], function( $ ) {
 					c2a.setCounty(elements.county.input[0], county);
 				},
 				domMode: 'object',
-				geocode: false,
 				gfxMode: c2a_config.gfx_mode,
-				defaultCountry: 'usa',
 				style: {
 					ambient: c2a_config.gfx_ambient,
 					accent: c2a_config.gfx_accent
@@ -72,6 +70,17 @@ requirejs(['jquery'], function( $ ) {
 				config.countryMatchWith = 'iso_2';
 				config.enabledCountries = c2a_config.enabled_countries;
 			}
+			if(c2a_config.advanced.lock_country_to_dropdown){
+				config.countrySelector = false;
+				config.onSearchFocus = function(c2a, dom){
+					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
+					if(currentCountry !== ''){
+						var countryCode = getCountryCode(c2a, currentCountry, 'iso_2');
+						c2a.selectCountry(countryCode);
+					}
+				};
+			}
+
 			cc_holder = new clickToAddress(config);
 			setInterval(activate_cc_m2,200);
 		}
