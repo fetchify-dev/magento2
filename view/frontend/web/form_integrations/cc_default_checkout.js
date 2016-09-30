@@ -70,6 +70,13 @@ requirejs(['jquery'], function( $ ) {
 
 					cc_hide_fields(elements,true);
 				},
+				onError: function(){
+					if(typeof this.activeDom.postcode !== 'undefined'){
+						cc_hide_fields(this.activeDom,true);
+					} else {
+						c2a_config.advanced.hide_fields = false;
+					}
+				},
 				cssPath: false,
 				tag: 'Magento 2'
 			};
