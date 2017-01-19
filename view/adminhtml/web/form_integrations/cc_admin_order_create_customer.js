@@ -6,9 +6,9 @@ function activate_cc_m2(){
 			jQuery(elem).data('cc_attach','1');
 			var form = jQuery(elem).closest('fieldset');
 
-			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input id="cc_'+cc_index+'_search_input" class="admin__control-text" type="text"/></div></div>';
+			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input id="cc_'+cc_index+'_search_input" class="cc_search_bar admin__control-text" type="text"/></div></div>';
 			form.find('[name$="_address][street][0]"]').closest('div.admin__field').before( tmp_html );
-
+			form.attr('id','cc-fieldset-'+index);
 			cc_holder.attach({
 				search:		form.find('#cc_'+cc_index+'_search_input')[0],
 				company:	form.find('[name$="_address][company]"]')[0],
@@ -18,7 +18,8 @@ function activate_cc_m2(){
 				town:		form.find('[name$="_address][city]"]')[0],
 				county:		{
 							input:	form.find('[name$="_address][region]"]'),
-							list:	form.find('[name$="_address][region_id]"]')
+							list:	form.find('[name$="_address][region_id]"]'),
+							fieldsetSelector: '#cc-fieldset-'+index
 				},
 				country:	form.find('select[name$="_address][country_id]"]')[0]
 			});
@@ -35,6 +36,9 @@ requirejs(['jquery'], function( $ ) {
 			var config = {
 				accessToken: c2a_config.key,
 				onSetCounty: function(c2a, elements, county){
+					var fieldset = jQuery(elements.county.fieldsetSelector);
+					var current_id = fieldset.find('input.cc_search_bar').attr('id');
+
 					if ("createEvent" in document) {
 						var evt = document.createEvent("HTMLEvents");
 						evt.initEvent("change", false, true);
@@ -42,24 +46,30 @@ requirejs(['jquery'], function( $ ) {
 					}
 					else
 						elements.country.fireEvent("onchange");
-					c2a.setCounty(elements.county.list[0], county);
-					c2a.setCounty(elements.county.input[0], county);
+
+					if(fieldset.find(elements.county.list.selector).attr('id').indexOf('shipping') > -1){
+						var change_tracker = setInterval(function(){
+							var fieldset = jQuery(elements.county.fieldsetSelector);
+							if( typeof fieldset.find('input.cc_search_bar').attr('id') == 'undefined' ||
+								fieldset.find('input.cc_search_bar').attr('id') == current_id ){
+								return;
+							}
+							clearInterval(change_tracker);
+							c2a.setCounty(fieldset.find(elements.county.list.selector)[0], county);
+							c2a.setCounty(fieldset.find(elements.county.input.selector)[0], county);
+						},50);
+					} else {
+						setTimeout(function(){
+							c2a.setCounty(elements.county.list[0], county);
+							c2a.setCounty(elements.county.input[0], county);
+						},100);
+					}
 				},
 				domMode: 'object',
 				gfxMode: c2a_config.gfx_mode,
 				style: {
 					ambient: c2a_config.gfx_ambient,
 					accent: c2a_config.gfx_accent
-				},
-				onResultSelected: function(c2a, elements, address){
-					jQuery(elements.country).trigger('change');
-					jQuery(elements.company).trigger('change');
-					jQuery(elements.line_1).trigger('change');
-					jQuery(elements.line_2).trigger('change');
-					jQuery(elements.postcode).trigger('change');
-					jQuery(elements.town).trigger('change');
-					jQuery(elements.county.input).trigger('change');
-					jQuery(elements.county.list).trigger('change');
 				},
 				showLogo: false,
 				texts: c2a_config.texts,
