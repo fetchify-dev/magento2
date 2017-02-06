@@ -71,6 +71,9 @@
 					<label>Lock country selection</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
+				<field id="search_elem_id" type="text" sortOrder="20" showInDefault="1">
+					<label>Set custom ID for the parent element of the search bar</label>
+				</field>
 			</group>
 		</section>
 	</system>

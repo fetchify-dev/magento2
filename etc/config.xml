@@ -29,6 +29,7 @@
 				<match_country_list>0</match_country_list>
 				<hide_fields>0</hide_fields>
 				<lock_country_to_dropdown>0</lock_country_to_dropdown>
+				<search_elem_id></search_elem_id>
 			</advanced>
 		</cc_global>
 	</default>

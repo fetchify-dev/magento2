@@ -6,7 +6,14 @@ function activate_cc_m2(){
 			jQuery(elem).data('cc_attach','1');
 			var form = jQuery(elem).closest('form');
 
-			var tmp_html = '<div class="field"><label class="label">'+c2a_config.texts.search_label+'</label><div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+			var custom_id = '';
+			if(c2a_config.advanced.search_elem_id !== null){
+				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
+			}
+			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
+							c2a_config.texts.search_label+'</label>' +
+							'<div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+
 			form.find('#street_1').closest('.field').before( tmp_html );
 
 			var config = {
