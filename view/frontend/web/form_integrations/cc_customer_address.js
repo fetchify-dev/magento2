@@ -45,6 +45,9 @@ function activate_cc_m2(){
 				showLogo: false,
 				texts: c2a_config.texts,
 				onResultSelected: function(c2a, elements, address){
+					// set by iso 2, instead of default country selection by name
+					jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+					
 					jQuery(elements.country).trigger('change');
 					jQuery(elements.company).trigger('change');
 					jQuery(elements.line_1).trigger('change');
