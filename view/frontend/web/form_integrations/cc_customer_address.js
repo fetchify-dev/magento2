@@ -6,7 +6,14 @@ function activate_cc_m2(){
 			jQuery(elem).data('cc_attach','1');
 			var form = jQuery(elem).closest('form');
 
-			var tmp_html = '<div class="field"><label class="label">'+c2a_config.texts.search_label+'</label><div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+			var custom_id = '';
+			if(c2a_config.advanced.search_elem_id !== null){
+				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
+			}
+			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
+							c2a_config.texts.search_label+'</label>' +
+							'<div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+
 			form.find('#street_1').closest('.field').before( tmp_html );
 
 			var config = {
@@ -38,6 +45,9 @@ function activate_cc_m2(){
 				showLogo: false,
 				texts: c2a_config.texts,
 				onResultSelected: function(c2a, elements, address){
+					// set by iso 2, instead of default country selection by name
+					jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+					
 					jQuery(elements.country).trigger('change');
 					jQuery(elements.company).trigger('change');
 					jQuery(elements.line_1).trigger('change');
