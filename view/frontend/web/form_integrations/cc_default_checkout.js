@@ -55,8 +55,12 @@ requirejs(['jquery'], function( $ ) {
 				accessToken: c2a_config.key,
 				onSetCounty: function(c2a, elements, county){
 					jQuery(elements.country).trigger('change');
-					c2a.setCounty(elements.county.list[0], county);
-					c2a.setCounty(elements.county.input[0], county);
+					if(elements.county.list.length == 1){
+						c2a.setCounty(elements.county.list[0], county);
+					}
+					if(elements.county.input.length == 1){
+						c2a.setCounty(elements.county.input[0], county);
+					}
 				},
 				domMode: 'object',
 				gfxMode: c2a_config.gfx_mode,

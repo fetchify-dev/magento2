@@ -33,8 +33,12 @@ function activate_cc_m2(){
 				},
 				onSetCounty: function(c2a, elements, county){
 					jQuery(elements.country).trigger('change');
-					c2a.setCounty(elements.county.list[0], county);
-					c2a.setCounty(elements.county.input[0], county);
+					if(elements.county.list.length == 1){
+						c2a.setCounty(elements.county.list[0], county);
+					}
+					if(elements.county.input.length == 1){
+						c2a.setCounty(elements.county.input[0], county);
+					}
 				},
 				domMode: 'object',
 				gfxMode: c2a_config.gfx_mode,
@@ -47,7 +51,7 @@ function activate_cc_m2(){
 				onResultSelected: function(c2a, elements, address){
 					// set by iso 2, instead of default country selection by name
 					jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
-					
+
 					jQuery(elements.country).trigger('change');
 					jQuery(elements.company).trigger('change');
 					jQuery(elements.line_1).trigger('change');
