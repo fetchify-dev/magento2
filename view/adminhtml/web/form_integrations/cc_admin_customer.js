@@ -1,8 +1,23 @@
 function activate_cc_m2(){
 	jQuery('[name$="[postcode]"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
-			jQuery(elem).data('cc_attach','1');
 			var form = jQuery(elem).closest('fieldset');
+			// check if all form elements exist correctly
+			if(!(
+				0 != form.find('[name$="[company]"]').length &&
+				0 != form.find('[name$="[street][0]"]').length &&
+				0 != form.find('[name$="[street][1]"]').length &&
+				0 != form.find('[name$="[postcode]"]').length &&
+				0 != form.find('[name$="[city]"]').length &&
+				0 != form.find('[name$="[region]"]').length &&
+				0 != form.find('select[name$="[region_id]"]').length &&
+				0 != form.find('select[name$="[country_id]"]').length
+			)){
+				// if anything is missing (some parts get loaded in a second ajax pass)
+				return;
+			}
+
+			jQuery(elem).data('cc_attach','1');
 
 			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input id="cc_'+cc_index+'_search_input" class="admin__control-text" type="text"/></div></div>';
 			form.find('[name$="[street][0]"]').closest('fieldset').before( tmp_html );
