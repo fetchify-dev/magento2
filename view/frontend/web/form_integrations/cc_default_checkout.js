@@ -143,28 +143,28 @@ function cc_hide_fields(dom, show){
 		for(var i=0; i<elementsToHide.length; i++){
 			switch(elementsToHide[i]){
 				case 'county':
-					jQuery(dom[elementsToHide[i]].input).closest('.field').hide();
-					jQuery(dom[elementsToHide[i]].list).closest('.field').hide();
+					jQuery(dom[elementsToHide[i]].input).closest('.field').addClass('cc_hide');
+					jQuery(dom[elementsToHide[i]].list).closest('.field').addClass('cc_hide');
 					break;
 				case 'line_1':
-					jQuery(dom[elementsToHide[i]]).closest('fieldset.field').hide();
+					jQuery(dom[elementsToHide[i]]).closest('fieldset.field').addClass('cc_hide');
 					break;
 				default:
-					jQuery(dom[elementsToHide[i]]).closest('.field').hide();
+					jQuery(dom[elementsToHide[i]]).closest('.field').addClass('cc_hide');
 			}
 		}
 	} else {
 		for(var i=0; i<elementsToHide.length; i++){
 			switch(elementsToHide[i]){
 				case 'county':
-					jQuery(dom[elementsToHide[i]].input).closest('.field').show();
-					jQuery(dom[elementsToHide[i]].list).closest('.field').show();
+					jQuery(dom[elementsToHide[i]].input).closest('.field').removeClass('cc_hide');
+					jQuery(dom[elementsToHide[i]].list).closest('.field').removeClass('cc_hide');
 					break;
 				case 'line_1':
-					jQuery(dom[elementsToHide[i]]).closest('fieldset.field').show();
+					jQuery(dom[elementsToHide[i]]).closest('fieldset.field').removeClass('cc_hide');
 					break;
 				default:
-					jQuery(dom[elementsToHide[i]]).closest('.field').show();
+					jQuery(dom[elementsToHide[i]]).closest('.field').removeClass('cc_hide');
 			}
 		}
 	}
