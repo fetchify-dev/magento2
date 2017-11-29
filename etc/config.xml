@@ -10,7 +10,7 @@
 		<cc_global>
 			<main_options>
 				<frontend_enabled>0</frontend_enabled>
-				<accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
+				<accesstoken backend_model="Magento\Config\Model\Config\Backend\Encrypted">xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
 			</main_options>
 			<gfx_options>
 				<mode>1</mode>
