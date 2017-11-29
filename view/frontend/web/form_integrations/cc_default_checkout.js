@@ -92,6 +92,8 @@ requirejs(['jquery'], function( $ ) {
 						c2a_config.advanced.hide_fields = false;
 					}
 				},
+				transliterate: c2a_config.advanced.transliterate,
+				debug: c2a_config.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
 			};
