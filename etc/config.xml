@@ -10,7 +10,7 @@
 		<cc_global>
 			<main_options>
 				<frontend_enabled>0</frontend_enabled>
-				<accesstoken>xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
+				<accesstoken backend_model="Magento\Config\Model\Config\Backend\Encrypted">xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
 			</main_options>
 			<gfx_options>
 				<mode>1</mode>
@@ -26,10 +26,12 @@
 				<error_msg_2>An error occured. Please enter your address manually</error_msg_2>
 			</txt_options>
 			<advanced>
+				<transliterate>0</transliterate>
 				<match_country_list>0</match_country_list>
 				<hide_fields>0</hide_fields>
 				<lock_country_to_dropdown>0</lock_country_to_dropdown>
 				<search_elem_id></search_elem_id>
+				<debug>0</debug>
 			</advanced>
 		</cc_global>
 	</default>

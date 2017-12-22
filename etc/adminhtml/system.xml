@@ -57,6 +57,11 @@
 			</group>
 			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1">
 				<label>Advanced</label>
+				<field id="transliterate" type="select" sortOrder="4" showInDefault="1">
+					<label>Transliterate for non ASCII characters</label>
+					<comment>(changes non english characters to english characters)</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
 				<field id="match_country_list" type="select" sortOrder="5" showInDefault="1">
 					<label>Match Country List to Allowed Countries</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -73,6 +78,10 @@
 				</field>
 				<field id="search_elem_id" type="text" sortOrder="20" showInDefault="1">
 					<label>Set custom ID for the parent element of the search bar</label>
+				</field>
+				<field id="debug" type="select" sortOrder="25" showInDefault="1">
+					<label>Enable debug tools</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
 		</section>

@@ -12,7 +12,7 @@ function cc_magento2(){
 
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
-							'<div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+							'<div class="control"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
 			form.find('[name="street[0]"]').closest('fieldset').before( tmp_html );
 
 			var dom = {
@@ -34,7 +34,7 @@ function cc_magento2(){
 				line_1:		dom.line_1[0],
 				line_2:		dom.line_2[0],
 				postcode:	dom.postcode[0],
-				town:			dom.town[0],
+				town:		dom.town[0],
 				county:		{
 							input:	dom.county.input,
 							list:	dom.county.list
@@ -92,6 +92,8 @@ requirejs(['jquery'], function( $ ) {
 						c2a_config.advanced.hide_fields = false;
 					}
 				},
+				transliterate: c2a_config.advanced.transliterate,
+				debug: c2a_config.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
 			};

@@ -12,7 +12,7 @@ function activate_cc_m2(){
 			}
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
-							'<div class="value"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+							'<div class="control"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
 
 			form.find('#street_1').closest('.field').before( tmp_html );
 
