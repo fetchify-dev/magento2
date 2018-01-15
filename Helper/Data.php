@@ -47,7 +47,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$token = $this->_encryptor->decrypt($token);
 				$cfg['rdcrypt'] = true;
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$cfg['rdcrypt'] = false;
 		}
 		$cfg['key'] = $this->_escaper->escapeHtml($token);
