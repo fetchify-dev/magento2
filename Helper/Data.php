@@ -36,14 +36,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	public function getFrontendCfg(){
 		$cfg = [];
-		$cfg['key'] = $this->_escaper->escapeHtml(
-			$this->_encryptor->decrypt(
-				$this->scopeConfig->getValue(
-					'cc_global/main_options/accesstoken',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			)
+
+		$token = $this->scopeConfig->getValue(
+			'cc_global/main_options/accesstoken',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
+		try{
+			if(0 == preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+				// not decrypted yet (php 7.0.X?)
+				$token = $this->_encryptor->decrypt($token);
+				$cfg['rdcrypt'] = true;
+			}
+		} catch (\Exception $e) {
+			$cfg['rdcrypt'] = false;
+		}
+		$cfg['key'] = $this->_escaper->escapeHtml($token);
+
 
 		$cfg['enabled'] = $this->scopeConfig->isSetFlag(
 			'cc_global/main_options/enabled',
