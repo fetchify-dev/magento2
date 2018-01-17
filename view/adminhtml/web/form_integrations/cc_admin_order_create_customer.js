@@ -32,7 +32,7 @@ var cc_index = 0;
 var cc_holder = null;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled){
+		if(c2a_config.enabled && c2a_config.key != null){
 			var config = {
 				accessToken: c2a_config.key,
 				onSetCounty: function(c2a, elements, county){
@@ -93,6 +93,10 @@ requirejs(['jquery'], function( $ ) {
 
 			cc_holder = new clickToAddress(config);
 			setInterval(activate_cc_m2,200);
+		}
+
+		if(c2a_config.enabled && c2a_config.key == null){
+			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});
 });

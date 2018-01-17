@@ -87,8 +87,12 @@ function activate_cc_m2(){
 var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled){
+		if(c2a_config.enabled && c2a_config.key != null){
 			setInterval(activate_cc_m2,200);
+		}
+
+		if(c2a_config.enabled && c2a_config.key == null){
+			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});
 });
