@@ -44,7 +44,7 @@ var cc_index = 0;
 var cc_holder = null;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled){
+		if(c2a_config.enabled && c2a_config.key != null){
 			var config = {
 				accessToken: c2a_config.key,
 				onSetCounty: function(c2a, elements, county){
@@ -76,6 +76,8 @@ requirejs(['jquery'], function( $ ) {
 					jQuery(elements.county.input).trigger('change');
 					jQuery(elements.county.list).trigger('change');
 				},
+				transliterate: c2a_config.advanced.transliterate,
+				debug: c2a_config.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2 - int'
 			};
@@ -96,6 +98,9 @@ requirejs(['jquery'], function( $ ) {
 
 			cc_holder = new clickToAddress(config);
 			setInterval(activate_cc_m2,200);
+		}
+		if(c2a_config.enabled && c2a_config.key == null){
+			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});
 });

@@ -36,19 +36,30 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	public function getFrontendCfg(){
 		$cfg = [];
-		$cfg['key'] = $this->_escaper->escapeHtml(
-			$this->_encryptor->decrypt(
-				$this->scopeConfig->getValue(
-					'cc_global/main_options/accesstoken',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			)
-		);
 
+		$token = $this->scopeConfig->getValue(
+			'cc_global/main_options/accesstoken',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+		try{
+			if(0 == preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+				// not decrypted yet (php 7.0.X?)
+				$token = $this->_encryptor->decrypt($token);
+				$cfg['rdcrypt'] = true;
+			}
+		} catch (\Exception $e) {
+			$cfg['rdcrypt'] = false;
+		}
+		if(preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+			$cfg['key'] = $this->_escaper->escapeHtml($token);
+		} else {
+			$cfg['key'] = null;
+		}
 		$cfg['enabled'] = $this->scopeConfig->isSetFlag(
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
+
 		$cfg['gfx_mode']		= $this->getCfg('gfx_options/mode');
 		$cfg['gfx_ambient']		= $this->getCfg('gfx_options/ambient');
 		$cfg['gfx_accent']		= $this->getCfg('gfx_options/accent');
@@ -93,15 +104,26 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	}
 	public function getBackendCfg(){
 		$cfg = [];
-		$cfg['key'] = $this->_escaper->escapeHtml(
-			$this->_encryptor->decrypt(
-				$this->scopeConfig->getValue(
-					'cc_global/main_options/accesstoken',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			)
-		);
 
+		$token = $this->scopeConfig->getValue(
+			'cc_global/main_options/accesstoken',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+		try{
+			if(0 == preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+				// not decrypted yet (php 7.0.X?)
+				$token = $this->_encryptor->decrypt($token);
+				$cfg['rdcrypt'] = true;
+			}
+		} catch (\Exception $e) {
+			$cfg['rdcrypt'] = false;
+		}
+
+		if(preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+			$cfg['key'] = $this->_escaper->escapeHtml($token);
+		} else {
+			$cfg['key'] = null;
+		}
 		$cfg['enabled'] = $this->scopeConfig->isSetFlag(
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -141,7 +163,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$cfg['advanced'] = array(
 			"lock_country_to_dropdown" => $this->getCfg('advanced/lock_country_to_dropdown') == "1",
-			"hide_fields" => $this->getCfg('advanced/hide_fields') == "1"
+			"hide_fields" => $this->getCfg('advanced/hide_fields') == "1",
+			"transliterate" => $this->getCfg('advanced/transliterate') == "1"
 		);
 		return json_encode($cfg);
 
