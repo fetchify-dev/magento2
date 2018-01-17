@@ -163,7 +163,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$cfg['advanced'] = array(
 			"lock_country_to_dropdown" => $this->getCfg('advanced/lock_country_to_dropdown') == "1",
-			"hide_fields" => $this->getCfg('advanced/hide_fields') == "1"
+			"hide_fields" => $this->getCfg('advanced/hide_fields') == "1",
+			"transliterate" => $this->getCfg('advanced/transliterate') == "1"
 		);
 		return json_encode($cfg);
 

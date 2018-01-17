@@ -76,6 +76,8 @@ requirejs(['jquery'], function( $ ) {
 					jQuery(elements.county.input).trigger('change');
 					jQuery(elements.county.list).trigger('change');
 				},
+				transliterate: c2a_config.advanced.transliterate,
+				debug: c2a_config.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2 - int'
 			};

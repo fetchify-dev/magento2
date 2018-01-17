@@ -61,6 +61,8 @@ requirejs(['jquery'], function( $ ) {
 				},
 				showLogo: false,
 				texts: c2a_config.texts,
+				transliterate: c2a_config.advanced.transliterate,
+				debug: c2a_config.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2 - int'
 			};
