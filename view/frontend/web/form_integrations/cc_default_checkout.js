@@ -127,7 +127,7 @@ function cc_hide_fields(dom, show){
 	if(!c2a_config.advanced.hide_fields){
 		return;
 	}
-	var elementsToHide = ['line_1', 'line_2', 'town', 'postcode', 'county'];
+	var elementsToHide = ['line_1', 'line_2', 'line_3', 'line_4', 'town', 'postcode', 'county'];
 	var allEmptySkip = 1;
 	if(!c2a_config.advanced.lock_country_to_dropdown){
 		elementsToHide.push('country');
@@ -138,7 +138,7 @@ function cc_hide_fields(dom, show){
 		// check if there's anything in the input boxes
 		var allEmpty = true;
 		for(var i=0; i<elementsToHide.length - allEmptySkip; i++){
-			if(jQuery(dom[elementsToHide[i]]).val() !== ''){
+			if(jQuery(dom[elementsToHide[i]]).val() !== '' && jQuery(dom[elementsToHide[i]]).length){
 				allEmpty = false;
 			}
 		}
@@ -160,18 +160,28 @@ function cc_hide_fields(dom, show){
 			}
 		}
 	} else {
-		for(var i=0; i<elementsToHide.length; i++){
-			switch(elementsToHide[i]){
-				case 'county':
-					jQuery(dom[elementsToHide[i]].input).closest('.field').removeClass('cc_hide');
-					jQuery(dom[elementsToHide[i]].list).closest('.field').removeClass('cc_hide');
-					break;
-				case 'line_1':
-					jQuery(dom[elementsToHide[i]]).closest('fieldset.field').removeClass('cc_hide');
-					break;
-				default:
-					jQuery(dom[elementsToHide[i]]).closest('.field').removeClass('cc_hide');
-			}
+		var form = jQuery(dom.country).closest('form');
+		form.find('.cc_hide').each(function(index, item){
+			jQuery(item).removeClass('cc_hide');
+		});
+	}
+	cc_hide_fields_interval_check = setInterval(function(){cc_reveal_fields_on_error(dom);}, 250);
+}
+var cc_hide_fields_interval_check = null;
+
+function cc_reveal_fields_on_error(dom){
+	var form = jQuery(dom.country).closest('form');
+	form.find
+	var errors_present = false;
+	form.find('.cc_hide').each(function(index, item){
+		if(jQuery(item).hasClass('_error')){
+			errors_present = true;
 		}
+	});
+	if(errors_present){
+		form.find('.cc_hide').each(function(index, item){
+			jQuery(item).removeClass('cc_hide');
+			clearInterval(cc_hide_fields_interval_check);
+		});
 	}
 }
