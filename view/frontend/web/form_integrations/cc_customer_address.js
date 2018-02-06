@@ -90,7 +90,7 @@ var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(c2a_config.enabled && c2a_config.key != null){
-			setInterval(activate_cc_m2,200);
+			activate_cc_m2();
 		}
 
 		if(c2a_config.enabled && c2a_config.key == null){

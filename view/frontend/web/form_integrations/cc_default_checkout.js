@@ -113,7 +113,7 @@ requirejs(['jquery'], function( $ ) {
 			}
 
 			cc_holder = new clickToAddress(config);
-			setInterval(cc_magento2,200);
+			cc_magento2();
 		}
 
 		if(c2a_config.enabled && c2a_config.key == null){
