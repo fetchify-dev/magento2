@@ -19,11 +19,11 @@ function activate_cc_m2(){
 
 			jQuery(elem).data('cc_attach','1');
 
-			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input id="cc_'+cc_index+'_search_input" class="admin__control-text" type="text"/></div></div>';
+			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text"/></div></div>';
 			form.find('[name$="[street][0]"]').closest('fieldset').before( tmp_html );
-
+		
 			cc_holder.attach({
-				search:		form.find('#cc_'+cc_index+'_search_input')[0],
+				search:		form.find('.cc_search_input')[0],
 				company:	form.find('[name$="[company]"]')[0],
 				line_1:		form.find('[name$="[street][0]"]')[0],
 				line_2:		form.find('[name$="[street][1]"]')[0],
@@ -35,12 +35,9 @@ function activate_cc_m2(){
 				},
 				country:	form.find('select[name$="[country_id]"]')[0]
 			});
-			cc_index++;
 		}
 	});
 }
-
-var cc_index = 0;
 var cc_holder = null;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {

@@ -1,6 +1,6 @@
 
 var cc_activate_flags = [];
-function activate_cc_m2(){
+function cc_m2_c2a(){
 	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
 			jQuery(elem).data('cc_attach','1');
@@ -12,14 +12,18 @@ function activate_cc_m2(){
 			}
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
-							'<div class="control"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
 
-			form.find('#street_1').closest('.field').before( tmp_html );
+			if (!c2a_config.advanced.use_line_1) {
+				form.find('#street_1').closest('.field').before( tmp_html );
+			} else {
+				form.find('#street_1').addClass('cc_search_input');
+			}
 
 			var config = {
 				accessToken: c2a_config.key,
 				dom: {
-					search:		form.find('#cc_'+cc_index+'_search_input')[0],
+					search:		form.find('.cc_search_input')[0],
 					company:	form.find('[name="company"]')[0],
 					line_1:		form.find('#street_1')[0],
 					line_2:		form.find('#street_2')[0],
@@ -58,6 +62,7 @@ function activate_cc_m2(){
 					jQuery(elements.line_2).trigger('change');
 					jQuery(elements.postcode).trigger('change');
 					jQuery(elements.town).trigger('change');
+
 					jQuery(elements.county.input).trigger('change');
 					jQuery(elements.county.list).trigger('change');
 				},
@@ -82,15 +87,13 @@ function activate_cc_m2(){
 			}
 
 			new clickToAddress(config);
-			cc_index++;
 		}
 	});
 }
-var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(c2a_config.enabled && c2a_config.key != null){
-			setInterval(activate_cc_m2,200);
+			setInterval(cc_m2_c2a,200);
 		}
 
 		if(c2a_config.enabled && c2a_config.key == null){
