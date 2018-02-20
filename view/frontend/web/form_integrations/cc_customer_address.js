@@ -14,7 +14,7 @@ function cc_m2_c2a(){
 							c2a_config.texts.search_label+'</label>' +
 							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
 
-			if (!c2a_config.advanced.use_line_1) {
+			if (!c2a_config.advanced.use_first_line) {
 				form.find('#street_1').closest('.field').before( tmp_html );
 			} else {
 				form.find('#street_1').addClass('cc_search_input');
