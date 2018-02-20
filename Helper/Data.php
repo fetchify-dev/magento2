@@ -72,7 +72,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			"country_placeholder"	 => $this->getCfg('txt_options/country_placeholder'),
 			"country_button"		 => $this->getCfg('txt_options/country_button'),
 			"generic_error"			 => $this->getCfg('txt_options/error_msg_2'),
-			"no_results"			 => $this->getCfg('txt_options/error_msg_1')
+			"no_results"			 => $this->getCfg('txt_options/error_msg_1'),
+			"manual_entry_toggle"			 => $this->getCfg('txt_options/manual_entry_toggle')
 		);
 		$match_country_list = $this->scopeConfig->getValue(
 			'cc_global/advanced/match_country_list',
@@ -99,6 +100,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			"search_elem_id" => $this->getCfg('advanced/search_elem_id'),
 			"debug" => $this->getCfg('advanced/debug') == "1",
 			"transliterate" => $this->getCfg('advanced/transliterate') == "1",
+			"use_first_line" => $this->getCfg('advanced/use_first_line') == "1",
 		);
 		return json_encode($cfg);
 	}
