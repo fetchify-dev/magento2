@@ -1,6 +1,6 @@
 
 var cc_activate_flags = [];
-function activate_cc_m2(){
+function cc_m2_c2a(){
 	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
 			jQuery(elem).data('cc_attach','1');
@@ -12,14 +12,18 @@ function activate_cc_m2(){
 			}
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
-							'<div class="control"><input id="cc_'+cc_index+'_search_input" type="text"/></div></div>';
+							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
 
-			form.find('#street_1').closest('.field').before( tmp_html );
+			if (!c2a_config.advanced.use_first_line) {
+				form.find('#street_1').closest('.field').before( tmp_html );
+			} else {
+				form.find('#street_1').addClass('cc_search_input');
+			}
 
 			var config = {
 				accessToken: c2a_config.key,
 				dom: {
-					search:		form.find('#cc_'+cc_index+'_search_input')[0],
+					search:		form.find('.cc_search_input')[0],
 					company:	form.find('[name="company"]')[0],
 					line_1:		form.find('#street_1')[0],
 					line_2:		form.find('#street_2')[0],
@@ -32,13 +36,7 @@ function activate_cc_m2(){
 					country:	form.find('[name="country_id"]')[0]
 				},
 				onSetCounty: function(c2a, elements, county){
-					jQuery(elements.country).trigger('change');
-					if(elements.county.list.length == 1){
-						c2a.setCounty(elements.county.list[0], county);
-					}
-					if(elements.county.input.length == 1){
-						c2a.setCounty(elements.county.input[0], county);
-					}
+					return
 				},
 				domMode: 'object',
 				gfxMode: c2a_config.gfx_mode,
@@ -51,15 +49,29 @@ function activate_cc_m2(){
 				onResultSelected: function(c2a, elements, address){
 					// set by iso 2, instead of default country selection by name
 					jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
-
 					jQuery(elements.country).trigger('change');
+
+					var county = {
+						preferred: address.province,
+						code: address.province_code,
+						name: address.province_name
+					};
+
+					if(elements.county.list.length == 1){
+						c2a.setCounty(elements.county.list[0], county);
+					}
+					if(elements.county.input.length == 1){
+						c2a.setCounty(elements.county.input[0], county);
+					}
+					jQuery(elements.county.input).trigger('change');
+					jQuery(elements.county.list).trigger('change');
+
 					jQuery(elements.company).trigger('change');
 					jQuery(elements.line_1).trigger('change');
 					jQuery(elements.line_2).trigger('change');
 					jQuery(elements.postcode).trigger('change');
 					jQuery(elements.town).trigger('change');
-					jQuery(elements.county.input).trigger('change');
-					jQuery(elements.county.list).trigger('change');
+
 				},
 				transliterate: c2a_config.advanced.transliterate,
 				debug: c2a_config.advanced.debug,
@@ -82,15 +94,13 @@ function activate_cc_m2(){
 			}
 
 			new clickToAddress(config);
-			cc_index++;
 		}
 	});
 }
-var cc_index = 0;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(c2a_config.enabled && c2a_config.key != null){
-			setInterval(activate_cc_m2,200);
+			setInterval(cc_m2_c2a,200);
 		}
 
 		if(c2a_config.enabled && c2a_config.key == null){
