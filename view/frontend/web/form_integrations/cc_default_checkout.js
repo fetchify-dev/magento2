@@ -25,6 +25,9 @@ function cc_m2_c2a(){
 			} else {
 				form.find('[name="street[0]"]').addClass('cc_search_input');
 			}
+			if (c2a_config.advanced.lock_country_to_dropdown) {
+				form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));				
+			}
 
 			var dom = {
 				search:		form.find('.cc_search_input'),
