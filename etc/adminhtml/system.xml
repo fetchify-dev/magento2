@@ -4,93 +4,93 @@
 		<tab id="cc_setup" translate="label" sortOrder="900">
 			<label>Crafty Clicks</label>
 		</tab>
-		<section id="cc_global" translate="label" sortOrder="130" showInDefault="1">
+		<section id="cc_global" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Click to Address</label>
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
-			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1">
+			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Main Options</label>
-				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1">
+				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="accesstoken" type="text" sortOrder="2" showInDefault="1">
+				<field id="accesstoken" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
 					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
 				</field>
 			</group>
-			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1">
+			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Style Settings</label>
-				<field id="mode" translate="label" type="select" sortOrder="5" showInDefault="1">
+				<field id="mode" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Mode</label>
 					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Mode</source_model>
 				</field>
-				<field id="ambient" translate="label" type="select" sortOrder="30" showInDefault="1">
+				<field id="ambient" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Ambient</label>
 					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Ambient</source_model>
 				</field>
-				<field id="accent" translate="label" type="select" sortOrder="40" showInDefault="1">
+				<field id="accent" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Accent</label>
 					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Accent</source_model>
 				</field>
 			</group>
-			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1">
+			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Text Options</label>
-				<field id="search_label" type="text" sortOrder="5" showInDefault="1">
+				<field id="search_label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Search Label</label>
 				</field>
-				<field id="search_placeholder" type="text" sortOrder="10" showInDefault="1">
+				<field id="search_placeholder" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Search Placeholder</label>
 				</field>
-				<field id="country_placeholder" type="text" sortOrder="15" showInDefault="1">
+				<field id="country_placeholder" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Placeholder for Country Selection</label>
 				</field>
-				<field id="country_button" type="text" sortOrder="20" showInDefault="1">
+				<field id="country_button" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Change Country button text</label>
 				</field>
-				<field id="error_msg_1" type="text" sortOrder="25" showInDefault="1">
+				<field id="error_msg_1" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>No Results Message</label>
 				</field>
-				<field id="error_msg_2" type="text" sortOrder="30" showInDefault="1">
+				<field id="error_msg_2" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Generic Error Message</label>
 				</field>
-				<field id="manual_entry_toggle" type="text" sortOrder="40" showInDefault="1">
+				<field id="manual_entry_toggle" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Text for Toggle Button</label>
 					<comment>Only when "Hide Address Fields" is enabled</comment>
 				</field>
 			</group>
-			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1">
+			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Advanced</label>
-				<field id="transliterate" type="select" sortOrder="4" showInDefault="1">
+				<field id="transliterate" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Transliterate for non ASCII characters</label>
 					<comment>(changes non english characters to english characters)</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="match_country_list" type="select" sortOrder="5" showInDefault="1">
+				<field id="match_country_list" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Match Country List to Allowed Countries</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 
-				<field id="hide_fields" type="select" sortOrder="10" showInDefault="1">
+				<field id="hide_fields" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Hide Address Fields</label>
 					<comment>Front-end, checkout only feature.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 
-				<field id="lock_country_to_dropdown" type="select" sortOrder="15" showInDefault="1">
+				<field id="lock_country_to_dropdown" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Lock country selection</label>
 					<comment>Front-end only feature.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="search_elem_id" type="text" sortOrder="20" showInDefault="1">
+				<field id="search_elem_id" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Set custom ID for the parent element of the search bar</label>
 				</field>
-				<field id="use_first_line" type="select" sortOrder="25" showInDefault="1">
+				<field id="use_first_line" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Use first address line for search</label>
 					<comment>Front-end only feature. Does not work if "Hide Address Fields" is enabled.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="debug" type="select" sortOrder="50" showInDefault="1">
+				<field id="debug" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable debug tools</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
