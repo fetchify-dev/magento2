@@ -1,4 +1,4 @@
-require(['jquery'],function(jQuery){
+require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQuery){
 	jQuery(document).ready(function() {
 		if(jQuery('#cc_uk_gfx_options_accent').length){
 			jQuery('#cc_uk_gfx_options_accent').hide();
@@ -55,6 +55,14 @@ require(['jquery'],function(jQuery){
 			});
 			*/
 		}
+
+		jQuery.validator.addMethod('token-format', function(value, element) {
+			let patt = /(?!xxxxx)^[a-f0-9?]{5}?(-[a-f0-9]{5}){3}?$/;
+			if (patt.test(value)) {
+				return this.optional(element) || patt.test(value);
+			}
+			return false;
+		}, 'Please check your access token is formatted correctly or <a href="https://account.craftyclicks.co.uk/#/signup">sign up for a token here</a>.');
 	});
 });
 
