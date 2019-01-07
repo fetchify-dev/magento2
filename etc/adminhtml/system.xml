@@ -17,6 +17,7 @@
 				<field id="accesstoken" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
 					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+					<validate>token-format</validate>
 				</field>
 			</group>
 			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
@@ -41,22 +42,28 @@
 				</field>
 				<field id="search_placeholder" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Search Placeholder</label>
+					<validate>required-entry</validate>
 				</field>
 				<field id="country_placeholder" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Placeholder for Country Selection</label>
+					<validate>required-entry</validate>
 				</field>
 				<field id="country_button" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Change Country button text</label>
+					<validate>required-entry</validate>
 				</field>
 				<field id="error_msg_1" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>No Results Message</label>
+					<validate>required-entry</validate>
 				</field>
 				<field id="error_msg_2" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Generic Error Message</label>
+					<validate>required-entry</validate>
 				</field>
 				<field id="manual_entry_toggle" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Text for Toggle Button</label>
 					<comment>Only when "Hide Address Fields" is enabled</comment>
+					<validate>required-entry</validate>
 				</field>
 			</group>
 			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1">

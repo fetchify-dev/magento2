@@ -23,23 +23,19 @@ function cc_m2_c2a(){
 				tmp_html += '<div class="field cc_hide_fields_action"><label>'+c2a_config.texts.manual_entry_toggle+'</label>'+svg+'</div>';
 			}
 			if (!c2a_config.advanced.use_first_line || c2a_config.advanced.hide_fields) {
-				form.find('[name="street[0]"]').closest('fieldset').before( tmp_html );
+				form.find('#street_1').closest('div.street').before( tmp_html );
 			} else {
-				form.find('[name="street[0]"]').addClass('cc_search_input');
+				form.find('#street_1').addClass('cc_search_input');
 			}
 			if (c2a_config.advanced.lock_country_to_dropdown) {
-				if (c2a_config.advanced.use_first_line) {
-					form.find('.cc_search_input').closest('fieldset').before(form.find('[name="country_id"]').closest('div.field'));
-				} else {
 					form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
-				}
 			}
 
 			var dom = {
 				search:		form.find('.cc_search_input'),
 				company:	form.find('[name="company"]'),
-				line_1:		form.find('[name="street[0]"]'),
-				line_2:		form.find('[name="street[1]"]'),
+				line_1:		form.find('#street_1'),
+				line_2:		form.find('#street_2'),
 				postcode:	form.find('[name="postcode"]'),
 				town:		form.find('[name="city"]'),
 				county:		{
@@ -97,7 +93,7 @@ function cc_hide_fields(dom, action){
 							jQuery(dom[elementsToHide[i]].list).closest('.field').addClass('cc_hide');
 							break;
 						case 'line_1':
-							jQuery(dom[elementsToHide[i]]).closest('fieldset.field').addClass('cc_hide');
+							jQuery(dom[elementsToHide[i]]).closest('div.street').addClass('cc_hide');
 							break;
 						default:
 							jQuery(dom[elementsToHide[i]]).closest('.field').addClass('cc_hide');

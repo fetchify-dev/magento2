@@ -10,6 +10,10 @@ function cc_m2_c2a(){
 			if(c2a_config.advanced.search_elem_id !== null){
 				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
 			}
+
+			// null fix for m2_1.1.16
+			if (c2a_config.texts.search_label == null) c2a_config.texts.search_label = '';
+
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
 							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
@@ -22,7 +26,7 @@ function cc_m2_c2a(){
 			if (c2a_config.advanced.lock_country_to_dropdown) {
 				form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
 			}
-			
+
 			var config = {
 				accessToken: c2a_config.key,
 				dom: {
