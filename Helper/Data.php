@@ -68,8 +68,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$cfg['texts'] = array(
 			"search_label"			 => $this->getCfg('txt_options/search_label'),
-			"default_placeholder"	 => $this->getCfg('txt_options/search_placeholder'),
-			"country_placeholder"	 => $this->getCfg('txt_options/country_placeholder'),
+			"default_placeholder"	 => html_entity_decode($this->getCfg('txt_options/search_placeholder')),
+			"country_placeholder"	 => html_entity_decode($this->getCfg('txt_options/country_placeholder')),
 			"country_button"		 => $this->getCfg('txt_options/country_button'),
 			"generic_error"			 => $this->getCfg('txt_options/error_msg_2'),
 			"no_results"			 => $this->getCfg('txt_options/error_msg_1'),
@@ -138,8 +138,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$cfg['texts'] = array(
 			"search_label"			=> $this->getCfg('txt_options/search_label'),
-			"default_placeholder"	=> $this->getCfg('txt_options/search_placeholder'),
-			"country_placeholder"	=> $this->getCfg('txt_options/country_placeholder'),
+			"default_placeholder"	=> html_entity_decode($this->getCfg('txt_options/search_placeholder')),
+			"country_placeholder"	=> html_entity_decode($this->getCfg('txt_options/country_placeholder')),
 			"country_button"		=> $this->getCfg('txt_options/country_button'),
 			"generic_error"			=> $this->getCfg('txt_options/error_msg_2'),
 			"no_results"			=> $this->getCfg('txt_options/error_msg_1')
