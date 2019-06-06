@@ -1,4 +1,3 @@
-
 var cc_activate_flags = [];
 function activate_cc_m2(){
 	jQuery('[name$="_address][postcode]"]').each(function(index,elem){
@@ -70,6 +69,22 @@ requirejs(['jquery'], function( $ ) {
 				style: {
 					ambient: c2a_config.gfx_ambient,
 					accent: c2a_config.gfx_accent
+				},
+				onResultSelected: function(c2a, elements, address) {
+					switch(address.country_name) {
+						case 'Jersey':
+							jQuery(elements.country).val('JE')
+							break;
+						case 'Guernsey':
+							jQuery(elements.country).val('GG')
+							break;
+						case 'Isle of Man':
+							jQuery(elements.country).val('IM')
+							break;
+						default:
+							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+					}
+					jQuery(elements.country).trigger('change');
 				},
 				showLogo: false,
 				texts: c2a_config.texts,
