@@ -1,4 +1,3 @@
-
 var cc_activate_flags = [];
 function cc_m2_c2a(){
 	jQuery('[name="postcode"]').each(function(index,elem){
@@ -37,8 +36,8 @@ function cc_m2_c2a(){
 					postcode:	form.find('[name="postcode"]')[0],
 					town:		form.find('[name="city"]')[0],
 					county:		{
-								input:	form.find('[name="region"]'),
-								list:	form.find('[name="region_id"]')
+						input:	form.find('[name="region"]'),
+						list:	form.find('[name="region_id"]')
 					},
 					country:	form.find('[name="country_id"]')[0]
 				},
@@ -54,8 +53,19 @@ function cc_m2_c2a(){
 				showLogo: false,
 				texts: c2a_config.texts,
 				onResultSelected: function(c2a, elements, address){
-					// set by iso 2, instead of default country selection by name
-					jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+					switch(address.country_name) {
+						case 'Jersey':
+							jQuery(elements.country).val('JE')
+							break;
+						case 'Guernsey':
+							jQuery(elements.country).val('GG')
+							break;
+						case 'Isle of Man':
+							jQuery(elements.country).val('IM')
+							break;
+						default:
+							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+					}
 					jQuery(elements.country).trigger('change');
 
 					var county = {
