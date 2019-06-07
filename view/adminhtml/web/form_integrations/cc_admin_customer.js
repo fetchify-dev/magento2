@@ -1,17 +1,17 @@
 function activate_cc_m2(){
-	jQuery('[name$="[postcode]"]').each(function(index,elem){
+	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
 			var form = jQuery(elem).closest('fieldset');
 			// check if all form elements exist correctly
 			if(!(
-				0 != form.find('[name$="[company]"]').length &&
-				0 != form.find('[name$="[street][0]"]').length &&
-				0 != form.find('[name$="[street][1]"]').length &&
-				0 != form.find('[name$="[postcode]"]').length &&
-				0 != form.find('[name$="[city]"]').length &&
-				0 != form.find('[name$="[region]"]').length &&
-				0 != form.find('select[name$="[region_id]"]').length &&
-				0 != form.find('select[name$="[country_id]"]').length
+				0 != form.find('[name="company"]').length &&
+				0 != form.find('[name="street[0]"]').length &&
+				0 != form.find('[name="street[1]"]').length &&
+				0 != form.find('[name="postcode"]').length &&
+				0 != form.find('[name="city"]').length &&
+				0 != form.find('[name="region"]').length &&
+				0 != form.find('select[name="region_id"]').length &&
+				0 != form.find('select[name="country_id"]').length
 			)){
 				// if anything is missing (some parts get loaded in a second ajax pass)
 				return;
@@ -20,20 +20,20 @@ function activate_cc_m2(){
 			jQuery(elem).data('cc_attach','1');
 
 			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text"/></div></div>';
-			form.find('[name$="[street][0]"]').closest('fieldset').before( tmp_html );
+			form.find('[name="street[0]"]').closest('fieldset').before( tmp_html );
 		
 			cc_holder.attach({
 				search:		form.find('.cc_search_input')[0],
-				company:	form.find('[name$="[company]"]')[0],
-				line_1:		form.find('[name$="[street][0]"]')[0],
-				line_2:		form.find('[name$="[street][1]"]')[0],
-				postcode:	form.find('[name$="[postcode]"]')[0],
-				town:		form.find('[name$="[city]"]')[0],
+				company:	form.find('[name="company"]')[0],
+				line_1:		form.find('[name="street[0]"]')[0],
+				line_2:		form.find('[name="street[1]"]')[0],
+				postcode:	form.find('[name="postcode"]')[0],
+				town:		form.find('[name="city"]')[0],
 				county:		{
-							input:	form.find('[name$="[region]"]'),
-							list:	form.find('select[name$="[region_id]"]')
+					input:	form.find('[name="region"]'),
+					list:	form.find('select[name="region_id"]')
 				},
-				country:	form.find('select[name$="[country_id]"]')[0]
+				country:	form.find('select[name="country_id"]')[0]
 			});
 		}
 	});
@@ -64,6 +64,19 @@ requirejs(['jquery'], function( $ ) {
 				showLogo: false,
 				texts: c2a_config.texts,
 				onResultSelected: function(c2a, elements, address){
+					switch(address.country_name) {
+						case 'Jersey':
+							jQuery(elements.country).val('JE')
+							break;
+						case 'Guernsey':
+							jQuery(elements.country).val('GG')
+							break;
+						case 'Isle of Man':
+							jQuery(elements.country).val('IM')
+							break;
+						default:
+							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+					}
 					jQuery(elements.country).trigger('change');
 					jQuery(elements.company).trigger('change');
 					jQuery(elements.line_1).trigger('change');
