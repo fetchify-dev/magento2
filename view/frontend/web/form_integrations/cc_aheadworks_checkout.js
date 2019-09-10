@@ -12,23 +12,54 @@ function cc_m2_c2a(){
 			// null fix for m2_1.1.16
 			if (c2a_config.texts.search_label == null) c2a_config.texts.search_label = '';
 
-			var tmp_html = '<div class="field-row"'+custom_id+'><div class="field"><div style="display: flex; flex-direction: row; justify-content: space-between"><label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">' +
-							c2a_config.texts.search_label+'</label>';
-			if(c2a_config.advanced.hide_fields){
-				tmp_html += '<div class="field cc_hide_fields_action" style="font-size: 0.75em; color: #838383; max-width: 125px;"><label style="text-align: right;">'+c2a_config.texts.manual_entry_toggle+'</label></div>';
-			}
-			tmp_html += '</div><div class="control"><input class="cc_search_input input-text" type="text"/></div></div></div>';
-
-			if (!c2a_config.advanced.use_first_line || c2a_config.advanced.hide_fields) {
+			if (c2a_config.advanced.hide_fields) {
+				//  if hide fields is enabled, always add our own search input
+				var tmp_html = `
+					<div class="field-row" ${custom_id}>
+						<div class="field">
+							<div style="display: flex; flex-direction: row; justify-content: space-between">
+								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.texts.search_label}</label>
+								<div class="field cc_hide_fields_action" style="font-size: 0.75em; color: #838383; max-width: 125px;">
+									<label style="text-align: right;">${c2a_config.texts.manual_entry_toggle}</label>
+								</div>
+							</div>
+							<div class="control"><input class="cc_search_input input-text" type="text"/></div>
+						</div>
+					</div>
+				`
 				form.find('[name="street[0]"]').closest('.field-row').before( tmp_html );
-			} else {
+			} else if (!c2a_config.advanced.hide_fields && !c2a_config.advanced.use_first_line) {
+				var tmp_html = `
+					<div class="field-row" ${custom_id}>
+						<div class="field">
+							<div style="display: flex; flex-direction: row; justify-content: space-between">
+								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.texts.search_label}</label>
+							</div>
+							<div class="control"><input class="cc_search_input input-text" type="text"/></div>
+						</div>
+					</div>
+				`
+				form.find('[name="street[0]"]').closest('.field-row').before( tmp_html );
+			} else if (!c2a_config.advanced.hide_fields && c2a_config.advanced.use_first_line) {
+				var tmp_html = `
+					<div class="field-row">
+						<div class="field">
+							<div style="display: flex; flex-direction: row; justify-content: space-between">
+								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.texts.search_label}</label>
+							</div>
+						</div>
+					</div>
+				`
+				form.find('[name="street[0]"]').closest('.field-row').before( tmp_html );
 				form.find('[name="street[0]"]').addClass('cc_search_input');
 			}
+
 			if (c2a_config.advanced.lock_country_to_dropdown) {
+				form.find('[name="country_id"]').closest('div.field').wrap('<div class="field-row"></div>');
 				if (c2a_config.advanced.use_first_line) {
-					form.find('.cc_search_input').closest('fieldset').before(form.find('[name="country_id"]').closest('div.field'));
+					form.find('.cc_search_input').closest('div.field-row').prev('div.field-row').before(form.find('[name="country_id"]').closest('div.field-row'));
 				} else {
-					form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
+					form.find('.cc_search_input').closest('div.field-row').before(form.find('[name="country_id"]').closest('div.field-row'));
 				}
 			}
 
@@ -197,8 +228,8 @@ requirejs(['jquery'], function( $ ) {
 					if(elements.county.list.length == 1){
 						c2a.setCounty(elements.county.list[0], county);
 					}
-					if(elements.county.input.length == 1){
-						c2a.setCounty(elements.county.input[0], county);
+					if(elements.county.input.length == 2){
+						c2a.setCounty(elements.county.input[1], county);
 					}
 					jQuery(elements.county.input).trigger('change');
 					jQuery(elements.county.list).trigger('change');
