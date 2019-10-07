@@ -1,5 +1,14 @@
 var cc_activate_flags = [];
 function cc_m2_c2a(){
+	/**
+	 * wait for form to exist before continuing
+	 * (needed on sites that load page elements
+	 * via multiple ajax requests)
+	 */
+	if (jQuery('[name="postcode"]').length == 0) {
+		return;
+	}
+		
 	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
 			jQuery(elem).data('cc_attach','1');
