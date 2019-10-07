@@ -231,14 +231,15 @@ requirejs(['jquery'], function( $ ) {
 					if(elements.county.input.length == 2){
 						c2a.setCounty(elements.county.input[1], county);
 					}
-					jQuery(elements.county.input).trigger('change');
-					jQuery(elements.county.list).trigger('change');
-
-					jQuery(elements.company).trigger('change');
-					jQuery(elements.line_1).trigger('change');
-					jQuery(elements.line_2).trigger('change');
-					jQuery(elements.postcode).trigger('change');
-					jQuery(elements.town).trigger('change');
+					
+					var event = new Event('change')
+					elements.county.input.dispatchEvent('change');
+					elements.county.list.dispatchEvent('change');
+					elements.company.dispatchEvent('change');
+					elements.line_1.dispatchEvent('change');
+					elements.line_2.dispatchEvent('change');
+					elements.postcode.dispatchEvent('change');
+					elements.town.dispatchEvent('change');
 
 					cc_hide_fields(elements,'show');
 				},
