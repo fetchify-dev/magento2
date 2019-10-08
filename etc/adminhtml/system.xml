@@ -106,10 +106,6 @@
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
-			<group id="version" translate="label" type="text" sortOrder="60" showInWebsite="1" showInStore="2"
-                   showInDefault="1">
-                <frontend_model>Craftyclicks\Clicktoaddress\Block\Adminhtml\Config\Version</frontend_model>
-            </group>
 		</section>
 	</system>
 </config>
