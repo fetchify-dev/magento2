@@ -1,5 +1,14 @@
 var cc_activate_flags = [];
 function cc_m2_c2a(){
+	/**
+	 * wait for form to exist before continuing
+	 * (needed on sites that load page elements
+	 * via multiple ajax requests)
+	 */
+	if (jQuery('[name="postcode"]').length == 0) {
+		return;
+	}
+		
 	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
 			jQuery(elem).data('cc_attach','1');
@@ -80,15 +89,15 @@ function cc_m2_c2a(){
 					if(elements.county.input.length == 1){
 						c2a.setCounty(elements.county.input[0], county);
 					}
-					jQuery(elements.county.input).trigger('change');
-					jQuery(elements.county.list).trigger('change');
 
-					jQuery(elements.company).trigger('change');
-					jQuery(elements.line_1).trigger('change');
-					jQuery(elements.line_2).trigger('change');
-					jQuery(elements.postcode).trigger('change');
-					jQuery(elements.town).trigger('change');
-
+					var event = new Event('change')
+					elements.county.input.dispatchEvent('change');
+					elements.county.list.dispatchEvent('change');
+					elements.company.dispatchEvent('change');
+					elements.line_1.dispatchEvent('change');
+					elements.line_2.dispatchEvent('change');
+					elements.postcode.dispatchEvent('change');
+					elements.town.dispatchEvent('change');
 				},
 				transliterate: c2a_config.advanced.transliterate,
 				debug: c2a_config.advanced.debug,
