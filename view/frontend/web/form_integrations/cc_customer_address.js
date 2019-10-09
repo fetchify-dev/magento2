@@ -91,13 +91,13 @@ function cc_m2_c2a(){
 					}
 
 					var event = new Event('change')
-					elements.county.input.dispatchEvent('change');
-					elements.county.list.dispatchEvent('change');
-					elements.company.dispatchEvent('change');
-					elements.line_1.dispatchEvent('change');
-					elements.line_2.dispatchEvent('change');
-					elements.postcode.dispatchEvent('change');
-					elements.town.dispatchEvent('change');
+					elements.county.input[0].dispatchEvent(event);
+					elements.county.list[0].dispatchEvent(event);
+					elements.company.dispatchEvent(event);
+					elements.line_1.dispatchEvent(event);
+					elements.line_2.dispatchEvent(event);
+					elements.postcode.dispatchEvent(event);
+					elements.town.dispatchEvent(event);
 				},
 				transliterate: c2a_config.advanced.transliterate,
 				debug: c2a_config.advanced.debug,
