@@ -19,6 +19,10 @@
 					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
 					<validate>token-format</validate>
 				</field>
+				<group id="fetchtoken" translate="label" type="text" sortOrder="3" showInWebsite="1" showInStore="2"
+					showInDefault="1">
+					<frontend_model>Craftyclicks\Clicktoaddress\Block\Adminhtml\Config\FetchToken</frontend_model>
+				</group>
 			</group>
 			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Style Settings</label>

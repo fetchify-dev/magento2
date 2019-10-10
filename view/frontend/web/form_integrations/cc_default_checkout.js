@@ -1,4 +1,13 @@
 function cc_m2_c2a(){
+	/**
+	 * wait for form to exist before continuing
+	 * (needed on sites that load page elements
+	 * via multiple ajax requests)
+	 */
+	if (jQuery('[name="postcode"]').length == 0) {
+		return;
+	}
+
 	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1'){
 			jQuery(elem).data('cc_attach','1');
@@ -203,14 +212,15 @@ requirejs(['jquery'], function( $ ) {
 					if(elements.county.input.length == 1){
 						c2a.setCounty(elements.county.input[0], county);
 					}
-					jQuery(elements.county.input).trigger('change');
-					jQuery(elements.county.list).trigger('change');
-
-					jQuery(elements.company).trigger('change');
-					jQuery(elements.line_1).trigger('change');
-					jQuery(elements.line_2).trigger('change');
-					jQuery(elements.postcode).trigger('change');
-					jQuery(elements.town).trigger('change');
+					
+					var event = new Event('change')
+					if (typeof elements.county.input[0] != 'undefined') elements.county.input[0].dispatchEvent(event)
+					if (typeof elements.county.list[0] != 'undefined') elements.county.list[0].dispatchEvent(event)
+					elements.company.dispatchEvent(event);
+					elements.line_1.dispatchEvent(event);
+					elements.line_2.dispatchEvent(event);
+					elements.postcode.dispatchEvent(event);
+					elements.town.dispatchEvent(event);
 
 					cc_hide_fields(elements,'show');
 				},

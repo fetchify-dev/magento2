@@ -57,6 +57,11 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQ
 		}
 
 		jQuery.validator.addMethod('token-format', function(value, element) {
+			// attempt to correct typos
+			value = value.toLowerCase().replace(/-{2,}/g, "-").replace(/^-|-$|[^a-f0-9-]/g, "");
+			jQuery('#cc_global_main_options_accesstoken').val(value);
+
+			// validate token format
 			let patt = /(?!xxxxx)^[a-f0-9?]{5}?(-[a-f0-9]{5}){3}?$/;
 			if (patt.test(value)) {
 				return this.optional(element) || patt.test(value);
