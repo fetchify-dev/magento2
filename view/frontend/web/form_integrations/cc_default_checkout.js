@@ -214,8 +214,8 @@ requirejs(['jquery'], function( $ ) {
 					}
 					
 					var event = new Event('change')
-					elements.county.input[0].dispatchEvent(event);
-					elements.county.list[0].dispatchEvent(event);
+					if (typeof elements.county.input[0] != 'undefined') elements.county.input[0].dispatchEvent(event)
+					if (typeof elements.county.list[0] != 'undefined') elements.county.list[0].dispatchEvent(event)
 					elements.company.dispatchEvent(event);
 					elements.line_1.dispatchEvent(event);
 					elements.line_2.dispatchEvent(event);
