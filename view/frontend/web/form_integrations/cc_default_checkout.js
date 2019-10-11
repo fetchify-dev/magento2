@@ -4,7 +4,7 @@ function cc_m2_c2a(){
 	 * (needed on sites that load page elements
 	 * via multiple ajax requests)
 	 */
-	if (jQuery('[name="postcode"]').length == 0) {
+	if (jQuery('[name="postcode"]').length == 0 || jQuery('[name="street[0]"]').length == 0) {
 		return;
 	}
 
@@ -57,6 +57,7 @@ function cc_m2_c2a(){
 				},
 				country:	form.find('[name="country_id"]')
 			};
+			
 			cc_holder.attach({
 				search:		dom.search[0],
 				company:	dom.company[0],
