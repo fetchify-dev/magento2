@@ -23,7 +23,7 @@
 				<country_placeholder>Type here to search for a country</country_placeholder>
 				<country_button>Change Country</country_button>
 				<error_msg_1>No results found</error_msg_1>
-				<error_msg_2>An error occured. Please enter your address manually</error_msg_2>
+				<error_msg_2>An error occurred. Please enter your address manually</error_msg_2>
 				<manual_entry_toggle>Enter address manually</manual_entry_toggle>
 			</txt_options>
 			<advanced>

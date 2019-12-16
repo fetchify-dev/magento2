@@ -226,7 +226,8 @@ requirejs(['jquery'], function( $ ) {
 						default:
 							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
 					}
-					jQuery(elements.country).trigger('change');
+					var event = new Event('change')
+					if (typeof elements.country != 'undefined') {elements.country.dispatchEvent(event)}
 
 					var county = {
 						preferred: address.province,
@@ -241,14 +242,13 @@ requirejs(['jquery'], function( $ ) {
 						c2a.setCounty(elements.county.input[1], county);
 					}
 					
-					var event = new Event('change')
-					elements.county.input[0].dispatchEvent(event);
-					elements.county.list[0].dispatchEvent(event);
-					elements.company.dispatchEvent(event);
-					elements.line_1.dispatchEvent(event);
-					elements.line_2.dispatchEvent(event);
-					elements.postcode.dispatchEvent(event);
-					elements.town.dispatchEvent(event);
+					if (typeof elements.county.input[0] != 'undefined') elements.county.input[0].dispatchEvent(event);
+					if (typeof elements.county.list[0] != 'undefined') elements.county.list[0].dispatchEvent(event);
+					if (typeof elements.company != 'undefined') elements.company.dispatchEvent(event);
+					if (typeof elements.line_1 != 'undefined') elements.line_1.dispatchEvent(event);
+					if (typeof elements.line_2 != 'undefined') elements.line_2.dispatchEvent(event);
+					if (typeof elements.postcode != 'undefined') elements.postcode.dispatchEvent(event);
+					if (typeof elements.town != 'undefined') elements.town.dispatchEvent(event);
 
 					cc_hide_fields(elements,'show');
 				},
