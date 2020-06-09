@@ -19,10 +19,10 @@ function activate_cc_m2(){
 
 			jQuery(elem).data('cc_attach','1');
 
-			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.texts.search_label+'</label><div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text"/></div></div>';
+			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.autocomplete.texts.search_label+'</label><div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text"/></div></div>';
 			form.find('[name="street[0]"]').closest('fieldset').before( tmp_html );
-		
-			cc_holder.attach({
+
+			window.cc_holder.attach({
 				search:		form.find('.cc_search_input')[0],
 				company:	form.find('[name="company"]')[0],
 				line_1:		form.find('[name="street[0]"]')[0],
@@ -38,12 +38,13 @@ function activate_cc_m2(){
 		}
 	});
 }
-var cc_holder = null;
+window.cc_holder = null;
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled && c2a_config.key != null){
+		if(!c2a_config.main.enable_extension){ return; }
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key != null){
 			var config = {
-				accessToken: c2a_config.key,
+				accessToken: c2a_config.autocomplete.key,
 				onSetCounty: function(c2a, elements, county){
 					if ("createEvent" in document) {
 						var evt = document.createEvent("HTMLEvents");
@@ -56,13 +57,13 @@ requirejs(['jquery'], function( $ ) {
 					c2a.setCounty(elements.county.input[0], county);
 				},
 				domMode: 'object',
-				gfxMode: c2a_config.gfx_mode,
+				gfxMode: c2a_config.autocomplete.gfx_mode,
 				style: {
-					ambient: c2a_config.gfx_ambient,
-					accent: c2a_config.gfx_accent
+					ambient: c2a_config.autocomplete.gfx_ambient,
+					accent: c2a_config.autocomplete.gfx_accent
 				},
 				showLogo: false,
-				texts: c2a_config.texts,
+				texts: c2a_config.autocomplete.texts,
 				onResultSelected: function(c2a, elements, address){
 					switch(address.country_name) {
 						case 'Jersey':
@@ -86,16 +87,16 @@ requirejs(['jquery'], function( $ ) {
 					jQuery(elements.county.input).trigger('change');
 					jQuery(elements.county.list).trigger('change');
 				},
-				transliterate: c2a_config.advanced.transliterate,
-				debug: c2a_config.advanced.debug,
+				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2 - int'
 			};
-			if(typeof c2a_config.enabled_countries !== 'undefined'){
+			if(typeof c2a_config.autocomplete.enabled_countries !== 'undefined'){
 				config.countryMatchWith = 'iso_2';
-				config.enabledCountries = c2a_config.enabled_countries;
+				config.enabledCountries = c2a_config.autocomplete.enabled_countries;
 			}
-			if(c2a_config.advanced.lock_country_to_dropdown){
+			if(c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				config.countrySelector = false;
 				config.onSearchFocus = function(c2a, dom){
 					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
@@ -106,10 +107,10 @@ requirejs(['jquery'], function( $ ) {
 				};
 			}
 
-			cc_holder = new clickToAddress(config);
+			window.cc_holder = new clickToAddress(config);
 			setInterval(activate_cc_m2,200);
 		}
-		if(c2a_config.enabled && c2a_config.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});

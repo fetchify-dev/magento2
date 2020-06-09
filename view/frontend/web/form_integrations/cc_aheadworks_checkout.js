@@ -14,22 +14,22 @@ function cc_m2_c2a(){
 			var form = jQuery(elem).closest('form');
 
 			var custom_id = '';
-			if(c2a_config.advanced.search_elem_id !== null){
-				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
+			if(c2a_config.autocomplete.advanced.search_elem_id !== null){
+				custom_id = ' id="'+ c2a_config.autocomplete.advanced.search_elem_id +'"'
 			}
 
 			// null fix for m2_1.1.16
-			if (c2a_config.texts.search_label == null) c2a_config.texts.search_label = '';
+			if (c2a_config.autocomplete.texts.search_label == null) c2a_config.autocomplete.texts.search_label = '';
 
-			if (c2a_config.advanced.hide_fields) {
+			if (c2a_config.autocomplete.advanced.hide_fields) {
 				//  if hide fields is enabled, always add our own search input
 				var tmp_html = `
 					<div class="field-row" ${custom_id}>
 						<div class="field">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
-								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.texts.search_label}</label>
+								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.autocomplete.texts.search_label}</label>
 								<div class="field cc_hide_fields_action" style="font-size: 0.75em; color: #838383; max-width: 125px;">
-									<label style="text-align: right;">${c2a_config.texts.manual_entry_toggle}</label>
+									<label style="text-align: right;">${c2a_config.autocomplete.texts.manual_entry_toggle}</label>
 								</div>
 							</div>
 							<div class="control"><input class="cc_search_input input-text" type="text"/></div>
@@ -37,24 +37,24 @@ function cc_m2_c2a(){
 					</div>
 				`
 				form.find('[name="street[0]"]').closest('.field-row').before( tmp_html );
-			} else if (!c2a_config.advanced.hide_fields && !c2a_config.advanced.use_first_line) {
+			} else if (!c2a_config.autocomplete.advanced.hide_fields && !c2a_config.autocomplete.advanced.use_first_line) {
 				var tmp_html = `
 					<div class="field-row" ${custom_id}>
 						<div class="field">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
-								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.texts.search_label}</label>
+								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.autocomplete.texts.search_label}</label>
 							</div>
 							<div class="control"><input class="cc_search_input input-text" type="text"/></div>
 						</div>
 					</div>
 				`
 				form.find('[name="street[0]"]').closest('.field-row').before( tmp_html );
-			} else if (!c2a_config.advanced.hide_fields && c2a_config.advanced.use_first_line) {
+			} else if (!c2a_config.autocomplete.advanced.hide_fields && c2a_config.autocomplete.advanced.use_first_line) {
 				var tmp_html = `
 					<div class="field-row">
 						<div class="field">
 							<div style="display: flex; flex-direction: row; justify-content: space-between">
-								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.texts.search_label}</label>
+								<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">${c2a_config.autocomplete.texts.search_label}</label>
 							</div>
 						</div>
 					</div>
@@ -63,9 +63,9 @@ function cc_m2_c2a(){
 				form.find('[name="street[0]"]').addClass('cc_search_input');
 			}
 
-			if (c2a_config.advanced.lock_country_to_dropdown) {
+			if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
 				form.find('[name="country_id"]').closest('div.field').wrap('<div class="field-row"></div>');
-				if (c2a_config.advanced.use_first_line) {
+				if (c2a_config.autocomplete.advanced.use_first_line) {
 					form.find('.cc_search_input').closest('div.field-row').prev('div.field-row').before(form.find('[name="country_id"]').closest('div.field-row'));
 				} else {
 					form.find('.cc_search_input').closest('div.field-row').before(form.find('[name="country_id"]').closest('div.field-row'));
@@ -110,7 +110,7 @@ var cc_holder = null;
 
 function cc_hide_fields(dom, action){
 	var action = action || 'show';
-	if(!c2a_config.advanced.hide_fields){
+	if(!c2a_config.autocomplete.advanced.hide_fields){
 		return;
 	}
 	switch(action){
@@ -123,7 +123,7 @@ function cc_hide_fields(dom, action){
 					formEmpty = false;
 				}
 			}
-			if(!c2a_config.advanced.lock_country_to_dropdown){
+			if(!c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				elementsToHide.push('country');
 			}
 			for(var i=0; i<elementsToHide.length; i++){
@@ -198,20 +198,21 @@ function cc_reveal_fields_on_error(dom){
 }
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled && c2a_config.key != null){
+		if(!c2a_config.main.enable_extension){ return; }
+		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key != null){
 			var config = {
-				accessToken: c2a_config.key,
+				accessToken: c2a_config.autocomplete.key,
 				onSetCounty: function(c2a, elements, county){
 					return;
 				},
 				domMode: 'object',
-				gfxMode: c2a_config.gfx_mode,
+				gfxMode: c2a_config.autocomplete.gfx_mode,
 				style: {
-					ambient: c2a_config.gfx_ambient,
-					accent: c2a_config.gfx_accent
+					ambient: c2a_config.autocomplete.gfx_ambient,
+					accent: c2a_config.autocomplete.gfx_accent
 				},
 				showLogo: false,
-				texts: c2a_config.texts,
+				texts: c2a_config.autocomplete.texts,
 				onResultSelected: function(c2a, elements, address){
 					switch(address.country_name) {
 						case 'Jersey':
@@ -256,19 +257,19 @@ requirejs(['jquery'], function( $ ) {
 					if(typeof this.activeDom.postcode !== 'undefined'){
 						cc_hide_fields(this.activeDom,'show');
 					} else {
-						c2a_config.advanced.hide_fields = false;
+						c2a_config.autocomplete.advanced.hide_fields = false;
 					}
 				},
-				transliterate: c2a_config.advanced.transliterate,
-				debug: c2a_config.advanced.debug,
+				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
 			};
-			if(typeof c2a_config.enabled_countries !== 'undefined'){
+			if(typeof c2a_config.autocomplete.enabled_countries !== 'undefined'){
 				config.countryMatchWith = 'iso_2';
-				config.enabledCountries = c2a_config.enabled_countries;
+				config.enabledCountries = c2a_config.autocomplete.enabled_countries;
 			}
-			if(c2a_config.advanced.lock_country_to_dropdown){
+			if(c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				config.countrySelector = false;
 				config.onSearchFocus = function(c2a, dom){
 					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
@@ -283,7 +284,7 @@ requirejs(['jquery'], function( $ ) {
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.enabled && c2a_config.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});

@@ -14,17 +14,17 @@ function cc_m2_c2a(){
 			var form = jQuery(elem).closest('form');
 
 			var custom_id = '';
-			if(c2a_config.advanced.search_elem_id !== null){
+			if(c2a_config.autocomplete.advanced.search_elem_id !== null){
 				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
 			}
 
 			// null fix for m2_1.1.16
-			if (c2a_config.texts.search_label == null) c2a_config.texts.search_label = '';
+			if (c2a_config.autocomplete.texts.search_label == null) c2a_config.texts.search_label = '';
 
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
 							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
-			if(c2a_config.advanced.hide_fields){
+			if(c2a_config.autocomplete.advanced.hide_fields){
 				var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">'+
 							'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>'+
 							'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>'+
@@ -36,7 +36,7 @@ function cc_m2_c2a(){
 			} else {
 				form.find('#street_1').addClass('cc_search_input');
 			}
-			if (c2a_config.advanced.lock_country_to_dropdown) {
+			if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
 					form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
 			}
 
@@ -166,7 +166,8 @@ function cc_reveal_fields_on_error(dom){
 }
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled && c2a_config.key != null){
+		if(!c2a_config.main.enable_extension){ return; }
+		if(c2a_config.autocomplete.enabled && c2a_config.key != null){
 			var config = {
 				accessToken: c2a_config.key,
 				onSetCounty: function(c2a, elements, county){
@@ -236,7 +237,7 @@ requirejs(['jquery'], function( $ ) {
 				config.countryMatchWith = 'iso_2';
 				config.enabledCountries = c2a_config.enabled_countries;
 			}
-			if(c2a_config.advanced.lock_country_to_dropdown){
+			if(c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				config.countrySelector = false;
 				config.onSearchFocus = function(c2a, dom){
 					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
@@ -251,7 +252,7 @@ requirejs(['jquery'], function( $ ) {
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.enabled && c2a_config.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});

@@ -15,28 +15,28 @@ function cc_m2_c2a(){
 			var form = jQuery(elem).closest('form');
 
 			var custom_id = '';
-			if(c2a_config.advanced.search_elem_id !== null){
-				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
+			if(c2a_config.autocomplete.advanced.search_elem_id !== null){
+				custom_id = ' id="'+ c2a_config.autocomplete.advanced.search_elem_id +'"'
 			}
 
 			// null fix for m2_1.1.16
-			if (c2a_config.texts.search_label == null) c2a_config.texts.search_label = '';
+			if (c2a_config.autocomplete.texts.search_label == null) c2a_config.autocomplete.texts.search_label = '';
 
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
-							c2a_config.texts.search_label+'</label>' +
+							c2a_config.autocomplete.texts.search_label+'</label>' +
 							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
 
-			if (!c2a_config.advanced.use_first_line) {
+			if (!c2a_config.autocomplete.advanced.use_first_line) {
 				form.find('#street_1').closest('.field').before( tmp_html );
 			} else {
 				form.find('#street_1').addClass('cc_search_input');
 			}
-			if (c2a_config.advanced.lock_country_to_dropdown) {
+			if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
 				form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
 			}
 
 			var config = {
-				accessToken: c2a_config.key,
+				accessToken: c2a_config.autocomplete.key,
 				dom: {
 					search:		form.find('.cc_search_input')[0],
 					company:	form.find('[name="company"]')[0],
@@ -54,13 +54,13 @@ function cc_m2_c2a(){
 					return
 				},
 				domMode: 'object',
-				gfxMode: c2a_config.gfx_mode,
+				gfxMode: c2a_config.autocomplete.gfx_mode,
 				style: {
-					ambient: c2a_config.gfx_ambient,
-					accent: c2a_config.gfx_accent
+					ambient: c2a_config.autocomplete.gfx_ambient,
+					accent: c2a_config.autocomplete.gfx_accent
 				},
 				showLogo: false,
-				texts: c2a_config.texts,
+				texts: c2a_config.autocomplete.texts,
 				onResultSelected: function(c2a, elements, address){
 					switch(address.country_name) {
 						case 'Jersey':
@@ -99,16 +99,16 @@ function cc_m2_c2a(){
 					if (typeof elements.postcode != 'undefined') triggerEvent('change', elements.postcode);
 					if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
 				},
-				transliterate: c2a_config.advanced.transliterate,
-				debug: c2a_config.advanced.debug,
+				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
 			};
-			if(typeof c2a_config.enabled_countries !== 'undefined'){
+			if(typeof c2a_config.autocomplete.enabled_countries !== 'undefined'){
 				config.countryMatchWith = 'iso_2';
-				config.enabledCountries = c2a_config.enabled_countries;
+				config.enabledCountries = c2a_config.autocomplete.enabled_countries;
 			}
-			if(c2a_config.advanced.lock_country_to_dropdown){
+			if(c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				config.countrySelector = false;
 				config.onSearchFocus = function(c2a, dom){
 					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
@@ -125,11 +125,12 @@ function cc_m2_c2a(){
 }
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled && c2a_config.key != null){
+		if(!c2a_config.main.enable_extension){ return; }
+		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key != null){
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.enabled && c2a_config.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});
