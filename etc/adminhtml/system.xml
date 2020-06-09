@@ -4,13 +4,34 @@
 		<tab id="cc_setup" translate="label" sortOrder="900">
 			<label>Crafty Clicks</label>
 		</tab>
-		<section id="cc_global" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
-			<label>Click to Address</label>
+		<section id="cc_main" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Main Settings</label>
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
 			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Main Options</label>
-				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="enable_extension" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable Extension</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="accesstoken" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Access Token</label>
+					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+					<validate>token-format</validate>
+				</field>
+				<group id="fetchtoken" translate="label" type="text" sortOrder="3" showInWebsite="1" showInStore="2"
+					showInDefault="1">
+					<frontend_model>Craftyclicks\Clicktoaddress\Block\Adminhtml\Config\FetchToken</frontend_model>
+				</group>
+			</group>
+		</section>
+		<section id="cc_global" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Address Auto-Complete</label>
+			<tab>cc_setup</tab>
+			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
+			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Main Options</label>
+				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
@@ -103,6 +124,82 @@
 				</field>
 				<field id="debug" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable debug tools</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+		</section>
+		<section id="cc_pcl" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>UK Postcode Lookup</label>
+			<tab>cc_setup</tab>
+			<resource>Craftyclicks_Clicktoaddress::pcl_config</resource>
+			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Options</label>
+				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1">
+				<label>Search Options</label>
+				<field id="hide_fields" translate="label" type="select" sortOrder="7" showInDefault="1">
+					<label>Hide Address Fields of New Address Entry</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Only for the store front</comment>
+				</field>
+			</group>
+			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1">
+				<label>Message Options</label>
+				<field id="search_label" type="text" sortOrder="5" showInDefault="1">
+					<label>Search Label</label>
+				</field>
+				<field id="search_placeholder" type="text" sortOrder="5" showInDefault="1">
+					<label>Search Placeholder</label>
+				</field>
+				<field id="search_buttontext" type="text" sortOrder="6" showInDefault="1">
+					<label>Button Text</label>
+				</field>
+				<field id="error_msg_1" type="text" sortOrder="10" showInDefault="1">
+					<label>Error Msg #1</label>
+				</field>
+				<field id="error_msg_2" type="text" sortOrder="20" showInDefault="1">
+					<label>Error Msg #2</label>
+				</field>
+				<field id="error_msg_3" type="text" sortOrder="30" showInDefault="1">
+					<label>Error Msg #3</label>
+				</field>
+				<field id="error_msg_4" type="text" sortOrder="40" showInDefault="1">
+					<label>Error Msg #4</label>
+				</field>
+			</group>
+			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1">
+				<label>Advanced</label>
+				<field id="county_data" type="select" sortOrder="1" showInDefault="1">
+					<label>County Data</label>
+					<source_model>Craftyclicks\Clicktoaddress\Model\Source\PCL_CountyOption</source_model>
+					<comment>County data is not required for UK addressing. Select a type of county data, if you need this data for legacy software requirements. "Empty" will erase any data already present in the input field, but still allows the user to enter any values later.</comment>
+				</field>
+			</group>
+		</section>
+		<section id="cc_phone" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Phone Validation</label>
+			<tab>cc_setup</tab>
+			<resource>Craftyclicks_Clicktoaddress::phone_config</resource>
+			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Options</label>
+				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+		</section>
+		<section id="cc_email" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+			<label>Email Validation</label>
+			<tab>cc_setup</tab>
+			<resource>Craftyclicks_Clicktoaddress::email_config</resource>
+			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Options</label>
+				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
