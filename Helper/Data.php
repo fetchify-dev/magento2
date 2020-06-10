@@ -61,30 +61,34 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		} else {
 			$cfg['main']['key'] = null;
 		}
+
+		// fetch old location for key
+		if($cfg['main']['key'] == null){
+			$token = $this->scopeConfig->getValue(
+				'cc_global/main_options/accesstoken',
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			);
+			try{
+				if(0 == preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+					// not decrypted yet (php 7.0.X?)
+					$token = $this->_encryptor->decrypt($token);
+					// $cfg['main']['rdcrypt'] = true;
+				}
+			} catch (\Exception $e) {
+				// $cfg['main']['rdcrypt'] = false;
+			}
+			if(preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
+				$cfg['main']['key'] = $this->_escaper->escapeHtml($token);
+			} else {
+				$cfg['main']['key'] = null;
+			}
+		}
 		$cfg['main']['enable_extension'] = $this->scopeConfig->isSetFlag(
 			'cc_main/main_options/enable_extension',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 
-		// fetch old location for key
-		$token = $this->scopeConfig->getValue(
-			'cc_global/main_options/accesstoken',
-			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-		);
-		try{
-			if(0 == preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
-				// not decrypted yet (php 7.0.X?)
-				$token = $this->_encryptor->decrypt($token);
-				// $cfg['main']['rdcrypt'] = true;
-			}
-		} catch (\Exception $e) {
-			// $cfg['main']['rdcrypt'] = false;
-		}
-		if(preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/",$token)){
-			$cfg['autocomplete']['key'] = $this->_escaper->escapeHtml($token);
-		} else {
-			$cfg['autocomplete']['key'] = null;
-		}
+
 		$cfg['autocomplete']['enabled'] = $this->scopeConfig->isSetFlag(
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE

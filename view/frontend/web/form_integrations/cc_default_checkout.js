@@ -172,9 +172,9 @@ function cc_reveal_fields_on_error(dom){
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(!c2a_config.main.enable_extension){ return; }
-		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key != null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key != null){
 			var config = {
-				accessToken: c2a_config.autocomplete.key,
+				accessToken: c2a_config.main.key,
 				onSetCounty: function(c2a, elements, county){
 					return;
 				},
@@ -257,7 +257,7 @@ requirejs(['jquery'], function( $ ) {
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});

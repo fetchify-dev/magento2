@@ -36,7 +36,7 @@ function cc_m2_c2a(){
 			}
 
 			var config = {
-				accessToken: c2a_config.autocomplete.key,
+				accessToken: c2a_config.main.key,
 				dom: {
 					search:		form.find('.cc_search_input')[0],
 					company:	form.find('[name="company"]')[0],
@@ -126,11 +126,11 @@ function cc_m2_c2a(){
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(!c2a_config.main.enable_extension){ return; }
-		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key != null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key != null){
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.autocomplete.enabled && c2a_config.autocomplete.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});

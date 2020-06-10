@@ -167,20 +167,20 @@ function cc_reveal_fields_on_error(dom){
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
 		if(!c2a_config.main.enable_extension){ return; }
-		if(c2a_config.autocomplete.enabled && c2a_config.key != null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key != null){
 			var config = {
-				accessToken: c2a_config.key,
+				accessToken: c2a_config.main.key,
 				onSetCounty: function(c2a, elements, county){
 					return;
 				},
 				domMode: 'object',
-				gfxMode: c2a_config.gfx_mode,
+				gfxMode: c2a_config.autocomplete.gfx_mode,
 				style: {
-					ambient: c2a_config.gfx_ambient,
-					accent: c2a_config.gfx_accent
+					ambient: c2a_config.autocomplete.gfx_ambient,
+					accent: c2a_config.autocomplete.gfx_accent
 				},
 				showLogo: false,
-				texts: c2a_config.texts,
+				texts: c2a_config.autocomplete.texts,
 				onResultSelected: function(c2a, elements, address){
 					switch(address.country_name) {
 						case 'Jersey':
@@ -225,17 +225,17 @@ requirejs(['jquery'], function( $ ) {
 					if(typeof this.activeDom.postcode !== 'undefined'){
 						cc_hide_fields(this.activeDom,'show');
 					} else {
-						c2a_config.advanced.hide_fields = false;
+						c2a_config.autocomplete.advanced.hide_fields = false;
 					}
 				},
-				transliterate: c2a_config.advanced.transliterate,
-				debug: c2a_config.advanced.debug,
+				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
 			};
-			if(typeof c2a_config.enabled_countries !== 'undefined'){
+			if(typeof c2a_config.autocomplete.enabled_countries !== 'undefined'){
 				config.countryMatchWith = 'iso_2';
-				config.enabledCountries = c2a_config.enabled_countries;
+				config.enabledCountries = c2a_config.autocomplete.enabled_countries;
 			}
 			if(c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				config.countrySelector = false;
@@ -252,7 +252,7 @@ requirejs(['jquery'], function( $ ) {
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.autocomplete.enabled && c2a_config.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});
