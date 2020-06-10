@@ -85,7 +85,7 @@ function cc_m2_c2a(){
 				},
 				country:	form.find('[name="country_id"]')
 			};
-			cc_holder.attach({
+			window.cc_holder.attach({
 				search:		dom.search[0],
 				company:	dom.company[0],
 				line_1:		dom.line_1[0],
@@ -106,7 +106,7 @@ function cc_m2_c2a(){
 		}
 	});
 }
-var cc_holder = null;
+window.cc_holder = null;
 
 function cc_hide_fields(dom, action){
 	var action = action || 'show';
@@ -280,7 +280,7 @@ requirejs(['jquery'], function( $ ) {
 				};
 			}
 
-			cc_holder = new clickToAddress(config);
+			window.cc_holder = new clickToAddress(config);
 			setInterval(cc_m2_c2a,200);
 		}
 

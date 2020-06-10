@@ -58,7 +58,7 @@ function cc_m2_c2a(){
 				country:	form.find('[name="country_id"]')
 			};
 
-			cc_holder.attach({
+			window.cc_holder.attach({
 				search:		dom.search[0],
 				company:	dom.company[0],
 				line_1:		dom.line_1[0],
@@ -79,7 +79,85 @@ function cc_m2_c2a(){
 		}
 	});
 }
-var cc_holder = null;
+
+// postcodelookup
+function activate_cc_m2_uk(){
+	if(c2a_config.postcodelookup.enabled){
+		var cfg = {
+			id: "",
+			core: {
+				key: c2a_config.postcodelookup.key,
+				preformat: true,
+				capsformat: {
+					address: true,
+					organization: true,
+					county: true,
+					town: true
+				}
+			},
+			dom: {},
+			sort_fields: {
+				active: true,
+				parent: '.field:not(.additional)'
+			},
+			hide_fields: c2a_config.postcodelookup.hide_fields,
+			txt: c2a_config.postcodelookup.txt,
+			error_msg: c2a_config.postcodelookup.error_msg,
+			county_data: c2a_config.postcodelookup.advanced.county_data,
+		};
+		var dom = {
+			company:	'[name="company"]',
+			address_1:	'[name="street[0]"]',
+			address_2:	'[name="street[1]"]',
+			postcode:	'[name="postcode"]',
+			town:		'[name="city"]',
+			county:		'[name="region"]',
+			county_list:'[name="region_id"]',
+			country:	'[name="country_id"]'
+		};
+		var postcode_elements = jQuery(dom.postcode);
+		postcode_elements.each(function(index){
+			if(postcode_elements.eq(index).data('cc') != '1'){
+				var active_cfg = {};
+				jQuery.extend(active_cfg, cfg);
+				active_cfg.id = "m2_"+cc_index;
+				var form = postcode_elements.eq(index).closest('form');
+
+				cc_index++;
+				active_cfg.dom = {
+					company:		form.find(dom.company),
+					address_1:		form.find(dom.address_1),
+					address_2:		form.find(dom.address_2),
+					postcode:		postcode_elements.eq(index),
+					town:			form.find(dom.town),
+					county:			form.find(dom.county),
+					county_list:	form.find(dom.county_list),
+					country:		form.find(dom.country)
+				};
+
+				// modify the Layout
+				var postcode_elem = active_cfg.dom.postcode;
+				postcode_elem.wrap('<div class="search-bar"></div>');
+				postcode_elem.after('<button type="button" class="action primary">'+
+				'<span>'+active_cfg.txt.search_buttontext+'</span></button>');
+				// STANDARD
+				postcode_elem.closest('.search-bar').after('<div class="search-list" style="display: none;"><select></select></div>'+
+										'<div class="mage-error" generated><div class="search-subtext"></div></div>');
+
+				// input after postcode
+				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
+				new_container.addClass('search-container').attr('id',active_cfg.id).addClass('type_3');
+
+				active_cfg.dom.postcode.data('cc','1');
+				var cc_generic = new cc_ui_handler(active_cfg);
+				cc_generic.activate();
+			}
+		});
+	}
+}
+var cc_index = 0;
+
+window.cc_holder = null;
 
 function cc_hide_fields(dom, action){
 	var action = action || 'show';
@@ -253,13 +331,18 @@ requirejs(['jquery'], function( $ ) {
 				};
 			}
 
-			cc_holder = new clickToAddress(config);
+			window.cc_holder = new clickToAddress(config);
 			setInterval(cc_m2_c2a,200);
 		}
 
 		if(c2a_config.autocomplete.enabled && c2a_config.main.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
+
+		if(c2a_config.postcodelookup.enabled){
+			setInterval(activate_cc_m2_uk,200);
+		}
+
 	});
 });
 
