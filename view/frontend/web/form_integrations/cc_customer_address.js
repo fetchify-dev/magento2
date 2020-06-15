@@ -199,6 +199,27 @@ requirejs(['jquery'], function( $ ) {
 		if(c2a_config.postcodelookup.enabled){
 			setInterval(activate_cc_m2_uk,200);
 		}
+		if(c2a_config.phonevalidation.enabled && c2a_config.main.key != null){
+			if(window.cc_holder == null){
+				window.cc_holder = new clickToAddress({
+					accessToken: c2a_config.main.key,
+				})
+			}
+			setInterval(function(){
+				var phone_elements = jQuery('input[name="telephone"]');
+				phone_elements.each(function(index){
+					var phone_element = phone_elements.eq(index);
+					if( phone_element.data('cc') != '1'){
+						phone_element.data('cc', '1');
+						var country = phone_element.closest('form').find('select[name="country_id"]')
+						window.cc_holder.addPhoneVerify({
+							phone: phone_element[0],
+							country: country[0]
+						})
+					}
+				});
+			}, 200);
+		}
 	});
 });
 

@@ -2,14 +2,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>
-		<script src="Craftyclicks_Clicktoaddress::form_integrations/cc_admin_customer.js"/>
+		<script src="Craftyclicks_Clicktoaddress::form_integrations/cc_customer_register.js"/>
 		<script src="Craftyclicks_Clicktoaddress::cc_c2a.min.js"/>
 		<css src="Craftyclicks_Clicktoaddress::cc_c2a.min.css"/>
-		<script src="Craftyclicks_Ukpostcodelookup::cc_ukpcl_lib.js"/>
-		<css src="Craftyclicks_Ukpostcodelookup::cc_rapid2.css"/>
 	</head>
 	<body>
-		<referenceContainer name="header">
+		<referenceContainer name="content.top">
 			<block class="Magento\Framework\View\Element\Template"
 				   name="craftyclicks.clicktoaddress.configpass"
 				   template="Craftyclicks_Clicktoaddress::config.phtml">

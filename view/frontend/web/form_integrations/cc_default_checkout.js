@@ -343,6 +343,48 @@ requirejs(['jquery'], function( $ ) {
 			setInterval(activate_cc_m2_uk,200);
 		}
 
+		if(c2a_config.emailvalidation.enabled && c2a_config.main.key != null){
+			if(window.cc_holder == null){
+				window.cc_holder = new clickToAddress({
+					accessToken: c2a_config.main.key,
+				})
+			}
+			setInterval(function(){
+				var email_elements = jQuery('input#customer-email');
+				email_elements.each(function(index){
+					var email_element = email_elements.eq(index);
+					if( email_element.data('cc') != '1'){
+						email_element.data('cc', '1');
+						window.cc_holder.addEmailVerify({
+							email: email_element[0]
+						})
+					}
+				});
+			}, 200);
+		}
+		if(c2a_config.phonevalidation.enabled && c2a_config.main.key != null){
+			if(window.cc_holder == null){
+				window.cc_holder = new clickToAddress({
+					accessToken: c2a_config.main.key,
+				})
+			}
+			setInterval(function(){
+				var phone_elements = jQuery('input[name="telephone"]');
+				phone_elements.each(function(index){
+					var phone_element = phone_elements.eq(index);
+					if( phone_element.data('cc') != '1'){
+						phone_element.data('cc', '1');
+						var country = phone_element.closest('form').find('select[name="country_id"]')
+						window.cc_holder.addPhoneVerify({
+							phone: phone_element[0],
+							country: country[0]
+						})
+					}
+				});
+			}, 200);
+		}
+
+
 	});
 });
 

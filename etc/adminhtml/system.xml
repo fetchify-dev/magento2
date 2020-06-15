@@ -30,7 +30,7 @@
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
 			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>Main Options</label>
+				<label>Address Auto-Complete Options</label>
 				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -133,7 +133,7 @@
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::pcl_config</resource>
 			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>Options</label>
+				<label>Postcode Lookup Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -185,7 +185,7 @@
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::phone_config</resource>
 			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>Options</label>
+				<label>Phone Validation Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -197,7 +197,7 @@
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::email_config</resource>
 			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>Options</label>
+				<label>Email Validation Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
