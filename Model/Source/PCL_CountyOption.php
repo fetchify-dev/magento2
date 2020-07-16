@@ -1,8 +1,8 @@
 <?php
 
-namespace Craftyclicks\Ukpostcodelookup\Model\Source;
+namespace Craftyclicks\Clicktoaddress\Model\Source;
 
-class CountyOption implements \Magento\Framework\Data\OptionSourceInterface
+class PCL_CountyOption implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
 	* @return array

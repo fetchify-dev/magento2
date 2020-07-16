@@ -128,7 +128,7 @@
 				</field>
 			</group>
 		</section>
-		<section id="cc_pcl" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="cc_pcl" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>UK Postcode Lookup</label>
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::pcl_config</resource>
@@ -180,7 +180,7 @@
 				</field>
 			</group>
 		</section>
-		<section id="cc_phone" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="cc_phone" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Phone Validation</label>
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::phone_config</resource>
@@ -192,7 +192,7 @@
 				</field>
 			</group>
 		</section>
-		<section id="cc_email" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="cc_email" translate="label" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Email Validation</label>
 			<tab>cc_setup</tab>
 			<resource>Craftyclicks_Clicktoaddress::email_config</resource>
