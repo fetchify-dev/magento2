@@ -32,7 +32,7 @@ function activate_cc_m2_uk(){
 		var cfg = {
 			id: "",
 			core: {
-				key: c2a_config.postcodelookup.key,
+				key: c2a_config.main.key,
 				preformat: true,
 				capsformat: {
 					address: true,
