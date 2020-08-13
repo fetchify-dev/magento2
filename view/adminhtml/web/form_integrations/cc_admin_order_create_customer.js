@@ -210,16 +210,18 @@ requirejs(['jquery'], function( $ ) {
 				})
 			}
 			setInterval(function(){
-				var phone_elements = jQuery('input[name="telephone"]');
+				var phone_elements = jQuery('input[name$="[telephone]"]');
 				phone_elements.each(function(index){
 					var phone_element = phone_elements.eq(index);
 					if( phone_element.data('cc') != '1'){
-						phone_element.data('cc', '1');
-						var country = phone_element.closest('form').find('select[name="country_id"]')
-						window.cc_holder.addPhoneVerify({
-							phone: phone_element[0],
-							country: country[0]
-						})
+						var country = phone_element.closest('.admin__fieldset').find('select[name$="[country_id]"]')
+						if(country.length > 0){
+							phone_element.data('cc', '1');
+							window.cc_holder.addPhoneVerify({
+								phone: phone_element[0],
+								country: country[0]
+							})
+						}
 					}
 				});
 			}, 200);

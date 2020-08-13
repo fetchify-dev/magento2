@@ -233,12 +233,14 @@ requirejs(['jquery'], function( $ ) {
 				phone_elements.each(function(index){
 					var phone_element = phone_elements.eq(index);
 					if( phone_element.data('cc') != '1'){
-						phone_element.data('cc', '1');
 						var country = phone_element.closest('form').find('select[name="country_id"]')
-						window.cc_holder.addPhoneVerify({
-							phone: phone_element[0],
-							country: country[0]
-						})
+						if(country.length > 0){
+							window.cc_holder.addPhoneVerify({
+								phone: phone_element[0],
+								country: country[0]
+							})
+							phone_element.data('cc', '1');
+						}
 					}
 				});
 			}, 200);
