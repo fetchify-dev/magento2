@@ -32,7 +32,7 @@ function activate_cc_m2_uk(){
 		var cfg = {
 			id: "",
 			core: {
-				key: c2a_config.postcodelookup.key,
+				key: c2a_config.main.key,
 				preformat: true,
 				capsformat: {
 					address: true,
@@ -70,14 +70,14 @@ function activate_cc_m2_uk(){
 				var form = postcode_elements.eq(index).closest('fieldset');
 				cc_index++;
 				active_cfg.dom = {
-					company:		form.find(dom.company),
+					company:			form.find(dom.company),
 					address_1:		form.find(dom.address_1),
 					address_2:		form.find(dom.address_2),
 					postcode:		postcode_elements.eq(index),
-					town:			form.find(dom.town),
+					town:				form.find(dom.town),
 					county:			form.find(dom.county),
 					county_list:	form.find(dom.county_list),
-					country:		form.find(dom.country)
+					country:			form.find(dom.country)
 				};
 
 				// modify the Layout
@@ -197,12 +197,14 @@ requirejs(['jquery'], function( $ ) {
 				phone_elements.each(function(index){
 					var phone_element = phone_elements.eq(index);
 					if( phone_element.data('cc') != '1'){
-						phone_element.data('cc', '1');
 						var country = phone_element.closest('form').find('select[name="country_id"]')
-						window.cc_holder.addPhoneVerify({
-							phone: phone_element[0],
-							country: country[0]
-						})
+						if(country.length > 0){
+							window.cc_holder.addPhoneVerify({
+								phone: phone_element[0],
+								country: country[0]
+							})
+							phone_element.data('cc', '1');
+						}
 					}
 				});
 			}, 200);

@@ -45,7 +45,7 @@ function activate_cc_m2_uk(){
 		var cfg = {
 			id: "",
 			core: {
-				key: c2a_config.postcodelookup.key,
+				key: c2a_config.main.key,
 				preformat: true,
 				capsformat: {
 					address: true,
@@ -70,14 +70,14 @@ function activate_cc_m2_uk(){
 			county_data: c2a_config.postcodelookup.advanced.county_data
 		};
 		var dom = {
-			company:	'[name$="[company]"]',
-			address_1:	'[name$="[street][0]"]',
-			address_2:	'[name$="[street][1]"]',
-			postcode:	'[name$="[postcode]"]',
-			town:		'[name$="[city]"]',
-			county:		'[name$="[region]"]',
-			county_list:'select[name$="[region_id]"]',
-			country:	'select[name$="[country_id]"]'
+			company:	'[name$="company"]',
+			address_1:	'[name$="street[0]"]',
+			address_2:	'[name$="street[1]"]',
+			postcode:	'[name$="postcode"]',
+			town:		'[name$="city"]',
+			county:		'[name$="region"]',
+			county_list:'select[name$="region_id"]',
+			country:	'select[name$="country_id"]'
 		};
 		// special for admin panel: search each potential element
 		var postcode_elements = jQuery(dom.postcode);
@@ -90,14 +90,14 @@ function activate_cc_m2_uk(){
 				// check if all form elements exist correctly
 				// the way this form loads, initially region and other fields might be missing
 				if(!(
-					0 != form.find('[name$="[company]"]').length &&
-					0 != form.find('[name$="[street][0]"]').length &&
-					0 != form.find('[name$="[street][1]"]').length &&
-					0 != form.find('[name$="[postcode]"]').length &&
-					0 != form.find('[name$="[city]"]').length &&
-					0 != form.find('[name$="[region]"]').length &&
-					0 != form.find('select[name$="[region_id]"]').length &&
-					0 != form.find('select[name$="[country_id]"]').length
+					0 != form.find('[name$="company"]').length &&
+					0 != form.find('[name$="street[0]"]').length &&
+					0 != form.find('[name$="street[1]"]').length &&
+					0 != form.find('[name$="postcode"]').length &&
+					0 != form.find('[name$="city"]').length &&
+					0 != form.find('[name$="region"]').length &&
+					0 != form.find('select[name$="region_id"]').length &&
+					0 != form.find('select[name$="country_id"]').length
 				)){
 					// if anything is missing (some parts get loaded in a second ajax pass)
 					return;
@@ -233,12 +233,14 @@ requirejs(['jquery'], function( $ ) {
 				phone_elements.each(function(index){
 					var phone_element = phone_elements.eq(index);
 					if( phone_element.data('cc') != '1'){
-						phone_element.data('cc', '1');
-						var country = phone_element.closest('form').find('select[name="country_id"]')
-						window.cc_holder.addPhoneVerify({
-							phone: phone_element[0],
-							country: country[0]
-						})
+						var country = phone_element.closest('.admin__fieldset').find('select[name="country_id"]')
+						if(country.length > 0){
+							window.cc_holder.addPhoneVerify({
+								phone: phone_element[0],
+								country: country[0]
+							})
+							phone_element.data('cc', '1');
+						}
 					}
 				});
 			}, 200);

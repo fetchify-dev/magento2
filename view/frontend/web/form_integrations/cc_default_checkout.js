@@ -86,7 +86,7 @@ function activate_cc_m2_uk(){
 		var cfg = {
 			id: "",
 			core: {
-				key: c2a_config.postcodelookup.key,
+				key: c2a_config.main.key,
 				preformat: true,
 				capsformat: {
 					address: true,
@@ -117,7 +117,7 @@ function activate_cc_m2_uk(){
 		};
 		var postcode_elements = jQuery(dom.postcode);
 		postcode_elements.each(function(index){
-			if(postcode_elements.eq(index).data('cc') != '1'){
+			if(postcode_elements.eq(index).attr('cc_pcl_applied') != '1'){
 				var active_cfg = {};
 				jQuery.extend(active_cfg, cfg);
 				active_cfg.id = "m2_"+cc_index;
@@ -148,7 +148,7 @@ function activate_cc_m2_uk(){
 				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
 				new_container.addClass('search-container').attr('id',active_cfg.id).addClass('type_3');
 
-				active_cfg.dom.postcode.data('cc','1');
+				active_cfg.dom.postcode.attr('cc_pcl_applied','1');
 				var cc_generic = new cc_ui_handler(active_cfg);
 				cc_generic.activate();
 			}

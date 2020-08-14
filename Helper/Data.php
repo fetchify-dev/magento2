@@ -25,13 +25,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->_encryptor = $encryptor;
 		parent::__construct($context);
 	}
-	private function getCfg($scope,$cfg_name){
-		return $this->_escaper->escapeHtml(
+	private function getCfg($scope,$cfg_name,$default = null){
+		$value = $this->_escaper->escapeHtml(
 			$this->scopeConfig->getValue(
-				'cc_global/'.$cfg_name,
+				$scope.'/'.$cfg_name,
 				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 			)
 		);
+		if($value == '' && $default != null){
+			$value = $default;
+		}
+		return $value;
 	}
 
 	public function getFrontendCfg(){
@@ -87,13 +91,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'cc_main/main_options/enable_extension',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
-
-
+		$cfg['autocomplete']['enabled'] = $this->scopeConfig->isSetFlag(
+			'cc_global/main_options/frontend_enabled',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+/*
 		$cfg['autocomplete']['enabled'] = $this->scopeConfig->isSetFlag(
 			'cc_global/main_options/enabled',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
-
+*/
 		$cfg['autocomplete']['gfx_mode']		= $this->getCfg('cc_global','gfx_options/mode');
 		$cfg['autocomplete']['gfx_ambient']		= $this->getCfg('cc_global','gfx_options/ambient');
 		$cfg['autocomplete']['gfx_accent']		= $this->getCfg('cc_global','gfx_options/accent');
@@ -244,4 +251,5 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		return json_encode($cfg);
 
 	}
+
 }
