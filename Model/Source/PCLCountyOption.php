@@ -2,7 +2,7 @@
 
 namespace Craftyclicks\Clicktoaddress\Model\Source;
 
-class PCL_CountyOption implements \Magento\Framework\Data\OptionSourceInterface
+class PCLCountyOption implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
 	* @return array

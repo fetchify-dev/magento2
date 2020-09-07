@@ -166,7 +166,7 @@
 				<label>Advanced</label>
 				<field id="county_data" type="select" sortOrder="1" showInDefault="1">
 					<label>County Data</label>
-					<source_model>Craftyclicks\Clicktoaddress\Model\Source\PCL_CountyOption</source_model>
+					<source_model>Craftyclicks\Clicktoaddress\Model\Source\PCLCountyOption</source_model>
 					<comment>County data is not required for UK addressing. Select a type of county data, if you need this data for legacy software requirements. "Empty" will erase any data already present in the input field, but still allows the user to enter any values later.</comment>
 				</field>
 			</group>
