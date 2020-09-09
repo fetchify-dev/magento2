@@ -14,17 +14,17 @@ function cc_m2_c2a(){
 			var form = jQuery(elem).closest('form');
 
 			var custom_id = '';
-			if(c2a_config.advanced.search_elem_id !== null){
+			if(c2a_config.autocomplete.advanced.search_elem_id !== null){
 				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
 			}
 
 			// null fix for m2_1.1.16
-			if (c2a_config.texts.search_label == null) c2a_config.texts.search_label = '';
+			if (c2a_config.autocomplete.texts.search_label == null) c2a_config.texts.search_label = '';
 
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
 							c2a_config.texts.search_label+'</label>' +
 							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
-			if(c2a_config.advanced.hide_fields){
+			if(c2a_config.autocomplete.advanced.hide_fields){
 				var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">'+
 							'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>'+
 							'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>'+
@@ -36,7 +36,7 @@ function cc_m2_c2a(){
 			} else {
 				form.find('#street_1').addClass('cc_search_input');
 			}
-			if (c2a_config.advanced.lock_country_to_dropdown) {
+			if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
 					form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
 			}
 
@@ -53,7 +53,7 @@ function cc_m2_c2a(){
 				},
 				country:	form.find('[name="country_id"]')
 			};
-			cc_holder.attach({
+			window.cc_holder.attach({
 				search:		dom.search[0],
 				company:	dom.company[0],
 				line_1:		dom.line_1[0],
@@ -74,7 +74,7 @@ function cc_m2_c2a(){
 		}
 	});
 }
-var cc_holder = null;
+window.cc_holder = null;
 
 function cc_hide_fields(dom, action){
 	var action = action || 'show';
@@ -166,20 +166,21 @@ function cc_reveal_fields_on_error(dom){
 }
 requirejs(['jquery'], function( $ ) {
 	jQuery( document ).ready(function() {
-		if(c2a_config.enabled && c2a_config.key != null){
+		if(!c2a_config.main.enable_extension){ return; }
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key != null){
 			var config = {
-				accessToken: c2a_config.key,
+				accessToken: c2a_config.main.key,
 				onSetCounty: function(c2a, elements, county){
 					return;
 				},
 				domMode: 'object',
-				gfxMode: c2a_config.gfx_mode,
+				gfxMode: c2a_config.autocomplete.gfx_mode,
 				style: {
-					ambient: c2a_config.gfx_ambient,
-					accent: c2a_config.gfx_accent
+					ambient: c2a_config.autocomplete.gfx_ambient,
+					accent: c2a_config.autocomplete.gfx_accent
 				},
 				showLogo: false,
-				texts: c2a_config.texts,
+				texts: c2a_config.autocomplete.texts,
 				onResultSelected: function(c2a, elements, address){
 					switch(address.country_name) {
 						case 'Jersey':
@@ -224,19 +225,19 @@ requirejs(['jquery'], function( $ ) {
 					if(typeof this.activeDom.postcode !== 'undefined'){
 						cc_hide_fields(this.activeDom,'show');
 					} else {
-						c2a_config.advanced.hide_fields = false;
+						c2a_config.autocomplete.advanced.hide_fields = false;
 					}
 				},
-				transliterate: c2a_config.advanced.transliterate,
-				debug: c2a_config.advanced.debug,
+				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
 			};
-			if(typeof c2a_config.enabled_countries !== 'undefined'){
+			if(typeof c2a_config.autocomplete.enabled_countries !== 'undefined'){
 				config.countryMatchWith = 'iso_2';
-				config.enabledCountries = c2a_config.enabled_countries;
+				config.enabledCountries = c2a_config.autocomplete.enabled_countries;
 			}
-			if(c2a_config.advanced.lock_country_to_dropdown){
+			if(c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				config.countrySelector = false;
 				config.onSearchFocus = function(c2a, dom){
 					var currentCountry = dom.country.options[dom.country.selectedIndex].value;
@@ -247,11 +248,11 @@ requirejs(['jquery'], function( $ ) {
 				};
 			}
 
-			cc_holder = new clickToAddress(config);
+			window.cc_holder = new clickToAddress(config);
 			setInterval(cc_m2_c2a,200);
 		}
 
-		if(c2a_config.enabled && c2a_config.key == null){
+		if(c2a_config.autocomplete.enabled && c2a_config.main.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
 		}
 	});

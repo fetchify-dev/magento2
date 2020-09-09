@@ -6,6 +6,9 @@
 		<script src="Craftyclicks_Clicktoaddress::cc_c2a.min.js"/>
 		<css src="Craftyclicks_Clicktoaddress::cc_c2a.min.css"/>
 		<css src="Craftyclicks_Clicktoaddress::cc_basics.css"/>
+
+		<script src="Craftyclicks_Clicktoaddress::cc_ukpcl_lib.js"/>
+		<css src="Craftyclicks_Clicktoaddress::cc_rapid2.css"/>
 	</head>
 	<body>
 		<referenceContainer name="content.top">
