@@ -1,9 +1,9 @@
 require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQuery){
 	jQuery(document).ready(function() {
-		if(jQuery('#cc_uk_gfx_options_accent').length){
-			jQuery('#cc_uk_gfx_options_accent').hide();
+		if(jQuery('#fetchify_global_gfx_options_accent').length){
+			jQuery('#fetchify_global_gfx_options_accent').hide();
 			var colorpicker = '<div class="color-set"></div>';
-			jQuery('#cc_uk_gfx_options_accent').after(colorpicker);
+			jQuery('#fetchify_global_gfx_options_accent').after(colorpicker);
 			var colors = {
 				default:	'#63a2f1',
 				red:		'#F44336',
@@ -30,13 +30,13 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQ
 			for(var i=0; i<keys.length; i++){
 				jQuery('.color-set').append('<div class="color-cube" data-value="'+keys[i]+'" style="background-color: '+colors[keys[i]]+'"></div>');
 			}
-			var initial_cube = jQuery('#cc_uk_gfx_options_accent').val();
+			var initial_cube = jQuery('#fetchify_global_gfx_options_accent').val();
 			jQuery('.color-set .color-cube').each(function(index, item){
 				if(jQuery(item).data('value') == initial_cube){
 					jQuery(item).addClass('active');
 				}
 				jQuery(item).on('click', function(event){
-					jQuery('#cc_uk_gfx_options_accent').val(jQuery(this).data('value'));
+					jQuery('#fetchify_global_gfx_options_accent').val(jQuery(this).data('value'));
 					jQuery('.color-set .color-cube').each(function(index, cube){ jQuery(cube).removeClass('active'); });
 					jQuery(this).addClass('active');
 				});
@@ -59,7 +59,7 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQ
 		jQuery.validator.addMethod('token-format', function(value, element) {
 			// attempt to correct typos
 			value = value.toLowerCase().replace(/-{2,}/g, "-").replace(/^-|-$|[^a-f0-9-]/g, "");
-			jQuery('#cc_global_main_options_accesstoken').val(value);
+			jQuery('#fetchify_main_main_options_accesstoken').val(value);
 
 			// validate token format
 			let patt = /(?!xxxxx)^[a-f0-9?]{5}?(-[a-f0-9]{5}){3}?$/;
@@ -67,7 +67,7 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQ
 				return this.optional(element) || patt.test(value);
 			}
 			return false;
-		}, 'Please check your access token is formatted correctly or <a href="https://account.craftyclicks.co.uk/#/signup">sign up for a token here</a>.');
+		}, 'Please check your access token is formatted correctly or <a href="https://account.fetchify.com/#/signup">sign up for a token here</a>.');
 	});
 });
 

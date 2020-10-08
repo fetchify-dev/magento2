@@ -1,6 +1,6 @@
 <?php
 
-namespace Craftyclicks\Clicktoaddress\Model\Source;
+namespace Fetchify\Fetchify\Model\Source;
 
 class Accent implements \Magento\Framework\Data\OptionSourceInterface
 {

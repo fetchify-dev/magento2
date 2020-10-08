@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
 	<system>
-		<tab id="cc_setup" translate="label" sortOrder="900">
-			<label>Crafty Clicks</label>
+		<tab id="fetchify_setup" translate="label" sortOrder="900">
+			<label>Fetchify</label>
 		</tab>
-		<section id="cc_main" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_main" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Main Settings</label>
-			<tab>cc_setup</tab>
-			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
+			<tab>fetchify_setup</tab>
+			<resource>Fetchify_Fetchify::main_config</resource>
 			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Main Options</label>
 				<field id="enable_extension" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -21,14 +21,14 @@
 				</field>
 				<group id="fetchtoken" translate="label" type="text" sortOrder="3" showInWebsite="1" showInStore="2"
 					showInDefault="1">
-					<frontend_model>Craftyclicks\Clicktoaddress\Block\Adminhtml\Config\FetchToken</frontend_model>
+					<frontend_model>Fetchify\Fetchify\Block\Adminhtml\Config\FetchToken</frontend_model>
 				</group>
 			</group>
 		</section>
-		<section id="cc_global" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_global" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Address Auto-Complete</label>
-			<tab>cc_setup</tab>
-			<resource>Craftyclicks_Clicktoaddress::main_config</resource>
+			<tab>fetchify_setup</tab>
+			<resource>Fetchify_Fetchify::main_config</resource>
 			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Address Auto-Complete Options</label>
 				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -40,15 +40,15 @@
 				<label>Style Settings</label>
 				<field id="mode" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Mode</label>
-					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Mode</source_model>
+					<source_model>Fetchify\Fetchify\Model\Source\Mode</source_model>
 				</field>
 				<field id="ambient" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Ambient</label>
-					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Ambient</source_model>
+					<source_model>Fetchify\Fetchify\Model\Source\Ambient</source_model>
 				</field>
 				<field id="accent" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Accent</label>
-					<source_model>Craftyclicks\Clicktoaddress\Model\Source\Accent</source_model>
+					<source_model>Fetchify\Fetchify\Model\Source\Accent</source_model>
 				</field>
 			</group>
 			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
@@ -119,10 +119,10 @@
 				</field>
 			</group>
 		</section>
-		<section id="cc_pcl" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_pcl" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>UK Postcode Lookup</label>
-			<tab>cc_setup</tab>
-			<resource>Craftyclicks_Clicktoaddress::pcl_config</resource>
+			<tab>fetchify_setup</tab>
+			<resource>Fetchify_Fetchify::pcl_config</resource>
 			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Postcode Lookup Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -166,15 +166,15 @@
 				<label>Advanced</label>
 				<field id="county_data" type="select" sortOrder="1" showInDefault="1">
 					<label>County Data</label>
-					<source_model>Craftyclicks\Clicktoaddress\Model\Source\PCLCountyOption</source_model>
+					<source_model>Fetchify\Fetchify\Model\Source\PCLCountyOption</source_model>
 					<comment>County data is not required for UK addressing. Select a type of county data, if you need this data for legacy software requirements. "Empty" will erase any data already present in the input field, but still allows the user to enter any values later.</comment>
 				</field>
 			</group>
 		</section>
-		<section id="cc_phone" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_phone" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Phone Validation</label>
-			<tab>cc_setup</tab>
-			<resource>Craftyclicks_Clicktoaddress::phone_config</resource>
+			<tab>fetchify_setup</tab>
+			<resource>Fetchify_Fetchify::phone_config</resource>
 			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Phone Validation Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -183,10 +183,10 @@
 				</field>
 			</group>
 		</section>
-		<section id="cc_email" translate="label" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_email" translate="label" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Email Validation</label>
-			<tab>cc_setup</tab>
-			<resource>Craftyclicks_Clicktoaddress::email_config</resource>
+			<tab>fetchify_setup</tab>
+			<resource>Fetchify_Fetchify::email_config</resource>
 			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Email Validation Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
