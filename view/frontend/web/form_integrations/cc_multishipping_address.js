@@ -15,23 +15,23 @@ function cc_m2_c2a(){
 
 			var custom_id = '';
 			if(c2a_config.autocomplete.advanced.search_elem_id !== null){
-				custom_id = ' id="'+ c2a_config.advanced.search_elem_id +'"'
+				custom_id = ' id="'+ c2a_config.autocomplete.advanced.search_elem_id +'"'
 			}
 
 			// null fix for m2_1.1.16
-			if (c2a_config.autocomplete.texts.search_label == null) c2a_config.texts.search_label = '';
+			if (c2a_config.autocomplete.texts.search_label == null) c2a_config.autocomplete.texts.search_label = '';
 
 			var tmp_html = '<div class="field"'+custom_id+'><label class="label">' +
-							c2a_config.texts.search_label+'</label>' +
+							c2a_config.autocomplete.texts.search_label+'</label>' +
 							'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
 			if(c2a_config.autocomplete.advanced.hide_fields){
 				var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">'+
 							'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>'+
 							'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>'+
 						'</svg>';
-				tmp_html += '<div class="field cc_hide_fields_action"><label>'+c2a_config.texts.manual_entry_toggle+'</label>'+svg+'</div>';
+				tmp_html += '<div class="field cc_hide_fields_action"><label>'+c2a_config.autocomplete.texts.manual_entry_toggle+'</label>'+svg+'</div>';
 			}
-			if (!c2a_config.advanced.use_first_line || c2a_config.advanced.hide_fields) {
+			if (!c2a_config.autocomplete.advanced.use_first_line || c2a_config.autocomplete.advanced.hide_fields) {
 				form.find('#street_1').closest('div.street').before( tmp_html );
 			} else {
 				form.find('#street_1').addClass('cc_search_input');
@@ -76,9 +76,139 @@ function cc_m2_c2a(){
 }
 window.cc_holder = null;
 
+// Postcode Lookup
+function activate_cc_m2_uk(){
+	// TODO: arrange fields based on country
+	if(c2a_config.postcodelookup.enabled){
+		var cfg = {
+			id: "",
+			core: {
+				key: c2a_config.main.key,
+				preformat: true,
+				capsformat: {
+					address: true,
+					organization: true,
+					county: true,
+					town: true
+				}
+			},
+			dom: {},
+			sort_fields: {
+				active: true,
+				parent: '.field:not(.additional)'
+			},
+			hide_fields: c2a_config.postcodelookup.hide_fields,
+			txt: c2a_config.postcodelookup.txt,
+			error_msg: c2a_config.postcodelookup.error_msg,
+			county_data: c2a_config.postcodelookup.advanced.county_data,
+			ui: {
+				onResultSelected: function(dataset, id, fields) {
+					if (cfg.county_data == 'former_postal') {
+						fields.county[0].value = dataset.postal_county
+					} else if (cfg.county_data == 'traditional') {
+						fields.county[0].value = dataset.traditional_county
+					} else {
+						fields.county[0].value = ''
+					}
+					fields.county.trigger('change')
+				}
+			}
+		};
+		var dom = {
+			company:	'[name="company"]',
+			address_1:	'#street_1',
+			address_2:	'#street_2',
+			postcode:	'[name="postcode"]',
+			town:		'[name="city"]',
+			county:		'[name="region"]',
+			county_list:'[name="region_id"]',
+			country:	'[name="country_id"]'
+		};
+		var postcode_elements = jQuery(dom.postcode);
+		postcode_elements.each(function(index){
+			/**
+			 * The Magento 2 checkout loads fields
+			 * asynchronously so we need to check 
+			 * for the existence of multiple fields
+			 * before continuing. This helps avoid
+			 * a race condition scenario on slow 
+			 * devices/connections.
+			 */
+			var form = postcode_elements.eq(index).closest('form');
+			if (
+				postcode_elements.eq(index).attr('cc_pcl_applied') != '1'
+				&& form.find(dom.address_1).length === 1
+				&& form.find(dom.country).length === 1
+			) {
+				var active_cfg = {};
+				jQuery.extend(active_cfg, cfg);
+				active_cfg.id = "m2_"+cc_index;
+
+				cc_index++;
+				active_cfg.dom = {
+					company:		form.find(dom.company),
+					address_1:		form.find(dom.address_1),
+					address_2:		form.find(dom.address_2),
+					postcode:		postcode_elements.eq(index),
+					town:			form.find(dom.town),
+					county:			form.find(dom.county),
+					county_list:	form.find(dom.county_list),
+					country:		form.find(dom.country)
+				};
+
+				// modify the Layout
+				var postcode_elem = active_cfg.dom.postcode;
+				postcode_elem.wrap('<div class="search-bar"></div>');
+				postcode_elem.before('<button type="button" class="action primary">'+
+				'<span>'+active_cfg.txt.search_buttontext+'</span></button>');
+				// STANDARD
+				postcode_elem.closest('.search-bar').after('<div class="search-list" style="display: none;"><select></select></div>'+
+										'<div class="mage-error" generated><div class="search-subtext"></div></div>');
+
+				/* m2 expects the alert elem to be directly after postcode 
+				input, so let's move it back there to prevent m2 using our 
+				button for displaying invalid postcode error text */
+				postcode_elem.after(postcode_elem.closest('.control').find('[role="alert"]'))
+
+				// input after postcode
+				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
+				new_container.addClass('search-container').attr('id',active_cfg.id).addClass('type_3');
+
+				active_cfg.dom.postcode.attr('cc_pcl_applied','1');
+				cc_generic = new cc_ui_handler(active_cfg);
+
+				// respect the form's two-column layout
+				cc_generic.sort = function() {
+					var elems = this.cfg.dom;
+					var country = elems.country.parents(this.cfg.sort_fields.parent).last();
+					var line_1 = elems.address_1.parents(this.cfg.sort_fields.parent).last();
+					country.insertBefore(line_1);
+					var searchContainer = {};
+						searchContainer = this.search_object;
+					country.after(searchContainer);
+					//IWD checkout - temporary ???
+					if (jQuery('.crafty-results-container').length > 0) {
+						searchContainer.after(searchContainer.closest('.fieldset').find('.crafty-results-container'));
+					}
+					if(this.cfg.hide_fields){
+						var tagElement = [];
+							tagElement = ['company', 'address_1', 'town', 'county', 'county_list'];
+						for(var i=0; i < tagElement.length; i++){
+							elems[tagElement[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
+						}
+					}
+				};
+
+				cc_generic.activate();
+			}
+		});
+	}
+}
+var cc_index = 0;
+
 function cc_hide_fields(dom, action){
 	var action = action || 'show';
-	if(!c2a_config.advanced.hide_fields){
+	if(!c2a_config.autocomplete.advanced.hide_fields){
 		return;
 	}
 	switch(action){
@@ -91,7 +221,7 @@ function cc_hide_fields(dom, action){
 					formEmpty = false;
 				}
 			}
-			if(!c2a_config.advanced.lock_country_to_dropdown){
+			if(!c2a_config.autocomplete.advanced.lock_country_to_dropdown){
 				elementsToHide.push('country');
 			}
 			for(var i=0; i<elementsToHide.length; i++){
@@ -254,6 +384,32 @@ requirejs(['jquery'], function( $ ) {
 
 		if(c2a_config.autocomplete.enabled && c2a_config.main.key == null){
 			console.warn('ClickToAddress: Incorrect token format supplied');
+		}
+
+		if(c2a_config.postcodelookup.enabled){
+			setInterval(activate_cc_m2_uk,200);
+		}
+
+		if(c2a_config.phonevalidation.enabled && c2a_config.main.key != null){
+			if(window.cc_holder == null){
+				window.cc_holder = new clickToAddress({
+					accessToken: c2a_config.main.key,
+				})
+			}
+			setInterval(function(){
+				var phone_elements = jQuery('input[name="telephone"]');
+				phone_elements.each(function(index){
+					var phone_element = phone_elements.eq(index);
+					if (phone_element.data('cc') != '1'){
+						phone_element.data('cc', '1');
+						var country = phone_element.closest('form').find('select[name="country_id"]')
+						window.cc_holder.addPhoneVerify({
+							phone: phone_element[0],
+							country: country[0]
+						})
+					}
+				});
+			}, 200);
 		}
 	});
 });

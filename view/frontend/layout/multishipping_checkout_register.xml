@@ -6,6 +6,8 @@
 		<script src="Fetchify_Fetchify::cc_c2a.min.js"/>
 		<css src="Fetchify_Fetchify::cc_c2a.min.css"/>
 		<css src="Fetchify_Fetchify::cc_basics.css"/>
+		<script src="Fetchify_Fetchify::cc_ukpcl_lib.js"/>
+		<css src="Fetchify_Fetchify::cc_rapid2.css"/>
 	</head>
 	<body>
 		<referenceContainer name="content.top">

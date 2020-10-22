@@ -2,7 +2,7 @@ function activate_cc_m2(){
 	jQuery('[name="postcode"]').each(function(index,elem){
 		if(jQuery(elem).data('cc_attach') != '1' && !jQuery(elem).prop('disabled')){
 			jQuery(elem).data('cc_attach','1');
-			var form = jQuery(elem).closest('fieldset');
+			var form = jQuery(elem).closest('.admin__fieldset');
 
 			var tmp_html = '<div class="admin__field"><label class="admin__field-label">'+c2a_config.autocomplete.texts.search_label+'</label><div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text"/></div></div>';
 			form.find('[name="street[0]"]').closest('div.admin__field').before( tmp_html );
@@ -25,8 +25,7 @@ function activate_cc_m2(){
 	});
 }
 
-// postcodelookup
-
+// Postcode Lookup
 function activate_cc_m2_uk(){
 	if(c2a_config.postcodelookup.enabled){
 		var cfg = {
@@ -49,7 +48,19 @@ function activate_cc_m2_uk(){
 			hide_fields: c2a_config.postcodelookup.hide_fields,
 			txt: c2a_config.postcodelookup.txt,
 			error_msg: c2a_config.postcodelookup.error_msg,
-			county_data: c2a_config.postcodelookup.advanced.county_data
+			county_data: c2a_config.postcodelookup.advanced.county_data,
+			ui: {
+				onResultSelected: function(dataset, id, fields) {
+					if (cfg.county_data == 'former_postal') {
+						fields.county[0].value = dataset.postal_county
+					} else if (cfg.county_data == 'traditional') {
+						fields.county[0].value = dataset.traditional_county
+					} else {
+						fields.county[0].value = ''
+					}
+					fields.county.trigger('change')
+				}
+			}
 		};
 		var dom = {
 			company:	'[name="company"]',
@@ -67,7 +78,7 @@ function activate_cc_m2_uk(){
 				var active_cfg = {};
 				jQuery.extend(active_cfg, cfg);
 				active_cfg.id = "m2_"+cc_index;
-				var form = postcode_elements.eq(index).closest('fieldset');
+				var form = postcode_elements.eq(index).closest('.admin__fieldset');
 				cc_index++;
 				active_cfg.dom = {
 					company:			form.find(dom.company),
@@ -144,14 +155,23 @@ requirejs(['jquery'], function( $ ) {
 						default:
 							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
 					}
+
+					// county input value will be lost when country change event triggered so save it for later
+					var county_input_val = jQuery(elements.county.input).val();
+
 					jQuery(elements.country).trigger('change');
 					jQuery(elements.company).trigger('change');
 					jQuery(elements.line_1).trigger('change');
 					jQuery(elements.line_2).trigger('change');
 					jQuery(elements.postcode).trigger('change');
 					jQuery(elements.town).trigger('change');
-					jQuery(elements.county.input).trigger('change');
-					jQuery(elements.county.list).trigger('change');
+					jQuery(elements.county.input).val(county_input_val).trigger('change');
+					
+					// only trigger change on list if it's visible, otherwise county input val will be lost
+					if (jQuery(elements.county.list).css('display') != 'none') {
+						jQuery(elements.county.list).trigger('change');
+					}
+					
 				},
 				showLogo: false,
 				texts: c2a_config.autocomplete.texts,

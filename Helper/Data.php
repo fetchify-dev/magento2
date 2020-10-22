@@ -164,6 +164,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$cfg['postcodelookup']['txt']["search_label"] = $this->getCfg('fetchify_pcl','txt_options/search_label');
 		$cfg['postcodelookup']['txt']["search_placeholder"] = $this->getCfg('fetchify_pcl','txt_options/search_placeholder');
 		$cfg['postcodelookup']['txt']['search_buttontext'] = $this->getCfg('fetchify_pcl','txt_options/search_buttontext');
+		$cfg['postcodelookup']['txt']["manual_entry"] = $this->getCfg('fetchify_pcl','txt_options/manual_entry');
 
 		$cfg['postcodelookup']['advanced']['county_data'] = $this->getCfg('fetchify_pcl','advanced/county_data');
 

@@ -34,6 +34,7 @@
 				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>To avoid conflicts, do not enable Address Auto-Complete and UK Postcode Lookup at the same time.</comment>
 				</field>
 			</group>
 			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
@@ -127,6 +128,7 @@
 				<label>Postcode Lookup Options</label>
 				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
+					<comment>To avoid conflicts, do not enable Address Auto-Complete and UK Postcode Lookup at the same time.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
@@ -149,6 +151,11 @@
 				<field id="search_buttontext" type="text" sortOrder="6" showInDefault="1">
 					<label>Button Text</label>
 				</field>
+				<field id="manual_entry" type="text" sortOrder="7" showInDefault="1">
+					<label>Text for Manual Entry Button</label>
+					<comment>Only when "Hide Address Fields" is enabled</comment>
+					<validate>required-entry</validate>
+				</field>
 				<field id="error_msg_1" type="text" sortOrder="10" showInDefault="1">
 					<label>Error Msg #1</label>
 				</field>
@@ -167,7 +174,7 @@
 				<field id="county_data" type="select" sortOrder="1" showInDefault="1">
 					<label>County Data</label>
 					<source_model>Fetchify\Fetchify\Model\Source\PCLCountyOption</source_model>
-					<comment>County data is not required for UK addressing. Select a type of county data, if you need this data for legacy software requirements. "Empty" will erase any data already present in the input field, but still allows the user to enter any values later.</comment>
+					<comment>County data is not required for UK addressing. Select a type of county data if you need it for legacy software requirements. "Empty" will erase any data already present in the input field, but still allows the user to enter a value manually.</comment>
 				</field>
 			</group>
 		</section>

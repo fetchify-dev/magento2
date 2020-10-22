@@ -407,7 +407,7 @@ cc_ui_handler.prototype.lookup = function(postcode){
 	this.search_object.find('.extra-info').show();
 	var that = this;
 
-	var default_select_triger = function(search_list, cc){
+	var default_select_trigger = function(search_list, cc){
 		search_list.find('select').off('change');
 		search_list.find('select').on('change',function(){
 			var id = jQuery(this).find('option:selected').data('id');
@@ -417,21 +417,20 @@ cc_ui_handler.prototype.lookup = function(postcode){
 			}
 		});
 	};
-	var select_trigger = this.cfg.ui.select_trigger || default_select_triger;
+	var select_trigger = this.cfg.ui.select_trigger || default_select_trigger;
 	select_trigger(search_list, that);
-
-	if(typeof this.cfg.ui.onResultSelected == 'function'){
-		this.cfg.ui.onResultSelected();
-	}
 };
 
 cc_ui_handler.prototype.prompt_error = function(error_code){
 	if(!this.cfg.error_msg.hasOwnProperty(error_code)){
-		// simplyfy complex error messages
+		// simplify complex error messages
 		error_code = "0004";
 	}
 	this.search_object.find('.mage-error .search-subtext').html(this.cfg.error_msg[error_code]);
 	this.search_object.find('.mage-error').show();
+	if(this.cfg.hide_fields){
+		jQuery('.crafty_address_field').removeClass('crafty_address_field_hidden');
+	}
 };
 cc_ui_handler.prototype.countyFiller = function(element, county_value){
 	if(element.tagName == 'SELECT'){
@@ -620,4 +619,8 @@ cc_ui_handler.prototype.select = function(postcode, id){
 	jQuery.each(this.cfg.dom, function(index, name){
 		name.trigger('change');
 	});
+
+	if (typeof this.cfg.ui.onResultSelected == 'function'){
+		this.cfg.ui.onResultSelected(dataset, id, this.cfg.dom);
+	}
 };
