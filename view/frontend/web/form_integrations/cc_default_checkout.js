@@ -80,7 +80,7 @@ function cc_m2_c2a(){
 	});
 }
 
-// postcodelookup
+// Postcode Lookup
 function activate_cc_m2_uk(){
 	if(c2a_config.postcodelookup.enabled){
 		var cfg = {
@@ -104,6 +104,11 @@ function activate_cc_m2_uk(){
 			txt: c2a_config.postcodelookup.txt,
 			error_msg: c2a_config.postcodelookup.error_msg,
 			county_data: c2a_config.postcodelookup.advanced.county_data,
+			ui: {
+				onResultSelected: function(dataset, id, fields) {
+					fields.postcode.closest('form').find('.cp_manual_entry').hide(200)
+				}
+			}
 		};
 		var dom = {
 			company:	'[name="company"]',
@@ -117,11 +122,23 @@ function activate_cc_m2_uk(){
 		};
 		var postcode_elements = jQuery(dom.postcode);
 		postcode_elements.each(function(index){
-			if(postcode_elements.eq(index).attr('cc_pcl_applied') != '1'){
+			/**
+			 * The Magento 2 checkout loads fields
+			 * asynchronously so we need to check 
+			 * for the existence of multiple fields
+			 * before continuing. This helps avoid
+			 * a race condition scenario on slow 
+			 * devices/connections.
+			 */
+			var form = postcode_elements.eq(index).closest('form');
+			if (
+				postcode_elements.eq(index).attr('cc_pcl_applied') != '1'
+				&& form.find(dom.address_1).length === 1
+				&& form.find(dom.country).length === 1
+			) {
 				var active_cfg = {};
 				jQuery.extend(active_cfg, cfg);
 				active_cfg.id = "m2_"+cc_index;
-				var form = postcode_elements.eq(index).closest('form');
 
 				cc_index++;
 				active_cfg.dom = {
@@ -147,6 +164,23 @@ function activate_cc_m2_uk(){
 				// input after postcode
 				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
 				new_container.addClass('search-container').attr('id',active_cfg.id).addClass('type_3');
+
+				// add/show manual entry text
+				if (active_cfg.hide_fields) {
+					if (jQuery('#'+active_cfg.id+'_cp_manual_entry').length === 0 && postcode_elem.val() === "") {
+						var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">'+
+									'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>'+
+									'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>'+
+								'</svg>';
+						tmp_manual_html = '<div class="field cp_manual_entry" id="'+active_cfg.id+'_cp_manual_entry" style="margin-top: 15px; margin-bottom: 15px;"><label>'+active_cfg.txt.manual_entry+'</label>'+svg+'</div>';
+						jQuery(postcode_elem).closest('.field').find('button').after(tmp_manual_html)
+
+						jQuery('#'+active_cfg.id+'_cp_manual_entry').on('click', function() {
+							jQuery(form).find('.crafty_address_field').removeClass('crafty_address_field_hidden');
+							jQuery('#'+active_cfg.id+'_cp_manual_entry').hide(200)
+						})
+					}
+				}
 
 				active_cfg.dom.postcode.attr('cc_pcl_applied','1');
 				var cc_generic = new cc_ui_handler(active_cfg);

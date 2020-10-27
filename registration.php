@@ -5,6 +5,6 @@
  */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Craftyclicks_Clicktoaddress',
+    'Fetchify_Fetchify',
     __DIR__
 );
