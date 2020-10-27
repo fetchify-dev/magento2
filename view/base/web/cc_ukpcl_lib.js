@@ -309,24 +309,21 @@ cc_ui_handler.prototype.sort = function(is_uk){
 };
 
 cc_ui_handler.prototype.country_change = function(country){
-
 	var active_countries = ['GB','IM','JE','GG'];
 	if(active_countries.indexOf(country) != -1){
 		if(this.cfg.sort_fields.active){
 			this.sort(true);
 		}
 		this.search_object.parents(this.cfg.sort_fields.parent).last().show();
-
+		this.search_object.find('.search-bar .action').show();
+		this.cfg.dom.postcode.closest('form').find('.cp_manual_entry').show(200);
 	} else {
 		if(this.cfg.sort_fields.active){
 			this.sort(false);
 		}
 		this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
-	}
-	if(active_countries.indexOf(country) != -1){
-		this.search_object.find('.search-bar .action').show();
-	} else {
 		this.search_object.find('.search-bar .action').hide();
+		this.cfg.dom.postcode.closest('form').find('.cp_manual_entry').hide(200);
 	}
 	if(this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() === "")){
 		this.search_object.closest(this.cfg.sort_fields.parent).parent().find('.crafty_address_field').addClass('crafty_address_field_hidden');
