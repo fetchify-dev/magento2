@@ -2,15 +2,15 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>
-		<script src="Craftyclicks_Clicktoaddress::form_integrations/cc_customer_register.js"/>
-		<script src="Craftyclicks_Clicktoaddress::cc_c2a.min.js"/>
-		<css src="Craftyclicks_Clicktoaddress::cc_c2a.min.css"/>
+		<script src="Fetchify_Fetchify::form_integrations/cc_customer_register.js"/>
+		<script src="Fetchify_Fetchify::cc_c2a.min.js"/>
+		<css src="Fetchify_Fetchify::cc_c2a.min.css"/>
 	</head>
 	<body>
 		<referenceContainer name="content.top">
 			<block class="Magento\Framework\View\Element\Template"
-				   name="craftyclicks.clicktoaddress.configpass"
-				   template="Craftyclicks_Clicktoaddress::config.phtml">
+				   name="fetchify.configpass"
+				   template="Fetchify_Fetchify::config.phtml">
 			</block>
 		</referenceContainer>
 	</body>

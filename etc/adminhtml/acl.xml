@@ -6,10 +6,10 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Craftyclicks_Clicktoaddress::main_config" title="Address Auto-Complete"/>
-                            <resource id="Craftyclicks_Clicktoaddress::pcl_config" title="Postcode Lookup" />
-                            <resource id="Craftyclicks_Clicktoaddress::email_config" title="Email Validation" />
-                            <resource id="Craftyclicks_Clicktoaddress::phone_config" title="Phone Validation" />
+                            <resource id="Fetchify_Fetchify::main_config" title="Address Auto-Complete"/>
+                            <resource id="Fetchify_Fetchify::pcl_config" title="Postcode Lookup" />
+                            <resource id="Fetchify_Fetchify::email_config" title="Email Validation" />
+                            <resource id="Fetchify_Fetchify::phone_config" title="Phone Validation" />
                         </resource>
                     </resource>
                 </resource>

@@ -7,23 +7,23 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
 	<default>
-		<cc_main>
+		<fetchify_main>
 			<main_options>
 				<enable_extension>1</enable_extension>
 				<accesstoken backend_model="Magento\Config\Model\Config\Backend\Encrypted">xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
 			</main_options>
-		</cc_main>
-		<cc_email>
+		</fetchify_main>
+		<fetchify_email>
 			<options>
 				<enable>0</enable>
 			</options>
-		</cc_email>
-		<cc_phone>
+		</fetchify_email>
+		<fetchify_phone>
 			<options>
 				<enable>0</enable>
 			</options>
-		</cc_phone>
-		<cc_pcl>
+		</fetchify_phone>
+		<fetchify_pcl>
 			<options>
 				<enable>0</enable>
 			</options>
@@ -33,6 +33,7 @@
 			<txt_options>
 				<search_placeholder>Type your postcode here</search_placeholder>
 				<search_buttontext>Find Address</search_buttontext>
+				<manual_entry>Enter Address Manually</manual_entry>
 				<search_label>Postcode Lookup</search_label>
 				<error_msg_1>This postcode could not be found, please try again or enter your address manually.</error_msg_1>
 				<error_msg_2>This postcode is not valid.</error_msg_2>
@@ -42,8 +43,8 @@
 			<advanced>
 				<county_data>none</county_data>
 			</advanced>
-		</cc_pcl>
-		<cc_global>
+		</fetchify_pcl>
+		<fetchify_global>
 			<main_options>
 				<frontend_enabled>0</frontend_enabled>
 				<accesstoken backend_model="Magento\Config\Model\Config\Backend\Encrypted">xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
@@ -71,6 +72,6 @@
 				<use_first_line>0</use_first_line>
 				<debug>0</debug>
 			</advanced>
-		</cc_global>
+		</fetchify_global>
 	</default>
 </config>
