@@ -195,6 +195,7 @@ function activate_cc_m2_uk(){
 			company:	jQuery("[name='company']"),
 			address_1:	jQuery("#street_1"),
 			address_2:	jQuery("#street_2"),
+			address_3:	jQuery("#street_3"),
 			postcode:	jQuery("[name='postcode']"),
 			town:		jQuery("[name='city']"),
 			county:		jQuery("[name='region']"),
