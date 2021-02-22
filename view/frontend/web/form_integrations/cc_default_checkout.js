@@ -107,6 +107,7 @@ function activate_cc_m2_uk(){
 			ui: {
 				onResultSelected: function(dataset, id, fields) {
 					fields.postcode.closest('form').find('.cp_manual_entry').hide(200)
+					fields.address_4.val('').change();
 				}
 			}
 		};
@@ -115,6 +116,7 @@ function activate_cc_m2_uk(){
 			address_1:	'[name="street[0]"]',
 			address_2:	'[name="street[1]"]',
 			address_3:	'[name="street[2]"]',
+			address_4:	'[name="street[3]"]',
 			postcode:	'[name="postcode"]',
 			town:		'[name="city"]',
 			county:		'[name="region"]',
@@ -147,6 +149,7 @@ function activate_cc_m2_uk(){
 					address_1:		form.find(dom.address_1),
 					address_2:		form.find(dom.address_2),
 					address_3:		form.find(dom.address_3),
+					address_4:		form.find(dom.address_4),
 					postcode:		postcode_elements.eq(index),
 					town:			form.find(dom.town),
 					county:			form.find(dom.county),
