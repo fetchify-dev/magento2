@@ -160,6 +160,7 @@ function activate_cc_m2_uk(){
 						fields.county[0].value = ''
 					}
 					fields.county.trigger('change')
+					fields.address_4.val('').change();
 				}
 			}
 		};
@@ -168,6 +169,7 @@ function activate_cc_m2_uk(){
 			address_1:	jQuery("#street_1"),
 			address_2:	jQuery("#street_2"),
 			address_3:	jQuery("#street_3"),
+			address_4:	jQuery("#street_4"),
 			postcode:	jQuery("[name='postcode']"),
 			town:		jQuery("[name='city']"),
 			county:		jQuery("[name='region']"),

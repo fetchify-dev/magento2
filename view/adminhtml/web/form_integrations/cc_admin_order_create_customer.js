@@ -50,16 +50,21 @@ function activate_cc_m2_uk(){
 				active: true,
 				parent: 'div.admin__field'
 			},
-			hide_fields: c2a_config.postcodelookup.hide_fields,
 			txt: c2a_config.postcodelookup.txt,
 			error_msg: c2a_config.postcodelookup.error_msg,
-			county_data: c2a_config.postcodelookup.advanced.county_data
+			county_data: c2a_config.postcodelookup.advanced.county_data,
+			ui: {
+				onResultSelected: function(dataset, id, fields) {
+					fields.address_4.val('').change();
+				}
+			}
 		};
 		var dom = {
 			company:	'[name$="_address][company]"]',
 			address_1:	'[name$="_address][street][0]"]',
 			address_2:	'[name$="_address][street][1]"]',
 			address_3:	'[name$="_address][street][2]"]',
+			address_4:	'[name$="_address][street][3]"]',
 			postcode:	'[name$="_address][postcode]"]',
 			town:		'[name$="_address][city]"]',
 			county:		'[name$="_address][region]"]',
@@ -79,6 +84,7 @@ function activate_cc_m2_uk(){
 					address_1:		form.find(dom.address_1),
 					address_2:		form.find(dom.address_2),
 					address_3:		form.find(dom.address_3),
+					address_4:		form.find(dom.address_4),
 					postcode:		postcode_elements.eq(index),
 					town:			form.find(dom.town),
 					county:			form.find(dom.county),
@@ -100,9 +106,7 @@ function activate_cc_m2_uk(){
 				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
 				new_container.addClass('search-container').attr('id',active_cfg.id).addClass('type_3');
 
-				active_cfg.ui = {
-					top_elem: 'div.admin__page-section-item'
-				};
+				active_cfg.ui.top_elem = 'div.admin__page-section-item';
 
 				active_cfg.dom.postcode.data('cc','1');
 				var cc_generic = new cc_ui_handler(active_cfg);
