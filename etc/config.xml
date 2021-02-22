@@ -72,6 +72,10 @@
 				<use_first_line>0</use_first_line>
 				<debug>0</debug>
 			</advanced>
+			<exclusions>
+				<areas></areas>
+				<po_box>0</po_box>
+			</exclusions>
 		</fetchify_global>
 	</default>
 </config>

@@ -119,6 +119,19 @@
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
+			<group id="exclusions" translate="label" type="text" sortOrder="60"  showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Exclusions</label>
+				<field id="areas" type="text" sortOrder="5" showInDefault="1">
+					<label>Exclude Areas</label>
+					<comment><![CDATA[Enter the exclusions you want to use as a comma-separated list. For example, "gbr_channel_islands,usa_non_contiguous". Please see our <a href="https://fetchify.com/docs/global/javascript.html#excludeareas" target="_blank">documentation</a> to find out which exclusion options are available.]]></comment>
+					<validate>exclusion-areas</validate>
+				</field>
+				<field id="po_box" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Exclude PO Boxes</label>
+					<comment>Exclude PO Box addresses from search results.</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
 		</section>
 		<section id="fetchify_pcl" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>UK Postcode Lookup</label>
