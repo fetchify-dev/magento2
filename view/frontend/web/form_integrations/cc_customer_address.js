@@ -101,6 +101,8 @@ function cc_m2_c2a(){
 				if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
 			},
 			transliterate: c2a_config.autocomplete.advanced.transliterate,
+			excludeAreas: c2a_config.autocomplete.exclusions.areas,
+			excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 			debug: c2a_config.autocomplete.advanced.debug,
 			cssPath: false,
 			tag: 'Magento 2'

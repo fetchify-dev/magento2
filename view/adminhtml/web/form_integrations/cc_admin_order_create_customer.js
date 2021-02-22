@@ -176,6 +176,8 @@ requirejs(['jquery'], function( $ ) {
 				showLogo: false,
 				texts: c2a_config.autocomplete.texts,
 				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				excludeAreas: c2a_config.autocomplete.exclusions.areas,
+				excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2 - int'
