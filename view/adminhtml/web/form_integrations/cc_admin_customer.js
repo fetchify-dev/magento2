@@ -64,7 +64,6 @@ function activate_cc_m2_uk(){
 				*/
 				custom_order: ['company', 'country', 'company', 'postcode']
 			},
-			hide_fields: c2a_config.postcodelookup.hide_fields,
 			txt: c2a_config.postcodelookup.txt,
 			error_msg: c2a_config.postcodelookup.error_msg,
 			county_data: c2a_config.postcodelookup.advanced.county_data
