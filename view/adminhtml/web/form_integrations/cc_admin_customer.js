@@ -197,6 +197,17 @@ requirejs(['jquery'], function( $ ) {
 					jQuery(elements.town).trigger('change');
 					jQuery(elements.county.input).trigger('change');
 					jQuery(elements.county.list).trigger('change');
+
+					var line_3 = jQuery(elements.search).closest('fieldset').find('[name="street[2]"]');
+					var line_4 = jQuery(elements.search).closest('fieldset').find('[name="street[3]"]');
+					if (line_3.length !== 0) { 
+						line_3.val('');
+						triggerEvent('change', line_3[0]);
+					}
+					if (line_4.length !== 0) { 
+						line_4.val('');
+						triggerEvent('change', line_4[0]);
+					}
 				},
 				transliterate: c2a_config.autocomplete.advanced.transliterate,
 				excludeAreas: c2a_config.autocomplete.exclusions.areas,
@@ -255,3 +266,15 @@ requirejs(['jquery'], function( $ ) {
 		}
 	});
 });
+
+// IE11 compatibility
+function triggerEvent(eventName, target){
+	var event;
+	if (typeof(Event) === 'function') {
+		 event = new Event(eventName);
+	} else {
+		 event = document.createEvent('Event');
+		 event.initEvent(eventName, true, true);
+	}
+	target.dispatchEvent(event);
+}

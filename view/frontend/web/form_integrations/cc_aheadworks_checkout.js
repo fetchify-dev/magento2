@@ -292,6 +292,7 @@ requirejs(['jquery'], function( $ ) {
 	});
 });
 
+// IE11 compatibility
 function triggerEvent(eventName, target){
 	var event;
 	if (typeof(Event) === 'function') {

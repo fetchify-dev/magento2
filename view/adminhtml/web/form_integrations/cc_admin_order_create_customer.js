@@ -176,6 +176,17 @@ requirejs(['jquery'], function( $ ) {
 							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
 					}
 					jQuery(elements.country).trigger('change');
+
+					var line_3 = jQuery(elements.search).closest('form').find('[name="street[2]"]');
+					var line_4 = jQuery(elements.search).closest('form').find('[name="street[3]"]');
+					if (line_3.length !== 0) { 
+						line_3.val('');
+						triggerEvent('change', line_3[0]);
+					}
+					if (line_4.length !== 0) { 
+						line_4.val('');
+						triggerEvent('change', line_4[0]);
+					}
 				},
 				showLogo: false,
 				texts: c2a_config.autocomplete.texts,
