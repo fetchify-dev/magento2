@@ -106,6 +106,17 @@ function cc_m2_c2a(){
 				if (typeof elements.postcode != 'undefined') triggerEvent('change', elements.postcode);
 				if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
 
+				var line_3 = jQuery(elements.search).closest('form').find('#street_3');
+				var line_4 = jQuery(elements.search).closest('form').find('#street_4');
+				if (line_3.length !== 0) { 
+					line_3.val('');
+					triggerEvent('change', line_3[0]);
+				}
+				if (line_4.length !== 0) { 
+					line_4.val('');
+					triggerEvent('change', line_4[0]);
+				}
+				
 				cc_hide_fields(elements,'show');
 			},
 			transliterate: c2a_config.autocomplete.advanced.transliterate,

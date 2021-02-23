@@ -342,6 +342,17 @@ requirejs(['jquery'], function( $ ) {
 					if (typeof elements.town != 'undefined') { triggerEvent('change', elements.town)}
 
 					cc_hide_fields(elements,'show');
+
+					var line_3 = jQuery(elements.search).closest('form').find('[name="street[2]"]');
+					var line_4 = jQuery(elements.search).closest('form').find('[name="street[3]"]');
+					if (line_3.length !== 0) { 
+						line_3.val('');
+						triggerEvent('change', line_3[0]);
+					}
+					if (line_4.length !== 0) { 
+						line_4.val('');
+						triggerEvent('change', line_4[0]);
+					}
 				},
 				onError: function(){
 					if(typeof this.activeDom.postcode !== 'undefined'){
@@ -429,7 +440,7 @@ requirejs(['jquery'], function( $ ) {
 	});
 });
 
-// utilities
+// IE11 compatibility
 function triggerEvent(eventName, target){
 	var event;
 	if (typeof(Event) === 'function') {
