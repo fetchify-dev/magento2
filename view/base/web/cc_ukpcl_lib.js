@@ -430,6 +430,7 @@ cc_ui_handler.prototype.prompt_error = function(error_code){
 	this.search_object.find('.mage-error').show();
 	if(this.cfg.hide_fields){
 		jQuery('.crafty_address_field').removeClass('crafty_address_field_hidden');
+		this.search_object.find('.cp_manual_entry').hide(200);
 	}
 };
 cc_ui_handler.prototype.countyFiller = function(element, county_value){
