@@ -172,6 +172,7 @@ function activate_cc_m2_uk(){
 					}
 					fields.county.trigger('change')
 					fields.address_4.val('').change();
+					fields.postcode.closest('form').find('.cp_manual_entry').hide(200);
 				}
 			}
 		};
@@ -206,6 +207,23 @@ function activate_cc_m2_uk(){
 			input, so let's move it back there to prevent m2 using our 
 			button for displaying invalid postcode error text */
 			postcode_elem.after(postcode_elem.closest('.control').find('[role="alert"]'))
+
+			// add/show manual entry text
+			if (cfg.hide_fields) {
+				if (jQuery('#'+cfg.id+'_cp_manual_entry').length === 0 && postcode_elem.val() === "") {
+					var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">'+
+								'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>'+
+								'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>'+
+							'</svg>';
+					tmp_manual_html = '<div class="field cp_manual_entry" id="'+cfg.id+'_cp_manual_entry" style="margin-top: 15px; margin-bottom: 15px;"><label>'+cfg.txt.manual_entry+'</label>'+svg+'</div>';
+					jQuery(postcode_elem).next('[role="alert"]').after(tmp_manual_html);
+
+					jQuery('#'+cfg.id+'_cp_manual_entry').on('click', function() {
+						jQuery(postcode_elem).closest('form').find('.crafty_address_field').removeClass('crafty_address_field_hidden');
+						jQuery('#'+cfg.id+'_cp_manual_entry').hide(200);
+					})
+				}
+			}
 
 			var new_container = postcode_elem.closest(cfg.sort_fields.parent);
 			new_container.addClass('search-container').attr('id',cfg.id).addClass('type_3');
