@@ -99,8 +99,21 @@ function cc_m2_c2a(){
 				if (typeof elements.line_2 != 'undefined') triggerEvent('change', elements.line_2);
 				if (typeof elements.postcode != 'undefined') triggerEvent('change', elements.postcode);
 				if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
+
+				var line_3 = jQuery(elements.search).closest('form').find('#street_3');
+				var line_4 = jQuery(elements.search).closest('form').find('#street_4');
+				if (line_3.length !== 0) { 
+					line_3.val('');
+					triggerEvent('change', line_3[0]);
+				}
+				if (line_4.length !== 0) { 
+					line_4.val('');
+					triggerEvent('change', line_4[0]);
+				}
 			},
 			transliterate: c2a_config.autocomplete.advanced.transliterate,
+			excludeAreas: c2a_config.autocomplete.exclusions.areas,
+			excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 			debug: c2a_config.autocomplete.advanced.debug,
 			cssPath: false,
 			tag: 'Magento 2'
@@ -158,6 +171,8 @@ function activate_cc_m2_uk(){
 						fields.county[0].value = ''
 					}
 					fields.county.trigger('change')
+					fields.address_4.val('').change();
+					fields.postcode.closest('form').find('.cp_manual_entry').hide(200);
 				}
 			}
 		};
@@ -165,6 +180,8 @@ function activate_cc_m2_uk(){
 			company:	jQuery("[name='company']"),
 			address_1:	jQuery("#street_1"),
 			address_2:	jQuery("#street_2"),
+			address_3:	jQuery("#street_3"),
+			address_4:	jQuery("#street_4"),
 			postcode:	jQuery("[name='postcode']"),
 			town:		jQuery("[name='city']"),
 			county:		jQuery("[name='region']"),
@@ -190,6 +207,23 @@ function activate_cc_m2_uk(){
 			input, so let's move it back there to prevent m2 using our 
 			button for displaying invalid postcode error text */
 			postcode_elem.after(postcode_elem.closest('.control').find('[role="alert"]'))
+
+			// add/show manual entry text
+			if (cfg.hide_fields) {
+				if (jQuery('#'+cfg.id+'_cp_manual_entry').length === 0 && postcode_elem.val() === "") {
+					var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">'+
+								'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>'+
+								'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>'+
+							'</svg>';
+					tmp_manual_html = '<div class="field cp_manual_entry" id="'+cfg.id+'_cp_manual_entry" style="margin-top: 15px; margin-bottom: 15px;"><label>'+cfg.txt.manual_entry+'</label>'+svg+'</div>';
+					jQuery(postcode_elem).next('[role="alert"]').after(tmp_manual_html);
+
+					jQuery('#'+cfg.id+'_cp_manual_entry').on('click', function() {
+						jQuery(postcode_elem).closest('form').find('.crafty_address_field').removeClass('crafty_address_field_hidden');
+						jQuery('#'+cfg.id+'_cp_manual_entry').hide(200);
+					})
+				}
+			}
 
 			var new_container = postcode_elem.closest(cfg.sort_fields.parent);
 			new_container.addClass('search-container').attr('id',cfg.id).addClass('type_3');
@@ -272,6 +306,7 @@ requirejs(['jquery'], function( $ ) {
 	});
 });
 
+// IE11 compatibility
 function triggerEvent(eventName, target){
 	var event;
 	if (typeof(Event) === 'function') {

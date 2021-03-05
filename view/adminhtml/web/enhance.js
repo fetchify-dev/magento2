@@ -62,12 +62,23 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'],function(jQ
 			jQuery('#fetchify_main_main_options_accesstoken').val(value);
 
 			// validate token format
-			let patt = /(?!xxxxx)^[a-f0-9?]{5}?(-[a-f0-9]{5}){3}?$/;
+			var patt = /(?!xxxxx)^[a-f0-9?]{5}?(-[a-f0-9]{5}){3}?$/;
 			if (patt.test(value)) {
 				return this.optional(element) || patt.test(value);
 			}
 			return false;
 		}, 'Please check your access token is formatted correctly or <a href="https://account.fetchify.com/#/signup">sign up for a token here</a>.');
+
+		jQuery.validator.addMethod('exclusion-areas', function(value, element) {
+			value = value.toLowerCase().replace(/ /g, '');
+			jQuery('#fetchify_global_exclusions_areas').val(value);
+
+			var patt = /^[a-z_,]*$/;
+			if (patt.test(value)) {
+				return this.optional(element) || patt.test(value)
+			}
+
+		}, 'Please do not include numbers or special characters (except for underscores and commas).');
 	});
 });
 

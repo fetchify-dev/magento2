@@ -118,6 +118,9 @@ cc_rapid.prototype.format_data = function(data){
 			if(this.capsformat.address){
 				data.delivery_points[i].line_1 = this.leading_caps(data.delivery_points[i].line_1);
 				data.delivery_points[i].line_2 = this.leading_caps(data.delivery_points[i].line_2);
+				if (typeof data.delivery_points[i].line_3 !== 'undefined') {
+					data.delivery_points[i].line_3 = this.leading_caps(data.delivery_points[i].line_3);
+				}
 			}
 			if(this.capsformat.organization){
 				data.delivery_points[i].organisation_name = this.leading_caps(data.delivery_points[i].organisation_name);
@@ -259,13 +262,13 @@ function cc_ui_handler(cfg){
 	this.cfg = cfg;
 
 	var lines = 0;
-	if(typeof cfg.dom.address_1 !== "undefined"){
+	if(cfg.dom.address_1.length === 1){
 		lines++;
 	}
-	if(typeof cfg.dom.address_2 !== "undefined"){
+	if(cfg.dom.address_2.length === 1){
 		lines++;
 	}
-	if(typeof cfg.dom.address_3 !== "undefined"){
+	if(cfg.dom.address_3.length === 1){
 		lines++;
 	}
 	this.cfg.core.lines = lines;
@@ -427,6 +430,7 @@ cc_ui_handler.prototype.prompt_error = function(error_code){
 	this.search_object.find('.mage-error').show();
 	if(this.cfg.hide_fields){
 		jQuery('.crafty_address_field').removeClass('crafty_address_field_hidden');
+		this.search_object.find('.cp_manual_entry').hide(200);
 	}
 };
 cc_ui_handler.prototype.countyFiller = function(element, county_value){

@@ -106,9 +106,22 @@ function cc_m2_c2a(){
 				if (typeof elements.postcode != 'undefined') triggerEvent('change', elements.postcode);
 				if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
 
+				var line_3 = jQuery(elements.search).closest('form').find('#street_3');
+				var line_4 = jQuery(elements.search).closest('form').find('#street_4');
+				if (line_3.length !== 0) { 
+					line_3.val('');
+					triggerEvent('change', line_3[0]);
+				}
+				if (line_4.length !== 0) { 
+					line_4.val('');
+					triggerEvent('change', line_4[0]);
+				}
+				
 				cc_hide_fields(elements,'show');
 			},
 			transliterate: c2a_config.autocomplete.advanced.transliterate,
+			excludeAreas: c2a_config.autocomplete.exclusions.areas,
+			excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 			debug: c2a_config.autocomplete.advanced.debug,
 			cssPath: false,
 			tag: 'Magento 2'
@@ -188,6 +201,7 @@ function activate_cc_m2_uk(){
 					}
 					fields.county.trigger('change')
 					fields.postcode.closest('form').find('.cp_manual_entry').hide(200)
+					fields.address_4.val('').change();
 				}
 			}
 		};
@@ -195,6 +209,8 @@ function activate_cc_m2_uk(){
 			company:	jQuery("[name='company']"),
 			address_1:	jQuery("#street_1"),
 			address_2:	jQuery("#street_2"),
+			address_3:	jQuery("#street_3"),
+			address_4:	jQuery("#street_4"),
 			postcode:	jQuery("[name='postcode']"),
 			town:		jQuery("[name='city']"),
 			county:		jQuery("[name='region']"),

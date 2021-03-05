@@ -112,6 +112,7 @@ function activate_cc_m2_uk(){
 					}
 					fields.county.trigger('change')
 					fields.postcode.closest('form').find('.cp_manual_entry').hide(200)
+					fields.address_4.val('').change();
 				}
 			}
 		};
@@ -119,6 +120,8 @@ function activate_cc_m2_uk(){
 			company:	'[name="company"]',
 			address_1:	'#street_1',
 			address_2:	'#street_2',
+			address_3:	'#street_3',
+			address_4:	'#street_4',
 			postcode:	'[name="postcode"]',
 			town:		'[name="city"]',
 			county:		'[name="region"]',
@@ -150,6 +153,8 @@ function activate_cc_m2_uk(){
 					company:		form.find(dom.company),
 					address_1:		form.find(dom.address_1),
 					address_2:		form.find(dom.address_2),
+					address_3:		form.find(dom.address_3),
+					address_4:		form.find(dom.address_4),
 					postcode:		postcode_elements.eq(index),
 					town:			form.find(dom.town),
 					county:			form.find(dom.county),
@@ -367,6 +372,17 @@ requirejs(['jquery'], function( $ ) {
 					if (typeof elements.postcode != 'undefined') triggerEvent('change', elements.postcode);
 					if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
 
+					var line_3 = jQuery(elements.search).closest('form').find('#street_3');
+					var line_4 = jQuery(elements.search).closest('form').find('#street_4');
+					if (line_3.length !== 0) { 
+						line_3.val('');
+						triggerEvent('change', line_3[0]);
+					}
+					if (line_4.length !== 0) { 
+						line_4.val('');
+						triggerEvent('change', line_4[0]);
+					}
+
 					cc_hide_fields(elements,'show');
 				},
 				onError: function(){
@@ -377,6 +393,8 @@ requirejs(['jquery'], function( $ ) {
 					}
 				},
 				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				excludeAreas: c2a_config.autocomplete.exclusions.areas,
+				excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
@@ -432,6 +450,7 @@ requirejs(['jquery'], function( $ ) {
 	});
 });
 
+// IE11 compatibility
 function triggerEvent(eventName, target){
 	var event;
 	if (typeof(Event) === 'function') {

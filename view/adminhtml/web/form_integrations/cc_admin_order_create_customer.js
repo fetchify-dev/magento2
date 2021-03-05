@@ -50,15 +50,21 @@ function activate_cc_m2_uk(){
 				active: true,
 				parent: 'div.admin__field'
 			},
-			hide_fields: c2a_config.postcodelookup.hide_fields,
 			txt: c2a_config.postcodelookup.txt,
 			error_msg: c2a_config.postcodelookup.error_msg,
-			county_data: c2a_config.postcodelookup.advanced.county_data
+			county_data: c2a_config.postcodelookup.advanced.county_data,
+			ui: {
+				onResultSelected: function(dataset, id, fields) {
+					fields.address_4.val('').change();
+				}
+			}
 		};
 		var dom = {
 			company:	'[name$="_address][company]"]',
 			address_1:	'[name$="_address][street][0]"]',
 			address_2:	'[name$="_address][street][1]"]',
+			address_3:	'[name$="_address][street][2]"]',
+			address_4:	'[name$="_address][street][3]"]',
 			postcode:	'[name$="_address][postcode]"]',
 			town:		'[name$="_address][city]"]',
 			county:		'[name$="_address][region]"]',
@@ -77,6 +83,8 @@ function activate_cc_m2_uk(){
 					company:		form.find(dom.company),
 					address_1:		form.find(dom.address_1),
 					address_2:		form.find(dom.address_2),
+					address_3:		form.find(dom.address_3),
+					address_4:		form.find(dom.address_4),
 					postcode:		postcode_elements.eq(index),
 					town:			form.find(dom.town),
 					county:			form.find(dom.county),
@@ -98,9 +106,7 @@ function activate_cc_m2_uk(){
 				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
 				new_container.addClass('search-container').attr('id',active_cfg.id).addClass('type_3');
 
-				active_cfg.ui = {
-					top_elem: 'div.admin__page-section-item'
-				};
+				active_cfg.ui.top_elem = 'div.admin__page-section-item';
 
 				active_cfg.dom.postcode.data('cc','1');
 				var cc_generic = new cc_ui_handler(active_cfg);
@@ -170,10 +176,23 @@ requirejs(['jquery'], function( $ ) {
 							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
 					}
 					jQuery(elements.country).trigger('change');
+
+					var line_3 = jQuery(elements.search).closest('form').find('[name="street[2]"]');
+					var line_4 = jQuery(elements.search).closest('form').find('[name="street[3]"]');
+					if (line_3.length !== 0) { 
+						line_3.val('');
+						triggerEvent('change', line_3[0]);
+					}
+					if (line_4.length !== 0) { 
+						line_4.val('');
+						triggerEvent('change', line_4[0]);
+					}
 				},
 				showLogo: false,
 				texts: c2a_config.autocomplete.texts,
 				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				excludeAreas: c2a_config.autocomplete.exclusions.areas,
+				excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2 - int'

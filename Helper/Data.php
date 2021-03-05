@@ -144,6 +144,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			"use_first_line" => $this->getCfg('fetchify_global','advanced/use_first_line') == "1",
 		);
 
+		$cfg['autocomplete']['exclusions']['areas'] = explode(",", $this->getCfg('fetchify_global', 'exclusions/areas'));
+		$cfg['autocomplete']['exclusions']['po_box'] = $this->getCfg('fetchify_global', 'exclusions/po_box') === "1";
+
 		// PCL OPTIONS
 		$cfg['postcodelookup']['enabled'] = $this->scopeConfig->isSetFlag(
 			'fetchify_pcl/options/enabled',
@@ -249,8 +252,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			"hide_fields" => $this->getCfg('fetchify_global','advanced/hide_fields') == "1",
 			"transliterate" => $this->getCfg('fetchify_global','advanced/transliterate') == "1"
 		);
-		return json_encode($cfg);
 
+		$cfg['autocomplete']['exclusions']['areas'] = explode(",", $this->getCfg('fetchify_global', 'exclusions/areas'));
+		$cfg['autocomplete']['exclusions']['po_box'] = $this->getCfg('fetchify_global', 'exclusions/po_box') === "1";
+
+		return json_encode($cfg);
 	}
 
 }

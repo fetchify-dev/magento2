@@ -9,10 +9,11 @@
 			<tab>fetchify_setup</tab>
 			<resource>Fetchify_Fetchify::main_config</resource>
 			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>Main Options</label>
+				<label>Main Settings</label>
 				<field id="enable_extension" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment>Fetchify Version: 2.1.0</comment>
 				</field>
 				<field id="accesstoken" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
@@ -116,6 +117,19 @@
 				</field>
 				<field id="debug" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable debug tools</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+			<group id="exclusions" translate="label" type="text" sortOrder="60"  showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Exclusions</label>
+				<field id="areas" type="text" sortOrder="5" showInDefault="1">
+					<label>Exclude Areas</label>
+					<comment><![CDATA[Enter the exclusions you want to use as a comma-separated list. For example, "gbr_channel_islands,usa_non_contiguous". Please see our <a href="https://fetchify.com/docs/global/javascript.html#excludeareas" target="_blank">documentation</a> to find out which exclusion options are available.]]></comment>
+					<validate>exclusion-areas</validate>
+				</field>
+				<field id="po_box" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Exclude PO Boxes</label>
+					<comment>Exclude PO Box addresses from search results.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>

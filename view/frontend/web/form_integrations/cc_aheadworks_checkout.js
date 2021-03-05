@@ -261,6 +261,8 @@ requirejs(['jquery'], function( $ ) {
 					}
 				},
 				transliterate: c2a_config.autocomplete.advanced.transliterate,
+				excludeAreas: c2a_config.autocomplete.exclusions.areas,
+				excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
 				tag: 'Magento 2'
@@ -290,6 +292,7 @@ requirejs(['jquery'], function( $ ) {
 	});
 });
 
+// IE11 compatibility
 function triggerEvent(eventName, target){
 	var event;
 	if (typeof(Event) === 'function') {
