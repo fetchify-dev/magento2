@@ -5,69 +5,89 @@ namespace Fetchify\Fetchify\Model\Source;
 class Accent implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
-	* @return array
-	*/
+	 * @return array
+	 */
 	public function toOptionArray()
 	{
 		return [
-			[	'value' => 'default',
+			[
+				'value' => 'default',
 				'label' => __('Default'),
 			],
-			[ 'value' => 'red',
+			[
+				'value' => 'red',
 				'label' => __('Red')
 			],
-			[ 'value' => 'pink',
+			[
+				'value' => 'pink',
 				'label' => __('Pink')
 			],
-			[ 'value' => 'purple',
+			[
+				'value' => 'purple',
 				'label' => __('Purple')
 			],
-			[ 'value' => 'deepPurple',
+			[
+				'value' => 'deepPurple',
 				'label' => __('Deep Purple')
 			],
-			[ 'value' => 'indigo',
+			[
+				'value' => 'indigo',
 				'label' => __('Indigo')
 			],
-			[ 'value' => 'blue',
+			[
+				'value' => 'blue',
 				'label' => __('Blue')
 			],
-			[ 'value' => 'lightBlue',
+			[
+				'value' => 'lightBlue',
 				'label' => __('Light Blue')
 			],
-			[ 'value' => 'cyan',
+			[
+				'value' => 'cyan',
 				'label' => __('Cyan')
 			],
-			[ 'value' => 'teal',
+			[
+				'value' => 'teal',
 				'label' => __('Teal')
 			],
-			[ 'value' => 'green',
+			[
+				'value' => 'green',
 				'label' => __('Green')
 			],
-			[ 'value' => 'lightGreen',
+			[
+				'value' => 'lightGreen',
 				'label' => __('Light Green')
 			],
-			[ 'value' => 'lime',
+			[
+				'value' => 'lime',
 				'label' => __('Lime')
 			],
-			[ 'value' => 'yellow',
+			[
+				'value' => 'yellow',
 				'label' => __('Yellow')
 			],
-			[ 'value' => 'amber',
+			[
+				'value' => 'amber',
 				'label' => __('Amber')
 			],
-			[ 'value' => 'orange',
+			[
+				'value' => 'orange',
 				'label' => __('Orange')
 			],
-			[ 'value' => 'deepOrange',
+			[
+				'value' => 'deepOrange',
 				'label' => __('Deep Orange')
 			],
-			[ 'value' => 'brown',
+			[
+				'value' => 'brown',
 				'label' => __('Brown')
 			],
-			[ 'value' => 'grey',
+			[
+				'value' => 'grey',
 				'label' => __('Grey')
 			],
-			[ 'value' => 'blueGrey',
+			[
+				'value' => 'blueGrey',
 				'label' => __('Blue Grey')
 			]
 		];

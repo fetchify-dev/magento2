@@ -10,7 +10,6 @@ class FetchToken extends \Magento\Config\Block\System\Config\Form\Fieldset
 
 	public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
 	{
-
 		$html = "
 
 		<div>

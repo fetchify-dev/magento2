@@ -1,14 +1,14 @@
-.cc_hidden{
+.cc_hidden {
 	display: none;
 }
 
-.field.cc_hide_fields_action svg{
+.field.cc_hide_fields_action svg {
 	width: 12px;
-    padding-left: 0.5em;
-    padding-bottom: 2px;
+	padding-left: 0.5em;
+	padding-bottom: 2px;
 }
 
-.cp_manual_entry svg{
+.cp_manual_entry svg {
 	width: 12px;
 	padding-left: 0.5em;
 	padding-bottom: 2px;

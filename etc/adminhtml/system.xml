@@ -4,213 +4,212 @@
 		<tab id="fetchify_setup" translate="label" sortOrder="900">
 			<label>Fetchify</label>
 		</tab>
-		<section id="fetchify_main" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_main" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Main Settings</label>
 			<tab>fetchify_setup</tab>
 			<resource>Fetchify_Fetchify::main_config</resource>
-			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="main_options" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Main Settings</label>
-				<field id="enable_extension" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="enable_extension" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-					<comment>Fetchify Version: 2.1.0</comment>
+					<comment>Fetchify Version: 2.2.0</comment>
 				</field>
-				<field id="accesstoken" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="accesstoken" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
 					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
 					<validate>token-format</validate>
 				</field>
-				<group id="fetchtoken" translate="label" type="text" sortOrder="3" showInWebsite="1" showInStore="2"
-					showInDefault="1">
+				<group id="fetchtoken" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<frontend_model>Fetchify\Fetchify\Block\Adminhtml\Config\FetchToken</frontend_model>
 				</group>
 			</group>
 		</section>
-		<section id="fetchify_global" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_global" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Address Auto-Complete</label>
 			<tab>fetchify_setup</tab>
 			<resource>Fetchify_Fetchify::main_config</resource>
-			<group id="main_options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="main_options" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Address Auto-Complete Options</label>
-				<field id="frontend_enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="frontend_enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 					<comment>To avoid conflicts, do not enable Address Auto-Complete and UK Postcode Lookup at the same time.</comment>
 				</field>
 			</group>
-			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="gfx_options" translate="label" type="text" sortOrder="1"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Style Settings</label>
-				<field id="mode" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="mode" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Mode</label>
 					<source_model>Fetchify\Fetchify\Model\Source\Mode</source_model>
 				</field>
-				<field id="ambient" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="ambient" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Ambient</label>
 					<source_model>Fetchify\Fetchify\Model\Source\Ambient</source_model>
 				</field>
-				<field id="accent" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="accent" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Accent</label>
 					<source_model>Fetchify\Fetchify\Model\Source\Accent</source_model>
 				</field>
 			</group>
-			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="txt_options" translate="label" type="text" sortOrder="2"  showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Text Options</label>
-				<field id="search_label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="search_label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Search Label</label>
 				</field>
-				<field id="search_placeholder" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="search_placeholder" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Search Placeholder</label>
 					<validate>required-entry</validate>
 				</field>
-				<field id="country_placeholder" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="country_placeholder" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Placeholder for Country Selection</label>
 					<validate>required-entry</validate>
 				</field>
-				<field id="country_button" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="country_button" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Change Country button text</label>
 					<validate>required-entry</validate>
 				</field>
-				<field id="error_msg_1" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="error_msg_1" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>No Results Message</label>
 					<validate>required-entry</validate>
 				</field>
-				<field id="error_msg_2" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="error_msg_2" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Generic Error Message</label>
 					<validate>required-entry</validate>
 				</field>
-				<field id="manual_entry_toggle" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="manual_entry_toggle" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Text for Toggle Button</label>
 					<comment>Only when "Hide Address Fields" is enabled</comment>
 					<validate>required-entry</validate>
 				</field>
 			</group>
-			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="advanced" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Advanced</label>
-				<field id="transliterate" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="transliterate" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Transliterate for non ASCII characters</label>
 					<comment>(changes non english characters to english characters)</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="match_country_list" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="match_country_list" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Match Country List to Allowed Countries</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 
-				<field id="hide_fields" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="hide_fields" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Hide Address Fields</label>
 					<comment>Front-end, checkout only feature.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 
-				<field id="lock_country_to_dropdown" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="lock_country_to_dropdown" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Lock country selection</label>
 					<comment>Front-end only feature.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="search_elem_id" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="search_elem_id" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Set custom ID for the parent element of the search bar</label>
 				</field>
-				<field id="use_first_line" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="use_first_line" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Use first address line for search</label>
 					<comment>Front-end only feature. Does not work if "Hide Address Fields" is enabled.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
-				<field id="debug" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="debug" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable debug tools</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
-			<group id="exclusions" translate="label" type="text" sortOrder="60"  showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="exclusions" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Exclusions</label>
-				<field id="areas" type="text" sortOrder="5" showInDefault="1">
+				<field id="areas" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Exclude Areas</label>
 					<comment><![CDATA[Enter the exclusions you want to use as a comma-separated list. For example, "gbr_channel_islands,usa_non_contiguous". Please see our <a href="https://fetchify.com/docs/global/javascript.html#excludeareas" target="_blank">documentation</a> to find out which exclusion options are available.]]></comment>
 					<validate>exclusion-areas</validate>
 				</field>
-				<field id="po_box" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="po_box" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Exclude PO Boxes</label>
 					<comment>Exclude PO Box addresses from search results.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
 		</section>
-		<section id="fetchify_pcl" translate="label" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_pcl" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>UK Postcode Lookup</label>
 			<tab>fetchify_setup</tab>
 			<resource>Fetchify_Fetchify::pcl_config</resource>
-			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="options" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Postcode Lookup Options</label>
-				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<comment>To avoid conflicts, do not enable Address Auto-Complete and UK Postcode Lookup at the same time.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
-			<group id="gfx_options" translate="label" type="text" sortOrder="30"  showInDefault="1">
+			<group id="gfx_options" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Search Options</label>
-				<field id="hide_fields" translate="label" type="select" sortOrder="7" showInDefault="1">
+				<field id="hide_fields" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Hide Address Fields of New Address Entry</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 					<comment>Only for the store front</comment>
 				</field>
 			</group>
-			<group id="txt_options" translate="label" type="text" sortOrder="40"  showInDefault="1">
+			<group id="txt_options" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Message Options</label>
-				<field id="search_label" type="text" sortOrder="5" showInDefault="1">
+				<field id="search_label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Search Label</label>
 				</field>
-				<field id="search_placeholder" type="text" sortOrder="5" showInDefault="1">
+				<field id="search_placeholder" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Search Placeholder</label>
 				</field>
-				<field id="search_buttontext" type="text" sortOrder="6" showInDefault="1">
+				<field id="search_buttontext" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Button Text</label>
 				</field>
-				<field id="manual_entry" type="text" sortOrder="7" showInDefault="1">
+				<field id="manual_entry" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Text for Manual Entry Button</label>
 					<comment>Only when "Hide Address Fields" is enabled</comment>
 					<validate>required-entry</validate>
 				</field>
-				<field id="error_msg_1" type="text" sortOrder="10" showInDefault="1">
+				<field id="error_msg_1" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Error Msg #1</label>
 				</field>
-				<field id="error_msg_2" type="text" sortOrder="20" showInDefault="1">
+				<field id="error_msg_2" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Error Msg #2</label>
 				</field>
-				<field id="error_msg_3" type="text" sortOrder="30" showInDefault="1">
+				<field id="error_msg_3" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Error Msg #3</label>
 				</field>
-				<field id="error_msg_4" type="text" sortOrder="40" showInDefault="1">
+				<field id="error_msg_4" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 					<label>Error Msg #4</label>
 				</field>
 			</group>
-			<group id="advanced" translate="label" type="text" sortOrder="50"  showInDefault="1">
+			<group id="advanced" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Advanced</label>
-				<field id="county_data" type="select" sortOrder="1" showInDefault="1">
+				<field id="county_data" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>County Data</label>
 					<source_model>Fetchify\Fetchify\Model\Source\PCLCountyOption</source_model>
 					<comment>County data is not required for UK addressing. Select a type of county data if you need it for legacy software requirements. "Empty" will erase any data already present in the input field, but still allows the user to enter a value manually.</comment>
 				</field>
 			</group>
 		</section>
-		<section id="fetchify_phone" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_phone" translate="label" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Phone Validation</label>
 			<tab>fetchify_setup</tab>
 			<resource>Fetchify_Fetchify::phone_config</resource>
-			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="options" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Phone Validation Options</label>
-				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
 		</section>
-		<section id="fetchify_email" translate="label" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+		<section id="fetchify_email" translate="label" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
 			<label>Email Validation</label>
 			<tab>fetchify_setup</tab>
 			<resource>Fetchify_Fetchify::email_config</resource>
-			<group id="options" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="options" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Email Validation Options</label>
-				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>

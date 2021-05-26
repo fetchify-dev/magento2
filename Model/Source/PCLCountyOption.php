@@ -5,8 +5,8 @@ namespace Fetchify\Fetchify\Model\Source;
 class PCLCountyOption implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
-	* @return array
-	*/
+	 * @return array
+	 */
 	public function toOptionArray()
 	{
 		return [

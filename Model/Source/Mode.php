@@ -5,8 +5,8 @@ namespace Fetchify\Fetchify\Model\Source;
 class Mode implements \Magento\Framework\Data\OptionSourceInterface
 {
 	/**
-	* @return array
-	*/
+	 * @return array
+	 */
 	public function toOptionArray()
 	{
 		return [
