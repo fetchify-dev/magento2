@@ -388,7 +388,7 @@ cc_ui_handler.prototype.lookup = function(postcode) {
 			html += '<option data-id="' + i + '">' + lines[i] + '</option>';
 		}
 		search_list.find('select').html(html);
-		search_list.show();
+		search_list.fadeIn().find('select').focus();
 	};
 	var select_builder = this.cfg.ui.select_builder || default_select_builder;
 	select_builder(results, search_list);
