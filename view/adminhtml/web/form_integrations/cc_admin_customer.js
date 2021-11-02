@@ -21,7 +21,8 @@ function activate_cc_m2() {
 
 			jQuery(elem).data('cc_attach', '1');
 
-			var tmp_html = '<div class="admin__field"><label class="admin__field-label">' + c2a_config.autocomplete.texts.search_label + '</label><div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text"/></div></div>';
+			var tmp_html = '<div class="admin__field"><label class="admin__field-label">' + c2a_config.autocomplete.texts.search_label + '</label>' +
+			'<div class="admin__field-control"><input class="cc_search_input admin__control-text" type="text" placeholder="' + c2a_config.autocomplete.texts.default_placeholder + '"/></div></div>';
 			form.find('[name="street[0]"]').closest('fieldset').before(tmp_html);
 
 			window.cc_holder.attach({
