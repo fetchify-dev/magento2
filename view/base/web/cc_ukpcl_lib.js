@@ -572,10 +572,10 @@ cc_ui_handler.prototype.select = function(postcode, id) {
 			county_line = dataset.traditional_county;
 			break;
 	}
-	if (county_line != '') {
-		this.countyFiller(this.cfg.dom.county, county_line);
-		this.countyFiller(this.cfg.dom.county_list, county_line);
-	}
+
+	this.countyFiller(this.cfg.dom.county, county_line);
+	this.countyFiller(this.cfg.dom.county_list, county_line);
+
 	// Change country according to postcode
 	if (typeof this.cfg.dom.country != 'undefined') {
 		var crown_dependencies = ['GY', 'JE', 'IM'];
