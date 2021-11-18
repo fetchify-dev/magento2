@@ -213,7 +213,25 @@ requirejs(['jquery'], function($) {
 
 			if (typeof c2a_config.autocomplete.enabled_countries !== 'undefined') {
 				config.countryMatchWith = 'iso_2';
-				config.enabledCountries = c2a_config.autocomplete.enabled_countries;
+				
+				var countryList = [];
+				var countryOptions = jQuery('#order-billing_address_country_id').find('option');
+
+				for (var i = 1; i < countryOptions.length; i++) {
+					countryList.push(countryOptions[i].value);
+				}
+
+				var isSame = true;
+
+				var isSame = c2a_config.autocomplete.enabled_countries.every(function (country) {
+					return countryList.indexOf(country) > -1;
+				});
+				
+				if (!isSame) {
+					config.enabledCountries = countryList;
+				} else {
+					config.enabledCountries = c2a_config.autocomplete.enabled_countries;
+				}
 			}
 
 			if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
