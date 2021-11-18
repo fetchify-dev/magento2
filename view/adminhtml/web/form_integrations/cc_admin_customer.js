@@ -1,5 +1,5 @@
 // autocomplete
-function activate_cc_m2() {
+function activate_cc_m2(config) {
 	jQuery('[name="postcode"]').each(function(index, elem) {
 		if (jQuery(elem).data('cc_attach') != '1') {
 			var form = jQuery(elem).closest('fieldset');
@@ -17,6 +17,30 @@ function activate_cc_m2() {
 			)) {
 				// if anything is missing (some parts get loaded in a second ajax pass)
 				return;
+			}
+
+			if (typeof c2a_config.autocomplete.enabled_countries !== 'undefined') {
+
+				var countryList = [];
+				var countryOptions = form.find('select[name="country_id"]').find('option');
+				
+				for (var i = 1; i < countryOptions.length; i++) {
+					countryList.push(countryOptions[i].value);
+				}
+				
+				var isSame = true;
+			
+				var isSame = config.enabledCountries.every(function (country) {
+					return countryList.indexOf(country) > -1;
+				});				
+			
+				if (!isSame) {
+					config.enabledCountries = countryList;
+				}
+			}
+
+			if (!window.cc_holder) {
+				window.cc_holder = new clickToAddress(config);
 			}
 
 			jQuery(elem).data('cc_attach', '1');
@@ -241,8 +265,7 @@ requirejs(['jquery'], function($) {
 				};
 			}
 
-			window.cc_holder = new clickToAddress(config);
-			setInterval(activate_cc_m2, 200);
+			setInterval(function() {activate_cc_m2(config);}, 200);
 		}
 		
 		if (c2a_config.autocomplete.enabled && c2a_config.main.key == null) {
