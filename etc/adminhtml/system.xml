@@ -13,7 +13,7 @@
 				<field id="enable_extension" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-					<comment>Fetchify Version: 2.3.0</comment>
+					<comment>Fetchify Version: 2.3.1</comment>
 				</field>
 				<field id="accesstoken" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
