@@ -2,7 +2,7 @@
     "name": "fetchify/module-fetchify",
     "description": "Adds data capture and validation products by Fetchify (previously Crafty Clicks) to Magento 2.",
     "require": {
-        "php": "~5.5.0|~5.6.0|~7.0|~7.1|~7.2|~7.3|~7.4"
+        "php": "~5.5.0|~5.6.0|~7.0|~7.1|~7.2|~7.3|~7.4|~8.0|~8.1"
     },
     "type": "magento2-module",
     "version": "2.3.1",
