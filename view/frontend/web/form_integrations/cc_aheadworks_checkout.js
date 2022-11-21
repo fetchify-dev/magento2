@@ -28,12 +28,12 @@ function cc_m2_c2a() {
 					'<div class="field-row"' + custom_id + '>' +
 						'<div class="field">' +
 							'<div style="display: flex; flex-direction: row; justify-content: space-between">' +
-								'<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">' + c2a_config.autocomplete.texts.search_label + '</label>' +
+								'<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;" for="fetchify_search">' + c2a_config.autocomplete.texts.search_label + '</label>' +
 								'<div class="field cc_hide_fields_action" style="font-size: 0.75em; color: #838383; max-width: 125px;">' +
 									'<label style="text-align: right;">' + c2a_config.autocomplete.texts.manual_entry_toggle + '</label>' +
 								'</div>' +
 							'</div>' +
-							'<div class="control"><input class="cc_search_input input-text" type="text"/></div>' +
+							'<div class="control"><input class="cc_search_input input-text" type="text" name="fetchify_search"/></div>' +
 						'</div>' +
 					'</div>';
 				form.find('[name="street[0]"]').closest('.field-row').before(tmp_html);
@@ -42,9 +42,9 @@ function cc_m2_c2a() {
 					'<div class="field-row"' + custom_id + '>' +
 						'<div class="field">' +
 							'<div style="display: flex; flex-direction: row; justify-content: space-between">' +
-								'<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;">' + c2a_config.autocomplete.texts.search_label + '</label>' +
+								'<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;" for="fetchify_search">' + c2a_config.autocomplete.texts.search_label + '</label>' +
 							'</div>' +
-							'<div class="control"><input class="cc_search_input input-text" type="text"/></div>' +
+							'<div class="control"><input class="cc_search_input input-text" type="text" name="fetchify_search"/></div>' +
 						'</div>' +
 					'</div>';
 				form.find('[name="street[0]"]').closest('.field-row').before(tmp_html);
@@ -284,7 +284,7 @@ requirejs(['jquery'], function($) {
 				excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 				debug: c2a_config.autocomplete.advanced.debug,
 				cssPath: false,
-				tag: 'Magento 2'
+				tag: 'magento2aw'
 			};
 
 			if (typeof c2a_config.autocomplete.enabled_countries !== 'undefined') {
