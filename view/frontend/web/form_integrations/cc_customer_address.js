@@ -25,9 +25,9 @@ function cc_m2_c2a() {
 		// null fix for m2_1.1.16
 		if (c2a_config.autocomplete.texts.search_label == null) c2a_config.autocomplete.texts.search_label = '';
 
-		var tmp_html = '<div class="field"' + custom_id + '><label class="label">' +
+		var tmp_html = '<div class="field"' + custom_id + '><label class="label" for="fetchify_search">' +
 			c2a_config.autocomplete.texts.search_label + '</label>' +
-			'<div class="control"><input class="cc_search_input" type="text"/></div></div>';
+			'<div class="control"><input class="cc_search_input" type="text" name="fetchify_search"/></div></div>';
 
 		if (!c2a_config.autocomplete.advanced.use_first_line) {
 			form.find('#street_1').closest('.field').before(tmp_html);
@@ -121,7 +121,7 @@ function cc_m2_c2a() {
 			excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 			debug: c2a_config.autocomplete.advanced.debug,
 			cssPath: false,
-			tag: 'Magento 2'
+			tag: 'magento2'
 		};
 		if (typeof c2a_config.autocomplete.enabled_countries !== 'undefined') {
 			config.countryMatchWith = 'iso_2';

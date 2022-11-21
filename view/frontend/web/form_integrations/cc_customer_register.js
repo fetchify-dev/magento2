@@ -8,6 +8,7 @@ requirejs(['jquery'], function($) {
 			if (window.cc_holder == null) {
 				window.cc_holder = new clickToAddress({
 					accessToken: c2a_config.main.key,
+					tag: 'magento2'
 				});
 			}
 
