@@ -122,12 +122,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			"no_results"			 => $this->getCfg('fetchify_global', 'txt_options/error_msg_1'),
 			"manual_entry_toggle"			 => $this->getCfg('fetchify_global', 'txt_options/manual_entry_toggle')
 		);
-
-		$match_country_list = $this->scopeConfig->getValue(
-			'fetchify_global/advanced/match_country_list',
-			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-		);
-
+		
 		$cfg['autocomplete']['default_country'] = $this->_escaper->escapeHtml(
 			$this->scopeConfig->getValue(
 				'general/country/default',
@@ -135,14 +130,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			)
 		);
 
-		if ($match_country_list) {
-			$cfg['autocomplete']['enabled_countries'] = explode(',', $this->_escaper->escapeHtml(
-				$this->scopeConfig->getValue(
-					'general/country/allow',
-					\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-				)
-			));
-		}
+		$cfg['autocomplete']['enabled_countries'] = explode(',', $this->_escaper->escapeHtml(
+			$this->scopeConfig->getValue(
+				'general/country/allow',
+				\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+			)
+		));
 
 		$cfg['autocomplete']['advanced'] = array(
 			"lock_country_to_dropdown" => $this->getCfg('fetchify_global', 'advanced/lock_country_to_dropdown') == "1",
