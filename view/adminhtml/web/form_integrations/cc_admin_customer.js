@@ -207,15 +207,13 @@ requirejs(['jquery'], function($) {
 				showLogo: false,
 				texts: c2a_config.autocomplete.texts,
 				onResultSelected: function(c2a, elements, address) {
-					switch (address.country_name) {
-						case 'Jersey':
-							jQuery(elements.country).val('JE');
-							break;
-						case 'Guernsey':
-							jQuery(elements.country).val('GG');
-							break;
-						case 'Isle of Man':
-							jQuery(elements.country).val('IM');
+					var postcode = address.postal_code.substring(0, 2);
+
+					switch (postcode) {
+						case 'JE':
+						case 'GG':
+						case 'IM':
+							jQuery(elements.country).val(postcode);
 							break;
 						default:
 							jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
@@ -277,7 +275,7 @@ requirejs(['jquery'], function($) {
 		}
 
 		if (c2a_config.phonevalidation.enabled && c2a_config.main.key != null) {
-			if (window.cc_holder == null) {
+			if (window.cc_holder == null && !c2a_config.autocomplete.enabled) {
 				window.cc_holder = new clickToAddress({
 					accessToken: c2a_config.main.key,
 				});

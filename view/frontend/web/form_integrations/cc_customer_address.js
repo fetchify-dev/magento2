@@ -66,19 +66,18 @@ function cc_m2_c2a() {
 			showLogo: false,
 			texts: c2a_config.autocomplete.texts,
 			onResultSelected: function(c2a, elements, address) {
-				switch (address.country_name) {
-					case 'Jersey':
-						jQuery(elements.country).val('JE');
-						break;
-					case 'Guernsey':
-						jQuery(elements.country).val('GG');
-						break;
-					case 'Isle of Man':
-						jQuery(elements.country).val('IM');
+				var postcode = address.postal_code.substring(0, 2);
+
+				switch (postcode) {
+					case 'JE':
+					case 'GG':
+					case 'IM':
+						jQuery(elements.country).val(postcode);
 						break;
 					default:
 						jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
 				}
+				
 				if (typeof elements.country != 'undefined') { triggerEvent('change', elements.country); }
 
 				var county = {
