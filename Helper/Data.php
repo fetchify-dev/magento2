@@ -15,18 +15,39 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	protected $_encryptor;
 
 	/**
+	 * @var \Magento\Framework\ObjectManagerInterface
+	 */
+	protected $_objectManager;
+
+	/**
 	 * @param \Magento\Framework\App\Helper\Context $context
 	 * @param \Magento\Framework\Escaper $_escaper
 	 * @param \Magento\Framework\Encryption\EncryptorInterface $_encryptor
+	 * @param \Magento\Framework\ObjectManagerInterface $_objectManager
 	 */
 	public function __construct(
 		\Magento\Framework\App\Helper\Context $context,
 		\Magento\Framework\Escaper $escaper,
-		\Magento\Framework\Encryption\EncryptorInterface $encryptor
+		\Magento\Framework\Encryption\EncryptorInterface $encryptor,
+		\Magento\Framework\ObjectManagerInterface $objectManager
 	) {
 		$this->_escaper = $escaper;
 		$this->_encryptor = $encryptor;
+		$this->_objectManager = $objectManager;
 		parent::__construct($context);
+	}
+
+	public function getNonce(): string
+	{
+		if (class_exists(\Magento\Csp\Helper\CspNonceProvider::class)) {
+			$cspNonceProvider = $this->_objectManager->get(
+				\Magento\Csp\Helper\CspNonceProvider::class
+			);
+
+			return $cspNonceProvider->generateNonce();
+		}
+
+		return '';
 	}
 
 	private function getCfg($scope, $cfg_name, $default = null)
