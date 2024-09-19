@@ -368,7 +368,8 @@ cc_ui_handler.prototype.lookup = function(postcode) {
 		this.prompt_error(dataset.error_code);
 		return;
 	}
-	this.cfg.dom.postcode.val(dataset.postcode);
+	// hyva form refreshes on postcode change so we can't change the field before selecting a result
+	if (!this.cfg.disable_country_change) this.cfg.dom.postcode.val(dataset.postcode);
 	var new_html = "";
 	results = ['Select Your Address'];
 	for (var i = 0; i < dataset.delivery_point_count; i++) {
@@ -424,7 +425,8 @@ cc_ui_handler.prototype.prompt_error = function(error_code) {
 	}
 };
 cc_ui_handler.prototype.countyFiller = function(element, county_value) {
-	if (element.tagName == 'SELECT') {
+	if (!element.length) return;
+	if (element[0].tagName == 'SELECT') {
 		var target_val = '';
 		var options = element[0].getElementsByTagName('option');
 		if (options.length) {
