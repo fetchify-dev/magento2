@@ -20,7 +20,6 @@ function activate_cc_m2() {
 				county:		{
 					input:	form.find('[name$="_address][region]"]'),
 					list:	form.find('[name$="_address][region_id]"]'),
-					fieldsetSelector: '#cc-fieldset-' + index
 				},
 				country:	form.find('select[name$="_address][country_id]"]')[0]
 			});
@@ -134,9 +133,6 @@ requirejs(['jquery'], function($) {
 			var config = {
 				accessToken: c2a_config.main.key,
 				onSetCounty: function(c2a, elements, county) {
-					var fieldset = jQuery(elements.county.fieldsetSelector);
-					var current_id = fieldset.find('input.cc_search_bar').attr('id');
-
 					if ('createEvent' in document) {
 						var evt = document.createEvent('HTMLEvents');
 						evt.initEvent('change', false, true);
@@ -145,26 +141,10 @@ requirejs(['jquery'], function($) {
 						elements.country.fireEvent('onchange');
 					}
 
-					if (fieldset.find(elements.county.list.selector).attr('id').indexOf('shipping') > -1) {
-						var change_tracker = setInterval(function() {
-							var fieldset = jQuery(elements.county.fieldsetSelector);
-
-							if (typeof fieldset.find('input.cc_search_bar').attr('id') == 'undefined' ||
-								fieldset.find('input.cc_search_bar').attr('id') == current_id) {
-								return;
-							}
-
-							clearInterval(change_tracker);
-
-							c2a.setCounty(fieldset.find(elements.county.list.selector)[0], county);
-							c2a.setCounty(fieldset.find(elements.county.input.selector)[0], county);
-						}, 50);
-					} else {
-						setTimeout(function() {
-							c2a.setCounty(elements.county.list[0], county);
-							c2a.setCounty(elements.county.input[0], county);
-						}, 100);
-					}
+					setTimeout(function() {
+						c2a.setCounty(elements.county.list[0], county);
+						c2a.setCounty(elements.county.input[0], county);
+					}, 100);
 				},
 				domMode: 'object',
 				gfxMode: c2a_config.autocomplete.gfx_mode,
