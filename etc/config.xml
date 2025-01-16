@@ -10,7 +10,7 @@
 		<fetchify_main>
 			<main_options>
 				<enable_extension>1</enable_extension>
-				<accesstoken backend_model="Magento\Config\Model\Config\Backend\Encrypted">xxxxx-xxxxx-xxxxx-xxxxx</accesstoken>
+				<accesstoken backend_model="Magento\Config\Model\Config\Backend\Encrypted"></accesstoken>
 			</main_options>
 		</fetchify_main>
 		<fetchify_email>

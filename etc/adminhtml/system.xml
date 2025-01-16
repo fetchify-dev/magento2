@@ -13,18 +13,14 @@
 				<field id="enable_extension" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-					<comment>Fetchify Version: 2.6.0</comment>
+					<comment>Fetchify Version: 2.6.1</comment>
 				</field>
 				<field id="accesstoken" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
 					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+					<comment><![CDATA[Need help finding your token? Check out our <a href="https://help.fetchify.com/en/articles/6025400-where-do-i-find-my-access-token" target="_blank">help page</a>.]]></comment>
 					<validate>token-format</validate>
 				</field>
-				<!--
-				<group id="fetchtoken" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-					<frontend_model>Fetchify\Fetchify\Block\Adminhtml\Config\FetchToken</frontend_model>
-				</group>
-				-->
 			</group>
 		</section>
 		<section id="fetchify_global" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">

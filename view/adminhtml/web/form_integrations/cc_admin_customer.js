@@ -8,7 +8,6 @@ function activate_cc_m2(config) {
 			if (!(
 				0 != form.find('[name="company"]').length &&
 				0 != form.find('[name="street[0]"]').length &&
-				0 != form.find('[name="street[1]"]').length &&
 				0 != form.find('[name="postcode"]').length &&
 				0 != form.find('[name="city"]').length &&
 				0 != form.find('[name="region"]').length &&
