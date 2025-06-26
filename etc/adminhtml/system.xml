@@ -13,13 +13,17 @@
 				<field id="enable_extension" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-					<comment>Fetchify Version: 2.6.1</comment>
+					<comment>Fetchify Version: 2.7.0</comment>
 				</field>
 				<field id="accesstoken" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
 					<backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
 					<comment><![CDATA[Need help finding your token? Check out our <a href="https://help.fetchify.com/en/articles/6025400-where-do-i-find-my-access-token" target="_blank">help page</a>.]]></comment>
 					<validate>token-format</validate>
+				</field>
+				<field id="review_prompt" translate="label" type="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Love Fetchify?</label>
+					<comment><![CDATA[<strong>We appreciate your support!</strong> Please consider <a href="https://commercemarketplace.adobe.com/fetchify-module-fetchify.html" target="_blank">leaving a review</a> on the Adobe Commerce Marketplace. Your feedback helps us improve!]]></comment>
 				</field>
 			</group>
 		</section>
@@ -110,6 +114,11 @@
 				</field>
 				<field id="debug" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable debug tools</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="fill_uk_counties" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Fill UK counties</label>
+					<comment>County data is not required for UK addressing. Enable county data if you need it for legacy software requirements. This setting does not affect non-UK addresses.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>
