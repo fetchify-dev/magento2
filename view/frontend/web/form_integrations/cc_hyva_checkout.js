@@ -486,6 +486,13 @@ window.addEventListener('load', function () {
           c2a_config.autocomplete.advanced.hide_fields = false;
         }
       },
+      onSetCounty: function(c2a, elements, county) {
+        if (c2a.activeCountry === 'gbr' && !c2a_config.autocomplete.advanced.fill_uk_counties) {
+            c2a.setCounty(elements.county, { code: '', name: '', preferred: '' });
+        } else {
+            c2a.setCounty(elements.county, county);
+        }
+      },
       transliterate: c2a_config.autocomplete.advanced.transliterate,
       // hyva checkout refreshes fields after country changes so we need to make sure country can't be changed from our search
       excludeAreas: c2a_config.autocomplete.exclusions.areas.concat(['gbr_channel_islands', 'gbr_isle_of_man']),

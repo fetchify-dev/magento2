@@ -159,10 +159,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		));
 
 		$cfg['autocomplete']['advanced'] = array(
+			"debug" => $this->getCfg('fetchify_global', 'advanced/debug') == "1",
+			"fill_uk_counties" => $this->getCfg('fetchify_global', 'advanced/fill_uk_counties') == "1",
 			"lock_country_to_dropdown" => $this->getCfg('fetchify_global', 'advanced/lock_country_to_dropdown') == "1",
 			"hide_fields" => $this->getCfg('fetchify_global', 'advanced/hide_fields') == "1",
 			"search_elem_id" => $this->getCfg('fetchify_global', 'advanced/search_elem_id'),
-			"debug" => $this->getCfg('fetchify_global', 'advanced/debug') == "1",
 			"transliterate" => $this->getCfg('fetchify_global', 'advanced/transliterate') == "1",
 			"use_first_line" => $this->getCfg('fetchify_global', 'advanced/use_first_line') == "1",
 		);

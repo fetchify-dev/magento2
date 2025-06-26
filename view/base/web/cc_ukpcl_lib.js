@@ -111,7 +111,9 @@ cc_rapid.prototype.format_data = function(data) {
 		for (var i = 0; i < data.delivery_point_count; i++) {
 			if (this.capsformat.address) {
 				data.delivery_points[i].line_1 = this.leading_caps(data.delivery_points[i].line_1);
-				data.delivery_points[i].line_2 = this.leading_caps(data.delivery_points[i].line_2);
+				if (typeof data.delivery_points[i].line_2 !== 'undefined') {
+					data.delivery_points[i].line_2 = this.leading_caps(data.delivery_points[i].line_2);
+				}
 				if (typeof data.delivery_points[i].line_3 !== 'undefined') {
 					data.delivery_points[i].line_3 = this.leading_caps(data.delivery_points[i].line_3);
 				}

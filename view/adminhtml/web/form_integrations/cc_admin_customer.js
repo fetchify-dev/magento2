@@ -194,8 +194,14 @@ requirejs(['jquery'], function($) {
 					} else {
 						elements.country.fireEvent('onchange');
 					}
-					c2a.setCounty(elements.county.list[0], county);
-					c2a.setCounty(elements.county.input[0], county);
+
+					if (c2a.activeCountry === 'gbr' && !c2a_config.autocomplete.advanced.fill_uk_counties) {
+						c2a.setCounty(elements.county.list[0], { code: '', name: '', preferred: '' });
+						c2a.setCounty(elements.county.input[0], { code: '', name: '', preferred: '' });
+					} else {
+						c2a.setCounty(elements.county.list[0], county);
+						c2a.setCounty(elements.county.input[0], county);
+					}
 				},
 				domMode: 'object',
 				gfxMode: c2a_config.autocomplete.gfx_mode,

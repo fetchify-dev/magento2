@@ -372,11 +372,16 @@ requirejs(['jquery'], function($) {
 
 					if (typeof elements.country != 'undefined') { triggerEvent('change', elements.country); }
 
-					var county = {
-						preferred: address.province,
-						code: address.province_code,
-						name: address.province_name
-					};
+					var county;
+					if (c2a.activeCountry === 'gbr' && !c2a_config.autocomplete.advanced.fill_uk_counties) {
+						county = { code: '', name: '', preferred: '' };
+					} else {
+						county = {
+							preferred: address.province,
+							code: address.province_code,
+							name: address.province_name
+						};
+					}
 
 					if (elements.county.list.length == 1) {
 						c2a.setCounty(elements.county.list[0], county);

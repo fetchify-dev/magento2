@@ -142,8 +142,13 @@ requirejs(['jquery'], function($) {
 					}
 
 					setTimeout(function() {
-						c2a.setCounty(elements.county.list[0], county);
-						c2a.setCounty(elements.county.input[0], county);
+						if (c2a.activeCountry === 'gbr' && !c2a_config.autocomplete.advanced.fill_uk_counties) {
+							c2a.setCounty(elements.county.list[0], { code: '', name: '', preferred: '' });
+							c2a.setCounty(elements.county.input[0], { code: '', name: '', preferred: '' });
+						} else {
+							c2a.setCounty(elements.county.list[0], county);
+							c2a.setCounty(elements.county.input[0], county);
+						}
 					}, 100);
 				},
 				domMode: 'object',
