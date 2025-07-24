@@ -1,4 +1,4 @@
-.color-cube {
+.colour-cube {
 	height: 20px;
 	width: 20px;
 	margin: 2px;
@@ -6,11 +6,11 @@
 	border: 2px solid white;
 }
 
-.color-cube:hover {
+.colour-cube:hover {
 	border-color: #63a2f1;
 }
 
-.color-cube.active {
+.colour-cube.active {
 	border-color: black;
 }
 

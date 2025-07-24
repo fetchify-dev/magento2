@@ -6,53 +6,64 @@ function cc_m2_c2a() {
 	 * (needed on sites that load page elements
 	 * via multiple ajax requests)
 	 */
-	if (jQuery('[name="postcode"]').length == 0) {
+	if (!document.querySelector('[name="postcode"]')) {
 		return;
 	}
 
-	var postcode_elem = jQuery('[name="postcode"]')[0];
+	var postcode_elem = document.querySelector('[name="postcode"]');
 
-	if (jQuery(postcode_elem).data('cc_attach') != '1') {
-		jQuery(postcode_elem).data('cc_attach', '1');
+	if (postcode_elem.dataset.cc_attach != '1') {
+		postcode_elem.dataset.cc_attach = '1';
 
-		var form = jQuery(postcode_elem).closest('form');
-		var custom_id = '';
-
-		if (c2a_config.autocomplete.advanced.search_elem_id !== null) {
-			custom_id = ' id="' + c2a_config.autocomplete.advanced.search_elem_id + '"';
-		}
+		var form = postcode_elem.closest('form');
 
 		// null fix for m2_1.1.16
 		if (c2a_config.autocomplete.texts.search_label == null) c2a_config.autocomplete.texts.search_label = '';
 
-		var tmp_html = '<div class="field"' + custom_id + '><label class="label" for="fetchify_search">' +
-			c2a_config.autocomplete.texts.search_label + '</label>' +
-			'<div class="control"><input class="cc_search_input" type="text" name="fetchify_search"/></div></div>';
+		var search_elem = document.createElement('input');
+		search_elem.classList.add('cc_search_input');
+		search_elem.name = 'fetchify_search';
+		search_elem.setAttribute('type', 'text');
+
+		var small_wrapper_elem = document.createElement('div');
+		small_wrapper_elem.classList.add('control');
+		small_wrapper_elem.appendChild(search_elem);
+
+		var label_elem = document.createElement('label');
+		label_elem.classList.add('label');
+		label_elem.setAttribute('for', 'fetchify_search');
+		label_elem.textContent = c2a_config.autocomplete.texts.search_label;
+
+		var big_wrapper_elem = document.createElement('div');
+		if (c2a_config.autocomplete.advanced.search_elem_id !== null) { big_wrapper_elem.id = c2a_config.autocomplete.advanced.search_elem_id; } // custom id
+		big_wrapper_elem.classList.add('field');
+		big_wrapper_elem.appendChild(label_elem);
+		big_wrapper_elem.appendChild(small_wrapper_elem);
 
 		if (!c2a_config.autocomplete.advanced.use_first_line) {
-			form.find('#street_1').closest('.field').before(tmp_html);
+			form.querySelector('#street_1').closest('.field').before(big_wrapper_elem);
 		} else {
-			form.find('#street_1').addClass('cc_search_input');
+			form.querySelector('#street_1').classList.add('cc_search_input');
 		}
 
 		if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
-			form.find('.cc_search_input').closest('div.field').before(form.find('[name="country_id"]').closest('div.field'));
+			form.querySelector('.cc_search_input').closest('div.field').before(form.querySelector('[name="country_id"]').closest('div.field'));
 		}
 
 		var config = {
 			accessToken: c2a_config.main.key,
 			dom: {
-				search:		form.find('.cc_search_input')[0],
-				company:	form.find('[name="company"]')[0],
-				line_1:		form.find('#street_1')[0],
-				line_2:		form.find('#street_2')[0],
-				postcode:	form.find('[name="postcode"]')[0],
-				town:		form.find('[name="city"]')[0],
+				search:		form.querySelector('.cc_search_input'),
+				company:	form.querySelector('[name="company"]'),
+				line_1:		form.querySelector('#street_1'),
+				line_2:		form.querySelector('#street_2'),
+				postcode:	form.querySelector('[name="postcode"]'),
+				town:		form.querySelector('[name="city"]'),
 				county:		{
-					input:	form.find('[name="region"]'),
-					list:	form.find('[name="region_id"]')
+					input:	form.querySelector('[name="region"]'),
+					list:	form.querySelector('[name="region_id"]')
 				},
-				country:	form.find('[name="country_id"]')[0]
+				country:	form.querySelector('[name="country_id"]')
 			},
 			onSetCounty: function(c2a, elements, county) {
 				return;
@@ -72,13 +83,13 @@ function cc_m2_c2a() {
 					case 'JE':
 					case 'GG':
 					case 'IM':
-						jQuery(elements.country).val(postcode);
+						elements.country.value = postcode;
 						break;
 					default:
-						jQuery(elements.country).val(address.country.iso_3166_1_alpha_2);
+						elements.country.value = address.country.iso_3166_1_alpha_2;
 				}
 				
-				if (typeof elements.country != 'undefined') { triggerEvent('change', elements.country); }
+				if (typeof elements.country != 'undefined') { elements.country.dispatchEvent(new Event('change')); }
 
 				var county;
 				if (c2a.activeCountry === 'gbr' && !c2a_config.autocomplete.advanced.fill_uk_counties) {
@@ -91,33 +102,32 @@ function cc_m2_c2a() {
 					};
 				}
 
-				if (elements.county.list.length == 1) {
-					c2a.setCounty(elements.county.list[0], county);
+				if (elements.county.list) {
+					c2a.setCounty(elements.county.list, county);
 				}
 
-				if (elements.county.input.length == 1) {
-					c2a.setCounty(elements.county.input[0], county);
+				if (elements.county.input) {
+					c2a.setCounty(elements.county.input, county);
 				}
 
-				if (typeof elements.county.input[0] != 'undefined') triggerEvent('change', elements.county.input[0]);
-				if (typeof elements.county.list[0] != 'undefined') triggerEvent('change', elements.county.list[0]);
-				if (typeof elements.company != 'undefined') triggerEvent('change', elements.company);
-				if (typeof elements.line_1 != 'undefined') triggerEvent('change', elements.line_1);
-				if (typeof elements.line_2 != 'undefined') triggerEvent('change', elements.line_2);
-				if (typeof elements.postcode != 'undefined') triggerEvent('change', elements.postcode);
-				if (typeof elements.town != 'undefined') triggerEvent('change', elements.town);
+				if (elements.county.input) elements.county.input.dispatchEvent(new Event('change'));
+				if (elements.county.list) elements.county.list.dispatchEvent(new Event('change'));
+				if (elements.company) elements.company.dispatchEvent(new Event('change'));
+				if (elements.line_1) elements.line_1.dispatchEvent(new Event('change'));
+				if (elements.line_2) elements.line_2.dispatchEvent(new Event('change'));
+				if (elements.postcode) elements.postcode.dispatchEvent(new Event('change'));
+				if (elements.town) elements.town.dispatchEvent(new Event('change'));
 
+				var line_3 = elements.search.closest('form').querySelector('#street_3');
+				if (line_3) {
+					line_3.value = '';
+					elements.line_3.dispatchEvent(new Event('change'));
+				}
 				
-				var line_3 = jQuery(elements.search).closest('form').find('#street_3');
-				if (line_3.length !== 0) {
-					line_3.val('');
-					triggerEvent('change', line_3[0]);
-				}
-				
-				var line_4 = jQuery(elements.search).closest('form').find('#street_4');
-				if (line_4.length !== 0) {
-					line_4.val('');
-					triggerEvent('change', line_4[0]);
+				var line_4 = elements.search.closest('form').querySelector('#street_4');
+				if (line_4) {
+					line_4.value = '';
+					elements.line_4.dispatchEvent(new Event('change'));
 				}
 			},
 			transliterate: c2a_config.autocomplete.advanced.transliterate,
@@ -145,12 +155,20 @@ function cc_m2_c2a() {
 	}
 }
 
+function parents(el, selector) {
+  var parents = [];
+  while ((el = el.parentNode) && el !== document) {
+    if (!selector || el.matches(selector)) parents.push(el);
+  }
+  return parents;
+}
+
 // Postcode Lookup
 var cc_activate_flags = [];
 function activate_cc_m2_uk() {
 	if (c2a_config.postcodelookup.enabled) {
-		var cfg = {
-			id: '',
+		var active_cfg = {
+			id: 'm2_address',
 			core: {
 				key: c2a_config.main.key,
 				preformat: true,
@@ -161,7 +179,18 @@ function activate_cc_m2_uk() {
 					town: true
 				}
 			},
-			dom: {},
+			dom: {
+				company:	document.querySelector('[name="company"]'),
+				address_1:	document.getElementById('street_1'),
+				address_2:	document.getElementById('street_2'),
+				address_3:	document.getElementById('street_3'),
+				address_4:	document.getElementById('street_4'),
+				postcode:	document.querySelector('[name="postcode"]'),
+				town:		document.querySelector('[name="city"]'),
+				county:		document.querySelector('[name="region"]'),
+				county_list:document.querySelector('[name="region_id"]'),
+				country:	document.querySelector('[name="country_id"]')
+			},
 			sort_fields: {
 				active: true,
 				parent: '.field:not(.additional)'
@@ -172,102 +201,145 @@ function activate_cc_m2_uk() {
 			county_data: c2a_config.postcodelookup.advanced.county_data,
 			ui: {
 				onResultSelected: function(dataset, id, fields) {
-					if (cfg.county_data == 'former_postal') {
-						fields.county[0].value = dataset.postal_county;
-					} else if (cfg.county_data == 'traditional') {
-						fields.county[0].value = dataset.traditional_county;
+					if (active_cfg.county_data == 'former_postal') {
+						fields.county.value = dataset.postal_county;
+					} else if (active_cfg.county_data == 'traditional') {
+						fields.county.value = dataset.traditional_county;
 					} else {
-						fields.county[0].value = '';
+						fields.county.value = '';
 					}
 
-					fields.county.trigger('change');
-					fields.address_4.val('').change();
+					if (fields.county) fields.county.dispatchEvent(new Event('change'));
+					if (fields.address_4) {
+						fields.address_4.value = '';
+						fields.address_4.dispatchEvent(new Event('change'));
+					}
 
-					fields.postcode.closest('form').find('.cp_manual_entry').hide(200);
+					fields.postcode.closest('form').querySelector('.cp_manual_entry').style.display = 'none';
 				}
 			}
 		};
 
-		var address_dom = {
-			company:	jQuery('[name="company"]'),
-			address_1:	jQuery('#street_1'),
-			address_2:	jQuery('#street_2'),
-			address_3:	jQuery('#street_3'),
-			address_4:	jQuery('#street_4'),
-			postcode:	jQuery('[name="postcode"]'),
-			town:		jQuery('[name="city"]'),
-			county:		jQuery('[name="region"]'),
-			county_list:jQuery('[name="region_id"]'),
-			country:	jQuery('[name="country_id"]')
-		};
-
-		cfg.dom = address_dom;
-		cfg.id = 'm2_address';
-
-		if (cc_activate_flags.indexOf(cfg.id) == -1 && cfg.dom.postcode.length == 1) {
-			cc_activate_flags.push(cfg.id);
+		if (cc_activate_flags.indexOf(active_cfg.id) == -1 && active_cfg.dom.postcode) {
+			cc_activate_flags.push(active_cfg.id);
 
 			// modify the Layout
-			var postcode_elem = cfg.dom.postcode;
-			postcode_elem.wrap('<div class="search-bar"></div>');
+			var postcode_elem = active_cfg.dom.postcode;
+
+			var postcode_wrapper_elem = document.createElement('div');
+			postcode_wrapper_elem.classList.add('search-bar');
+			postcode_elem.replaceWith(postcode_wrapper_elem);
+			postcode_wrapper_elem.appendChild(postcode_elem);
 
 			// button has to go before input elem otherwise layout messed up when m2 validaton alert is displayed
-			postcode_elem.before('<button type="button" class="action primary">' +
-				'<span>' + cfg.txt.search_buttontext + '</span></button>');
+			var button_text_elem = document.createElement('span');
+			button_text_elem.textContent = active_cfg.txt.search_buttontext;
+
+			var button_elem = document.createElement('button');
+			button_elem.setAttribute('type', 'button'); // Required to prevent form from submitting
+			button_elem.classList.add('action', 'primary');
+			button_elem.appendChild(button_text_elem);
+			postcode_elem.before(button_elem);
 
 			// STANDARD
-			postcode_elem.closest('.search-bar').after('<div class="search-list" style="display: none;"><select></select></div>' +
-				'<div class="mage-error" generated><div class="search-subtext"></div></div>');
+			var error_elem = document.createElement('div');
+			error_elem.classList.add('search-subtext');
+
+			var error_wrapper_elem = document.createElement('div');
+			error_wrapper_elem.classList.add('mage-error');
+			error_wrapper_elem.setAttribute('generated', '');
+			error_wrapper_elem.appendChild(error_elem);
+			postcode_wrapper_elem.after(error_wrapper_elem);
+
+			var results_elem = document.createElement('select');
+
+			var results_wrapper_elem = document.createElement('div');
+			results_wrapper_elem.classList.add('search-list');
+			results_wrapper_elem.style.display = 'none';
+			results_wrapper_elem.appendChild(results_elem);
+			postcode_wrapper_elem.after(results_wrapper_elem);
 
 			/* m2 expects the alert elem to be directly after postcode 
 			input, so let's move it back there to prevent m2 using our 
 			button for displaying invalid postcode error text */
-			postcode_elem.after(postcode_elem.closest('.control').find('[role="alert"]'));
+			postcode_elem.after(postcode_elem.closest('.control').querySelector('[role="alert"]'));
 
 			// add/show manual entry text
-			if (cfg.hide_fields) {
-				if (jQuery('#' + cfg.id + '_cp_manual_entry').length === 0 && postcode_elem.val() === '') {
-					var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305.67 179.25">' +
-						'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"/>' +
-						'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"/>' +
-						'</svg>';
+			if (active_cfg.hide_fields) {
+				if (!document.getElementById(active_cfg.id + '_cp_manual_entry') && postcode_elem.value === '') {
+					var rect1_elem = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+					rect1_elem.setAttribute('x', '-22.85');
+					rect1_elem.setAttribute('y', '66.4');
+					rect1_elem.setAttribute('width', '226.32');
+					rect1_elem.setAttribute('height', '47.53');
+					rect1_elem.setAttribute('rx', '17.33');
+					rect1_elem.setAttribute('ry', '17.33');
+					rect1_elem.setAttribute('transform', 'translate(89.52 -37.99) rotate(45)');
 
-					tmp_manual_html = '<div class="field cp_manual_entry" id="' + cfg.id + '_cp_manual_entry" style="margin-top: 15px; margin-bottom: 15px;"><label>' + cfg.txt.manual_entry + '</label>' + svg + '</div>';
-					jQuery(postcode_elem).next('[role="alert"]').after(tmp_manual_html);
+					var rect2_elem = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+					rect2_elem.setAttribute('x', '103.58');
+					rect2_elem.setAttribute('y', '66.4');
+					rect2_elem.setAttribute('width', '226.32');
+					rect2_elem.setAttribute('height', '47.53');
+					rect2_elem.setAttribute('rx', '17.33');
+					rect2_elem.setAttribute('ry', '17.33');
+					rect2_elem.setAttribute('transform', 'translate(433.06 0.12) rotate(135)');
 
-					jQuery('#' + cfg.id + '_cp_manual_entry').on('click', function() {
-						jQuery(postcode_elem).closest('form').find('.crafty_address_field').removeClass('crafty_address_field_hidden');
-						jQuery('#' + cfg.id + '_cp_manual_entry').hide(200);
+					var svg_elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+					svg_elem.setAttribute('viewBox', '0 0 305.67 179.25');
+					svg_elem.setAttribute('style', 'display: inline-block; width: 1em;');
+					svg_elem.appendChild(rect1_elem);
+					svg_elem.appendChild(rect2_elem);
+
+					var manual_entry_label_elem = document.createElement('label');
+					manual_entry_label_elem.textContent = active_cfg.txt.manual_entry;
+					manual_entry_label_elem.style.cursor = 'pointer';
+
+					var manual_entry_wrapper_elem = document.createElement('div');
+					manual_entry_wrapper_elem.id = active_cfg.id + '_cp_manual_entry';
+					manual_entry_wrapper_elem.classList.add('field', 'cp_manual_entry');
+					manual_entry_wrapper_elem.style.margin = '15px 0 15px 0';
+					manual_entry_wrapper_elem.appendChild(manual_entry_label_elem);
+					manual_entry_wrapper_elem.appendChild(svg_elem);
+
+					postcode_elem.nextElementSibling.after(manual_entry_wrapper_elem);
+
+					document.getElementById(active_cfg.id + '_cp_manual_entry').addEventListener('click', () => {
+						postcode_elem.closest('form').querySelectorAll('.crafty_address_field').forEach((field) => {
+							field.classList.remove('crafty_address_field_hidden');
+						});
+						document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'none';
 					});
 				}
 			}
 
-			var new_container = postcode_elem.closest(cfg.sort_fields.parent);
-			new_container.addClass('search-container').attr('id', cfg.id).addClass('type_3');
+			var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
+			new_container.id = active_cfg.id;
+			new_container.classList.add('search-container', 'type_3');
 
-			var cc_customer_address = new cc_ui_handler(cfg);
+			var cc_customer_address = new cc_ui_handler(active_cfg);
 
 			// respect the form's two-column layout
 			cc_customer_address.sort = function() {
 				var elems = this.cfg.dom;
-				var country = elems.country.parents(this.cfg.sort_fields.parent).last();
-				var line_1 = elems.address_1.parents(this.cfg.sort_fields.parent).last();
-				country.insertBefore(line_1);
+				var country = parents(elems.country, this.cfg.sort_fields.parent).at(-1);
+				var line_1 = parents(elems.address_1, this.cfg.sort_fields.parent).at(-1);
+				line_1.before(country);
 
 				var searchContainer = {};
-				searchContainer = this.search_object;
+				searchContainer = this.search_object[0];
 				country.after(searchContainer);
 
 				//IWD checkout - temporary ???
-				if (jQuery('.crafty-results-container').length > 0) {
-					searchContainer.after(searchContainer.closest('.fieldset').find('.crafty-results-container'));
+				if (document.querySelector('.crafty-results-container')) {
+					searchContainer.after(searchContainer.closest('.fieldset').querySelector('.crafty-results-container'));
 				}
 				
 				if (this.cfg.hide_fields) {
 					var tagElement = [];
 					tagElement = ['company', 'address_1', 'town', 'county', 'county_list'];
 					for (var i = 0; i < tagElement.length; i++) {
-						elems[tagElement[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
+						parents(elems[tagElement[i]], this.cfg.sort_fields.parent).at(-1).classList.add('crafty_address_field');
 					}
 				}
 			};
@@ -289,13 +361,13 @@ function cc_m2_phone() {
 	}
 
 	var add_phone = setInterval(function() {
-		var phone_element = jQuery('input[name="telephone"]');
-		if (phone_element.length == 1 && phone_element.data('cc') != '1') {
-			phone_element.data('cc', '1');
-			var country = phone_element.closest('form').find('select[name="country_id"]');
+		var phone_element = document.querySelector('input[name="telephone"]');
+		if (phone_element && phone_element.dataset.cc != '1') {
+			phone_element.dataset.cc = '1';
+			var country = phone_element.closest('form').querySelector('select[name="country_id"]');
 			window.cc_holder.addPhoneVerify({
-				phone: phone_element[0],
-				country: country[0]
+				phone: phone_element,
+				country: country
 			});
 			clearInterval(add_phone);
 		}
@@ -303,37 +375,31 @@ function cc_m2_phone() {
 }
 
 window.cc_holder = null;
-requirejs(['jquery'], function($) {
-	jQuery(document).ready(function() {
-		if (!c2a_config.main.enable_extension) { return; }
+function cc_init() {
+	if (!c2a_config.main.enable_extension) { return; }
 
-		if (c2a_config.main.enable_extension && c2a_config.main.key == null) {
-			console.warn('Fetchify: No access token configured.');
-			return;
-		}
-
-		if (c2a_config.autocomplete.enabled) {
-			setInterval(cc_m2_c2a, 200);
-		}
-
-		if (c2a_config.postcodelookup.enabled) {
-			setInterval(activate_cc_m2_uk, 200);
-		}
-
-		if (c2a_config.phonevalidation.enabled) {
-			setInterval(cc_m2_phone, 200);
-		}
-	});
-});
-
-// IE11 compatibility
-function triggerEvent(eventName, target) {
-	var event;
-	if (typeof (Event) === 'function') {
-		event = new Event(eventName);
-	} else {
-		event = document.createEvent('Event');
-		event.initEvent(eventName, true, true);
+	if (c2a_config.main.enable_extension && c2a_config.main.key == null) {
+		console.warn('Fetchify: No access token configured.');
+		return;
 	}
-	target.dispatchEvent(event);
+
+	if (c2a_config.autocomplete.enabled) {
+		setInterval(cc_m2_c2a, 200);
+	}
+
+	if (c2a_config.postcodelookup.enabled) {
+		setInterval(activate_cc_m2_uk, 200);
+	}
+
+	if (c2a_config.phonevalidation.enabled) {
+		setInterval(cc_m2_phone, 200);
+	}
 }
+
+requirejs(['jquery'], function($) {
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', cc_init);
+	} else {
+		cc_init();
+	}
+});
