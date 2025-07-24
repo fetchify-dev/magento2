@@ -11,7 +11,7 @@ function cc_m2_c2a() {
     return;
   }
 
-  document.querySelectorAll('[name="postcode"]').forEach((elem, index) => {
+  document.querySelectorAll('[name="postcode"]').forEach((elem) => {
     if (elem.dataset.cc_attach != '1') {
       elem.dataset.cc_attach = '1';
 
@@ -32,7 +32,7 @@ function cc_m2_c2a() {
 
       const wrapper1 = document.createElement('div');
       wrapper1.classList.add('flex', 'items-center', 'gap-4');
-      wrapper1.append(input);
+      wrapper1.appendChild(input);
 
       const label = document.createElement('label');
       label.classList.add('label');
@@ -41,12 +41,12 @@ function cc_m2_c2a() {
 
       const wrapper2 = document.createElement('div');
       wrapper2.classList.add('w-full', 'font-medium', 'text-gray-700', 'relative');
-      wrapper2.append(label);
-      wrapper2.append(wrapper1);
+      wrapper2.appendChild(label);
+      wrapper2.appendChild(wrapper1);
 
       const wrapper3 = document.createElement('div');
       wrapper3.classList.add('col-span-12', 'group', 'field-wrapper', 'field-type-text', 'field', 'field-reserved', 'md:col-span-12');
-      wrapper3.append(wrapper2);
+      wrapper3.appendChild(wrapper2);
 
       if (c2a_config.autocomplete.advanced.hide_fields) {
         const rect1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -70,17 +70,17 @@ function cc_m2_c2a() {
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('viewBox', '0 0 305.67 179.25');
         svg.setAttribute('style', 'display: inline-block; width: 1em;');
-        svg.append(rect1);
-        svg.append(rect2);
+        svg.appendChild(rect1);
+        svg.appendChild(rect2);
 
         const button = document.createElement('span');
         button.innerText = c2a_config.autocomplete.texts.manual_entry_toggle;
         button.style.cursor = 'pointer';
-        button.append(svg);
+        button.appendChild(svg);
 
         const button_wrapper = document.createElement('div');
         button_wrapper.classList.add('col-span-12', 'group', 'field-wrapper', 'field-type-text', 'field', 'field-reserved', 'md:col-span-12', 'cc_hide_fields_action');
-        button_wrapper.append(button);
+        button_wrapper.appendChild(button);
 
         form.querySelector(':scope [name="country_id"]').closest('.field-wrapper').after(button_wrapper);
       }
@@ -93,7 +93,7 @@ function cc_m2_c2a() {
 
       if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
         if (c2a_config.autocomplete.advanced.use_first_line) {
-          form.querySelector(':scope .cc_search_input').closest('fieldset').before(form.querySelector(':scope [name="country_id"]').closest('div.field'));
+          form.querySelector(':scope .cc_search_input').closest('div.field').before(form.querySelector(':scope [name="country_id"]').closest('div.field'));
         } else {
           form.querySelector(':scope .cc_search_input').closest('div.field').before(form.querySelector(':scope [name="country_id"]').closest('div.field'));
         }
@@ -159,19 +159,19 @@ function activate_cc_m2_uk() {
       ui: {
         onResultSelected: function(dataset, id, fields) {
           //fields.postcode.closest('form').querySelector(':scope .cp_manual_entry').style.display = 'none';
-          if (fields.address_4.length) {
-            fields.address_4[0].value = '';
+          if (fields.address_4) {
+            fields.address_4.value = '';
           }
 
-          fields.company[0]?.dispatchEvent(new Event('input'));
-          fields.address_1[0]?.dispatchEvent(new Event('input'));
-          fields.address_2[0]?.dispatchEvent(new Event('input'));
-          fields.address_3[0]?.dispatchEvent(new Event('input'));
-          fields.address_4[0]?.dispatchEvent(new Event('input'));
-          fields.postcode[0]?.dispatchEvent(new Event('input'));
-          fields.town[0]?.dispatchEvent(new Event('input'));
-          fields.county[0]?.dispatchEvent(new Event('input'));
-          fields.county_list[0]?.dispatchEvent(new Event('change'));
+          if (fields.company) fields.company.dispatchEvent(new Event('input'));
+          if (fields.address_1) fields.address_1.dispatchEvent(new Event('input'));
+          if (fields.address_2) fields.address_2.dispatchEvent(new Event('input'));
+          if (fields.address_3) fields.address_3.dispatchEvent(new Event('input'));
+          if (fields.address_4) fields.address_4.dispatchEvent(new Event('input'));
+          if (fields.postcode) fields.postcode.dispatchEvent(new Event('input'));
+          if (fields.town) fields.town.dispatchEvent(new Event('input'));
+          if (fields.county) fields.county.dispatchEvent(new Event('input'));
+          if (fields.county_list) fields.county_list.dispatchEvent(new Event('change'));
         }
       }
     };
@@ -189,8 +189,7 @@ function activate_cc_m2_uk() {
       country:  '[name="country_id"]'
     };
 
-    var postcode_elements = document.querySelectorAll(dom.postcode);
-    postcode_elements.forEach((postcode_elem, index) => {
+    document.querySelectorAll(dom.postcode).forEach((postcode_elem) => {
       /**
        * The Magento 2 checkout loads fields
        * asynchronously so we need to check
@@ -210,16 +209,16 @@ function activate_cc_m2_uk() {
         cc_index++;
 
         active_cfg.dom = {
-          company:    jQuery(form).find(dom.company),
-          address_1:    jQuery(form).find(dom.address_1),
-          address_2:    jQuery(form).find(dom.address_2),
-          address_3:    jQuery(form).find(dom.address_3),
-          address_4:    jQuery(form).find(dom.address_4),
-          postcode:    jQuery(postcode_elem),
-          town:      jQuery(form).find(dom.town),
-          county:      jQuery(form).find(dom.county),
-          county_list:  jQuery(form).find(dom.county_list),
-          country:    jQuery(form).find(dom.country)
+          company:    form.querySelector(dom.company),
+          address_1:    form.querySelector(dom.address_1),
+          address_2:    form.querySelector(dom.address_2),
+          address_3:    form.querySelector(dom.address_3),
+          address_4:    form.querySelector(dom.address_4),
+          postcode:    postcode_elem,
+          town:      form.querySelector(dom.town),
+          county:      form.querySelector(dom.county),
+          county_list:  form.querySelector(dom.county_list),
+          country:    form.querySelector(dom.country)
         };
 
         // STANDARD
@@ -311,24 +310,24 @@ function activate_cc_m2_uk() {
             style.textContent = '.crafty_address_field_hidden { display: none; }';
             document.head.appendChild(style);
 
-            active_cfg.dom.address_1[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.address_2[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.address_3[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.address_4[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.company[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.county[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.county_list[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-            active_cfg.dom.town[0]?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.address_1?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.address_2?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.address_3?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.address_4?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.company?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.county?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.county_list?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
+            active_cfg.dom.town?.closest('.field').classList.add('crafty_address_field', 'crafty_address_field_hidden');
 
             document.getElementById('shipping-country_id').addEventListener('change', () => {
               var active_countries = ['GB', 'IM', 'JE', 'GG'];
               if (active_countries.indexOf(this.value) !== -1) {
-                form.querySelectorAll('.crafty_address_field:not(.crafty_address_field_hidden)').forEach((element, index) => {
+                form.querySelectorAll('.crafty_address_field:not(.crafty_address_field_hidden)').forEach((element) => {
                   element.classList.add('crafty_address_field_hidden');
                 });
                 document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'block';
               } else {
-                form.querySelectorAll('.crafty_address_field.crafty_address_field_hidden').forEach((element, index) => {
+                form.querySelectorAll('.crafty_address_field.crafty_address_field_hidden').forEach((element) => {
                   element.classList.remove('crafty_address_field_hidden');
                 });
                 document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'none';
@@ -336,7 +335,7 @@ function activate_cc_m2_uk() {
             });
 
             document.getElementById(active_cfg.id + '_cp_manual_entry').addEventListener('click', () => {
-              form.querySelectorAll('.crafty_address_field').forEach((element, index) => {
+              form.querySelectorAll('.crafty_address_field').forEach((element) => {
                 element.classList.remove('crafty_address_field_hidden');
               });
               document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'none';
@@ -396,7 +395,7 @@ function cc_hide_fields(dom, action) {
       break;
     case 'hide':
       var form = dom.country.closest('form');
-      form.querySelectorAll(':scope .cc_hide').forEach((item, index) => {
+      form.querySelectorAll(':scope .cc_hide').forEach((item) => {
         item.classList.add('cc_hidden');
       });
       form.querySelector(':scope .cc_hide_fields_action').classList.remove('cc_slider_on');
@@ -405,7 +404,7 @@ function cc_hide_fields(dom, action) {
     case 'manual-show':
     case 'show':
       var form = dom.country.closest('form');
-      form.querySelectorAll(':scope .cc_hide').forEach((item, index) => {
+      form.querySelectorAll(':scope .cc_hide').forEach((item) => {
         item.classList.remove('cc_hidden');
       });
       form.querySelector(':scope .cc_hide_fields_action').style.display = 'none';
@@ -425,7 +424,7 @@ function cc_hide_fields(dom, action) {
 function cc_reveal_fields_on_error(dom) {
   var form = dom.country.closest('form');
   var errors_present = false;
-  form.querySelectorAll(':scope .cc_hide').forEach((item, index) => {
+  form.querySelectorAll(':scope .cc_hide').forEach((item) => {
     if (item.classList.contains('_error')) {
       errors_present = true;
     }
@@ -541,7 +540,7 @@ window.addEventListener('load', function () {
 
     setInterval(function() {
       var email_elements = document.querySelectorAll('input[name="email_address"]');
-      email_elements.forEach((email_element, index) => {
+      email_elements.forEach((email_element) => {
         if (cc_applied_email.indexOf(email_element.id) === -1) {
           cc_applied_email.push(email_element.id);
           window.cc_holder.addEmailVerify({
@@ -561,7 +560,7 @@ window.addEventListener('load', function () {
 
     setInterval(function() {
       var phone_elements = document.querySelectorAll('input[name="telephone"]');
-      phone_elements.forEach((phone_element, index) => {
+      phone_elements.forEach((phone_element) => {
         if (cc_applied_phone.indexOf(phone_element.id) === -1) {
           cc_applied_phone.push(phone_element.id);
           var country = phone_element.closest('form').querySelector(':scope select[name="country_id"]');

@@ -259,13 +259,13 @@ function cc_ui_handler(cfg) {
 	this.cfg = cfg;
 
 	var lines = 0;
-	if (cfg.dom.address_1.length === 1) {
+	if (jQuery(cfg.dom.address_1).length === 1) {
 		lines++;
 	}
-	if (cfg.dom.address_2.length === 1) {
+	if (jQuery(cfg.dom.address_2).length === 1) {
 		lines++;
 	}
-	if (cfg.dom.address_3.length === 1) {
+	if (jQuery(cfg.dom.address_3).length === 1) {
 		lines++;
 	}
 	this.cfg.core.lines = lines;
@@ -279,11 +279,11 @@ function cc_ui_handler(cfg) {
 
 cc_ui_handler.prototype.sort = function(is_uk) {
 	var elems = this.cfg.dom;
-	var country = elems.country.parents(this.cfg.sort_fields.parent).last();
+	var country = jQuery(elems.country).parents(this.cfg.sort_fields.parent).last();
 	// Sort disabled; position country on top
-	var company = elems.company.parents(this.cfg.sort_fields.parent).last();
-	var line_1 = elems.address_1.parents(this.cfg.sort_fields.parent).last();
-	var postcode = elems.postcode.parents(this.cfg.sort_fields.parent).last();
+	var company = jQuery(elems.company).parents(this.cfg.sort_fields.parent).last();
+	var line_1 = jQuery(elems.address_1).parents(this.cfg.sort_fields.parent).last();
+	var postcode = jQuery(elems.postcode).parents(this.cfg.sort_fields.parent).last();
 	if (company.length) {
 		country.insertBefore(company);
 	} else {
@@ -302,7 +302,7 @@ cc_ui_handler.prototype.sort = function(is_uk) {
 		tagElement = ['company', 'address_1', 'town', 'county', 'county_list'];
 
 		for (var i = 0; i < tagElement.length; i++) {
-			elems[tagElement[i]].parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
+			jQuery(elems[tagElement[i]]).parents(this.cfg.sort_fields.parent).last().addClass('crafty_address_field');
 		}
 	}
 };
@@ -315,16 +315,16 @@ cc_ui_handler.prototype.country_change = function(country) {
 		}
 		this.search_object.parents(this.cfg.sort_fields.parent).last().show();
 		this.search_object.find('.search-bar .action').show();
-		this.cfg.dom.postcode.closest('form').find('.cp_manual_entry').show(200);
+		jQuery(this.cfg.dom.postcode).closest('form').find('.cp_manual_entry').show(200);
 	} else {
 		if (this.cfg.sort_fields.active) {
 			this.sort(false);
 		}
 		this.search_object.parents(this.cfg.sort_fields.parent).last().hide();
 		this.search_object.find('.search-bar .action').hide();
-		this.cfg.dom.postcode.closest('form').find('.cp_manual_entry').hide(200);
+		jQuery(this.cfg.dom.postcode).closest('form').find('.cp_manual_entry').hide(200);
 	}
-	if (this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (this.cfg.dom.postcode.val() === '')) {
+	if (this.cfg.hide_fields && (active_countries.indexOf(country) != -1) && (jQuery(this.cfg.dom.postcode).val() === '')) {
 		this.search_object.closest(this.cfg.sort_fields.parent).parent().find('.crafty_address_field').addClass('crafty_address_field_hidden');
 	} else {
 		this.search_object.closest(this.cfg.sort_fields.parent).parent().find('.crafty_address_field').removeClass('crafty_address_field_hidden');
@@ -334,10 +334,10 @@ cc_ui_handler.prototype.country_change = function(country) {
 cc_ui_handler.prototype.activate = function() {
 	this.addui();
 
-	this.country_change(this.cfg.dom.country.val());
+	this.country_change(jQuery(this.cfg.dom.country).val());
 	// transfer object to event scope
 	var that = this;
-	this.cfg.dom.country.on('change', function() {
+	jQuery(this.cfg.dom.country).on('change', function() {
 		// selected country
 		var sc = jQuery(this).val();
 		that.country_change(sc);
@@ -371,7 +371,7 @@ cc_ui_handler.prototype.lookup = function(postcode) {
 		return;
 	}
 	// hyva form refreshes on postcode change so we can't change the field before selecting a result
-	if (!this.cfg.disable_country_change) this.cfg.dom.postcode.val(dataset.postcode);
+	if (!this.cfg.disable_country_change) jQuery(this.cfg.dom.postcode).val(dataset.postcode);
 	var new_html = "";
 	results = ['Select Your Address'];
 	for (var i = 0; i < dataset.delivery_point_count; i++) {
@@ -551,8 +551,8 @@ cc_ui_handler.prototype.countyFiller = function(element, county_value) {
 cc_ui_handler.prototype.select = function(postcode, id) {
 	var dataset = this.cc_core.get_store(this.cc_core.clean_input(postcode));
 
-	this.cfg.dom.town.val(dataset.town);
-	this.cfg.dom.postcode.val(dataset.postcode);
+	jQuery(this.cfg.dom.town).val(dataset.town);
+	jQuery(this.cfg.dom.postcode).val(dataset.postcode);
 
 	var company_details = [];
 	if (dataset.delivery_points[id].department_name !== '') {
@@ -562,10 +562,10 @@ cc_ui_handler.prototype.select = function(postcode, id) {
 		company_details.push(dataset.delivery_points[id].organisation_name);
 	}
 
-	this.cfg.dom.company.val(company_details.join(', '));
+	jQuery(this.cfg.dom.company).val(company_details.join(', '));
 
 	for (var i = 1; i <= this.cfg.core.lines; i++) {
-		this.cfg.dom['address_' + i].val(dataset.delivery_points[id]['line_' + i]);
+		jQuery(this.cfg.dom['address_' + i]).val(dataset.delivery_points[id]['line_' + i]);
 	}
 	var county_line = '';
 	switch (this.cfg.county_data) {
@@ -577,31 +577,31 @@ cc_ui_handler.prototype.select = function(postcode, id) {
 			break;
 	}
 
-	this.countyFiller(this.cfg.dom.county, county_line);
-	this.countyFiller(this.cfg.dom.county_list, county_line);
+	this.countyFiller(jQuery(this.cfg.dom.county), county_line);
+	this.countyFiller(jQuery(this.cfg.dom.county_list), county_line);
 
 	// Change country according to postcode
-	if (typeof this.cfg.dom.country != 'undefined') {
+	if (typeof jQuery(this.cfg.dom.country) != 'undefined') {
 		var crown_dependencies = ['GY', 'JE', 'IM'];
 		var postcode_area = dataset.postcode.substring(0, 2);
 		switch (postcode_area) {
 			case 'GY':
-				if (this.cfg.dom.country.find('option[value="GG"]').length) {
-					this.cfg.dom.country.val('GG');
+				if (jQuery(this.cfg.dom.country).find('option[value="GG"]').length) {
+					jQuery(this.cfg.dom.country).val('GG');
 				}
 				break;
 			case 'JE':
-				if (this.cfg.dom.country.find('option[value="JE"]').length) {
-					this.cfg.dom.country.val('JE');
+				if (jQuery(this.cfg.dom.country).find('option[value="JE"]').length) {
+					jQuery(this.cfg.dom.country).val('JE');
 				}
 				break;
 			case 'IM':
-				if (this.cfg.dom.country.find('option[value="IM"]').length) {
-					this.cfg.dom.country.val('IM');
+				if (jQuery(this.cfg.dom.country).find('option[value="IM"]').length) {
+					jQuery(this.cfg.dom.country).val('IM');
 				}
 				break;
 			default:
-				this.cfg.dom.country.val('GB');
+				jQuery(this.cfg.dom.country).val('GB');
 		}
 	}
 	if (this.cfg.hide_fields) {
@@ -609,7 +609,7 @@ cc_ui_handler.prototype.select = function(postcode, id) {
 	}
 	// trigger change for checkout validation
 	jQuery.each(this.cfg.dom, function(index, name) {
-		name.trigger('change');
+		jQuery(name).trigger('change');
 	});
 
 	if (typeof this.cfg.ui.onResultSelected == 'function') {

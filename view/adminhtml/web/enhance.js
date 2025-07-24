@@ -1,12 +1,14 @@
-require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'], function(jQuery) {
-	jQuery(document).ready(function() {
-		if (jQuery('#fetchify_global_gfx_options_accent').length) {
-			jQuery('#fetchify_global_gfx_options_accent').hide();
+require(['jquery', 'jquery/ui', 'jquery/validate'], function(jQuery) {
+	function enhance_config() {
+		if (document.getElementById('fetchify_global_gfx_options_accent')) {
+			document.getElementById('fetchify_global_gfx_options_accent').style.display = 'none';
 
-			var colorpicker = '<div class="color-set"></div>';
-			jQuery('#fetchify_global_gfx_options_accent').after(colorpicker);
+			var colourpicker = document.createElement('div');
+			colourpicker.classList.add('colour-set');
 
-			var colors = {
+			document.getElementById('fetchify_global_gfx_options_accent').after(colourpicker);
+
+			var colours = {
 				default:	'#63a2f1',
 				red:		'#F44336',
 				pink:		'#E91E63',
@@ -29,23 +31,28 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'], function(j
 				blueGrey:	'#607d8b'
 			};
 
-			var keys = Object.keys(colors);
+			var keys = Object.keys(colours);
 
 			for (var i = 0; i < keys.length; i++) {
-				jQuery('.color-set').append('<div class="color-cube" data-value="' + keys[i] + '" style="background-color: ' + colors[keys[i]] + '"></div>');
+				var colour_cube = document.createElement('div');
+				colour_cube.classList.add('colour-cube');
+				colour_cube.dataset.value = keys[i];
+				colour_cube.style.backgroundColor = colours[keys[i]];
+
+				document.querySelector('.colour-set').append(colour_cube);
 			}
 
-			var initial_cube = jQuery('#fetchify_global_gfx_options_accent').val();
+			var initial_cube = document.getElementById('fetchify_global_gfx_options_accent').value;
 
-			jQuery('.color-set .color-cube').each(function(index, item) {
-				if (jQuery(item).data('value') == initial_cube) {
-					jQuery(item).addClass('active');
+			document.querySelectorAll('.colour-set .colour-cube').forEach(function(item) {
+				if (item.dataset.value == initial_cube) {
+					item.classList.add('active');
 				}
 
-				jQuery(item).on('click', function(event) {
-					jQuery('#fetchify_global_gfx_options_accent').val(jQuery(this).data('value'));
-					jQuery('.color-set .color-cube').each(function(index, cube) { jQuery(cube).removeClass('active'); });
-					jQuery(this).addClass('active');
+				item.addEventListener('click', (e) => {
+					document.getElementById('fetchify_global_gfx_options_accent').value = e.target.dataset.value;
+					document.querySelectorAll('.colour-set .colour-cube').forEach(function(cube) { cube.classList.remove('active'); });
+					e.target.classList.add('active');
 				});
 			});
 		}
@@ -53,7 +60,7 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'], function(j
 		jQuery.validator.addMethod('token-format', function(value, element) {
 			// attempt to correct typos
 			value = value.toLowerCase().replace(/-{2,}/g, '-').replace(/^-|-$|[^a-f0-9-]/g, '');
-			jQuery('#fetchify_main_main_options_accesstoken').val(value);
+			document.getElementById('fetchify_main_main_options_accesstoken').value = value;
 
 			// validate token format
 			var patt = /(?!xxxxx)^[a-f0-9?]{5}?(-[a-f0-9]{5}){3}?$/;
@@ -66,12 +73,18 @@ require(['jquery', 'jquery/ui', 'jquery/validate', 'mage/translate'], function(j
 
 		jQuery.validator.addMethod('exclusion-areas', function(value, element) {
 			value = value.toLowerCase().replace(/ /g, '');
-			jQuery('#fetchify_global_exclusions_areas').val(value);
+			document.getElementById('fetchify_global_exclusions_areas').value = value;
 
 			var patt = /^[a-z_,]*$/;
 			if (patt.test(value)) {
 				return this.optional(element) || patt.test(value);
 			}
 		}, 'Please do not include numbers or special characters (except for underscores and commas).');
-	});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', enhance_config);
+	} else {
+		enhance_config();
+	}
 });
