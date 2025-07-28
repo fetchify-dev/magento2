@@ -8,58 +8,59 @@ use Magento\Framework\Setup\UninstallInterface;
 
 class Uninstall implements UninstallInterface
 {
-	/**
-	 * Module uninstall code
-	 *
-	 * @param SchemaSetupInterface $setup
-	 * @param ModuleContextInterface $context
-	 * @return void
-	 */
-	public function uninstall(
-		SchemaSetupInterface $setup,
-		ModuleContextInterface $context
-	) 
-	{
-		$setup->startSetup();
+  /**
+   * Module uninstall code
+   *
+   * @param SchemaSetupInterface $setup
+   * @param ModuleContextInterface $context
+   * @return void
+   */
+  public function uninstall(
+    SchemaSetupInterface $setup,
+    ModuleContextInterface $context
+  ) 
+  {
+    $setup->startSetup();
 
-		$connection = $setup->getConnection();
+    $connection = $setup->getConnection();
 
-		$connection->delete(
-			$this->getTableNameWithPrefix($setup, 'core_config_data'),
-			"path LIKE 'fetchify_main/%'"
-		);
+    $connection->delete(
+      $this->getTableNameWithPrefix($setup, 'core_config_data'),
+      "path LIKE 'fetchify_main/%'"
+    );
 
-		$connection->delete(
-			$this->getTableNameWithPrefix($setup, 'core_config_data'),
-			"path LIKE 'fetchify_global/%'"
-		);
+    $connection->delete(
+      $this->getTableNameWithPrefix($setup, 'core_config_data'),
+      "path LIKE 'fetchify_global/%'"
+    );
 
-		$connection->delete(
-			$this->getTableNameWithPrefix($setup, 'core_config_data'),
-			"path LIKE 'fetchify_pcl/%'"
-		);
+    $connection->delete(
+      $this->getTableNameWithPrefix($setup, 'core_config_data'),
+      "path LIKE 'fetchify_pcl/%'"
+    );
 
-		$connection->delete(
-			$this->getTableNameWithPrefix($setup, 'core_config_data'),
-			"path LIKE 'fetchify_phone/%'"
-		);
+    $connection->delete(
+      $this->getTableNameWithPrefix($setup, 'core_config_data'),
+      "path LIKE 'fetchify_phone/%'"
+    );
 
-		$connection->delete(
-			$this->getTableNameWithPrefix($setup, 'core_config_data'),
-			"path LIKE 'fetchify_email/%'"
-		);
+    $connection->delete(
+      $this->getTableNameWithPrefix($setup, 'core_config_data'),
+      "path LIKE 'fetchify_email/%'"
+    );
 
-		$setup->endSetup();
-	}
+    $setup->endSetup();
+  }
 
-	/**
-	 * @param SchemaSetupInterface $setup
-	 * @param string $tableName
-	 *
-	 * @return string
-	 */
-	private function getTableNameWithPrefix(SchemaSetupInterface $setup, $tableName)
-	{
-		return $setup->getTable($tableName);
-	}
+  /**
+   * @param SchemaSetupInterface $setup
+   * @param string $tableName
+   *
+   * @return string
+   */
+  private function getTableNameWithPrefix(SchemaSetupInterface $setup, $tableName)
+  {
+    return $setup->getTable($tableName);
+  }
 }
+

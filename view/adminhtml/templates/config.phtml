@@ -4,6 +4,6 @@
 $data = $this->helper('Fetchify\Fetchify\Helper\Data');
 ?>
 
-<script nonce="<?php echo $data->getNonce(); ?>">
-	var c2a_config = <?php echo $data->getFrontendCfg(); ?>;
+<script nonce="<?= htmlspecialchars($data->getNonce()); ?>">
+  var c2a_config = JSON.parse(<?= json_encode($data->getFrontendCfg()); ?>);
 </script>
