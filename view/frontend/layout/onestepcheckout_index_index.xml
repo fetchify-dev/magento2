@@ -12,6 +12,9 @@
 			<block class="Magento\Framework\View\Element\Template"
 				   name="fetchify.configpass"
 				   template="Fetchify_Fetchify::config.phtml">
+				<arguments>
+					<argument name="view_model" xsi:type="object">Fetchify\Fetchify\ViewModel\Data</argument>
+				</arguments>
 			</block>
 		</referenceContainer>
 	</body>

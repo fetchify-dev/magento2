@@ -1,9 +1,9 @@
 <?php
 
-/** @var Magento\Framework\View\TemplateEngine\Php $this */
-$data = $this->helper('Fetchify\Fetchify\Helper\Data');
+/** @var Magento\Framework\View\Element\Template $block */
+$vm = $block->getViewModel();
 ?>
 
-<script nonce="<?= htmlspecialchars($data->getNonce()); ?>">
-  var c2a_config = JSON.parse(<?= json_encode($data->getFrontendCfg()); ?>);
+<script nonce="<?= $escaper->escapeHtmlAttr($vm->getNonce()); ?>">
+  var c2a_config = JSON.parse("<?= $escaper->escapeJs($vm->getFrontendCfg()); ?>");
 </script>

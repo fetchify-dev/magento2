@@ -33,7 +33,7 @@ function cc_m2_c2a() {
 									'<label style="text-align: right;">' + c2a_config.autocomplete.texts.manual_entry_toggle + '</label>' +
 								'</div>' +
 							'</div>' +
-							'<div class="control"><input class="cc_search_input input-text" type="text" name="fetchify_search"/></div>' +
+							'<div class="control"><input class="cc_search_input input-text" type="text" name="fetchify_search"></div>' +
 						'</div>' +
 					'</div>';
 				form.find('[name="street[0]"]').closest('.field-row').before(tmp_html);
@@ -44,7 +44,7 @@ function cc_m2_c2a() {
 							'<div style="display: flex; flex-direction: row; justify-content: space-between">' +
 								'<label style="color: #838383; cursor: default; max-width: 150px; margin-bottom: 5px;" for="fetchify_search">' + c2a_config.autocomplete.texts.search_label + '</label>' +
 							'</div>' +
-							'<div class="control"><input class="cc_search_input input-text" type="text" name="fetchify_search"/></div>' +
+							'<div class="control"><input class="cc_search_input input-text" type="text" name="fetchify_search"></div>' +
 						'</div>' +
 					'</div>';
 				form.find('[name="street[0]"]').closest('.field-row').before(tmp_html);
