@@ -15,52 +15,52 @@ class Uninstall implements UninstallInterface
    * @param ModuleContextInterface $context
    * @return void
    */
-  public function uninstall(
-    SchemaSetupInterface $setup,
-    ModuleContextInterface $context
-  ) 
-  {
-    $setup->startSetup();
+    public function uninstall(
+        SchemaSetupInterface $setup,
+        ModuleContextInterface $context
+    ) {
+        $setup->startSetup();
 
-    $connection = $setup->getConnection();
+        $connection = $setup->getConnection();
 
-    $connection->delete(
-      $this->getTableNameWithPrefix($setup, 'core_config_data'),
-      "path LIKE 'fetchify_main/%'"
-    );
+        $connection->delete(
+            $this->getTableNameWithPrefix($setup, 'core_config_data'),
+            "path LIKE 'fetchify_main/%'"
+        );
 
-    $connection->delete(
-      $this->getTableNameWithPrefix($setup, 'core_config_data'),
-      "path LIKE 'fetchify_global/%'"
-    );
+        $connection->delete(
+            $this->getTableNameWithPrefix($setup, 'core_config_data'),
+            "path LIKE 'fetchify_global/%'"
+        );
 
-    $connection->delete(
-      $this->getTableNameWithPrefix($setup, 'core_config_data'),
-      "path LIKE 'fetchify_pcl/%'"
-    );
+        $connection->delete(
+            $this->getTableNameWithPrefix($setup, 'core_config_data'),
+            "path LIKE 'fetchify_pcl/%'"
+        );
 
-    $connection->delete(
-      $this->getTableNameWithPrefix($setup, 'core_config_data'),
-      "path LIKE 'fetchify_phone/%'"
-    );
+        $connection->delete(
+            $this->getTableNameWithPrefix($setup, 'core_config_data'),
+            "path LIKE 'fetchify_phone/%'"
+        );
 
-    $connection->delete(
-      $this->getTableNameWithPrefix($setup, 'core_config_data'),
-      "path LIKE 'fetchify_email/%'"
-    );
+        $connection->delete(
+            $this->getTableNameWithPrefix($setup, 'core_config_data'),
+            "path LIKE 'fetchify_email/%'"
+        );
 
-    $setup->endSetup();
-  }
+        $setup->endSetup();
+    }
 
   /**
+   * Get table name with prefix
+   *
    * @param SchemaSetupInterface $setup
    * @param string $tableName
    *
    * @return string
    */
-  private function getTableNameWithPrefix(SchemaSetupInterface $setup, $tableName)
-  {
-    return $setup->getTable($tableName);
-  }
+    private function getTableNameWithPrefix(SchemaSetupInterface $setup, $tableName): string
+    {
+        return $setup->getTable($tableName);
+    }
 }
-
