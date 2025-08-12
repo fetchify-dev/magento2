@@ -13,7 +13,7 @@
 				<field id="enable_extension" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-					<comment>Fetchify Version: 2.8.2</comment>
+					<comment>Fetchify Version: 2.8.3</comment>
 				</field>
 				<field id="accesstoken" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
@@ -88,8 +88,8 @@
 			<group id="advanced" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>Advanced</label>
 				<field id="transliterate" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-					<label>Transliterate for non ASCII characters</label>
-					<comment>(changes non english characters to english characters)</comment>
+					<label>Transliterate for non-Latin characters</label>
+					<comment>Changes non-English characters to English characters.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 

@@ -5,6 +5,7 @@
 			<values>
 				<value id="fetchify-api" type="host">api.craftyclicks.co.uk</value>
 				<value id="fetchify-pcl-api" type="host">pcls1.craftyclicks.co.uk</value>
+				<value id="fetchify-cdn-connect" type="host">cc-cdn.com</value>
 			</values>
 		</policy>
 		<policy id="frame-src">
@@ -12,9 +13,14 @@
 				<value id="fetchify-portal" type="host">account.fetchify.com</value>
 			</values>
 		</policy>
+		<policy id="script-src">
+			<values>
+				<value id="fetchify-cdn-script" type="host">cc-cdn.com</value>
+			</values>
+		</policy>
 		<policy id="style-src">
 			<values>
-				<value id="fetchify-cdn" type="host">cc-cdn.com</value>
+				<value id="fetchify-cdn-style" type="host">cc-cdn.com</value>
 			</values>
 		</policy>
 	</policies>
