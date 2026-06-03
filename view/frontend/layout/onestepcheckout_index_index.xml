@@ -2,10 +2,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>
-		<script src="Fetchify_Fetchify::form_integrations/cc_aheadworks_checkout.js"/>
+		<css src="Fetchify_Fetchify::fetchify_common.css"/>
 		<script src="Fetchify_Fetchify::cc_c2a.min.js"/>
 		<css src="Fetchify_Fetchify::cc_c2a.min.css"/>
-		<css src="Fetchify_Fetchify::cc_basics.css"/>
+		<script src="Fetchify_Fetchify::form_integrations/fetchify_aheadworks_checkout.js"/>
 	</head>
 	<body>
 		<referenceContainer name="content.top">

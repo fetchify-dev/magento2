@@ -23,10 +23,8 @@ function cc_init() {
 	}
 }
 
-requirejs(['jquery'], function($) {
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', cc_init);
-	} else {
-		cc_init();
-	}
-});
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', cc_init);
+} else {
+	cc_init();
+}

@@ -163,19 +163,19 @@ function activate_address_autocomplete() {
       dom.country = form.querySelector('[name="country_id"]');
 
       if (c2a_config.autocomplete.advanced.hide_fields) {
-        var manual_entry_button =
-          '<div class="col-span-12 field-wrapper field-type-text field field-reserved md:col-span-12 cc_hide_fields_action">' +
-            '<span style="cursor: pointer;">' + c2a_config.autocomplete.texts.manual_entry_toggle +
-              '<svg viewBox="0 0 305.67 179.25" style="display: inline-block; width: 1em;">' +
+        var manual_entry_button_html =
+          '<div class="cp_manual_entry">' +
+            '<span>' + c2a_config.autocomplete.texts.manual_entry_toggle +
+              '<svg viewBox="0 0 305.67 179.25">' +
                 '<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"></rect>' +
                 '<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"></rect>' +
               '</svg>' +
             '</span>' +
           '</div>';
 
-        form.querySelector('.cc_search_input').closest('.field-wrapper').insertAdjacentHTML('afterend', manual_entry_button);
+        form.querySelector('.cc_search_input').closest('.field-wrapper').insertAdjacentHTML('beforeend', manual_entry_button_html);
 
-        form.querySelector('.cc_hide_fields_action').addEventListener('click', function() {
+        form.querySelector('.cp_manual_entry').addEventListener('click', function() {
           cc_hide_fields(dom, 'manual-show');
         });
       }
@@ -183,13 +183,17 @@ function activate_address_autocomplete() {
       cc_hide_fields(dom, 'init');
     });
   }, 200);
+
+  document.querySelector('#cc_c2a').addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
 }
 
 // Postcode Lookup
 function activate_postcode_lookup() {
   setInterval(function() {
-    document.querySelectorAll('[name="postcode"]:not([data-cc_pcl_applied="1"])').forEach(function(postcode_elem) {
-      var form = postcode_elem.closest('form');
+    document.querySelectorAll('[name="postcode"]:not([data-cc_pcl_applied="1"])').forEach(function(postcode_field) {
+      var form = postcode_field.closest('form');
 
       /**
        * The Magento 2 checkout loads fields
@@ -207,7 +211,7 @@ function activate_postcode_lookup() {
         return;
       }
 
-      postcode_elem.dataset.cc_pcl_applied = '1';
+      postcode_field.dataset.cc_pcl_applied = '1';
 
       var active_cfg = {
         id: 'm2_' + cc_index,
@@ -230,7 +234,7 @@ function activate_postcode_lookup() {
           town:        form.querySelector('[name="city"]'),
           county:      form.querySelector('[name="region"]'),
           county_list: form.querySelector('[name="region_id"]'),
-          postcode:    postcode_elem,
+          postcode:    postcode_field,
           country:     form.querySelector('[name="country_id"]')
         },
         sort_fields: {
@@ -244,8 +248,10 @@ function activate_postcode_lookup() {
         disable_country_change: true,
         ui: {
           onResultSelected: function(dataset, id, fields) {
-            //fields.postcode.closest('form').querySelector('.cp_manual_entry').style.display = 'none';
+            var manual_entry_button = fields.postcode.closest('form').querySelector('.cp_manual_entry');
+            if (manual_entry_button) manual_entry_button.style.display = 'none';
 
+            // The PCL library only dispatches change events, but Hyva needs input events
             // Company, Address Line 2, and State/Province can all be disabled in Magento config
             if (fields.company) fields.company.dispatchEvent(new Event('input'));
             fields.address_1.dispatchEvent(new Event('input'));
@@ -262,80 +268,72 @@ function activate_postcode_lookup() {
 
       cc_index++;
 
-      // STANDARD
-      var postcode_wrapper =
-        '<div class="search-bar" style="width: 100%; display: grid; grid-template-columns: auto min-content; grid-auto-rows: auto; grid-gap: 0.75em; width: 100%">' +
-	      '<button type="button" class="btn btn-primary action" style="white-space: nowrap;">' + active_cfg.txt.search_buttontext + '</button>' +
-          '<div class="search-list" style="display: none; grid-column-start: 1; grid-column-end: 3;">' +
-            '<select class="block w-full form-input renderer-select"></select>' +
-          '</div>' +
-          '<div class="mage-error" style="grid-column-start: 1; grid-column-end: 3;" disabled>' +
-            '<div class="search-subtext"></div>' +
-          '</div>' +
-        '</div>';
-      postcode_elem.parentNode.insertAdjacentHTML('afterend', postcode_wrapper); // modify the Layout
-      postcode_elem.style.width = '100%';
-      form.querySelector('.search-bar').prepend(postcode_elem.parentNode);
+      var search_bar = document.createElement('div');
+      search_bar.classList.add('search-bar');
+      postcode_field.parentNode.replaceWith(search_bar);
+      search_bar.appendChild(postcode_field.parentNode);
+      var search_container = postcode_field.closest(active_cfg.sort_fields.parent);
+      search_container.id = active_cfg.id;
+      search_container.classList.add('search-container');
 
-      // input after postcode
-      var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
-      new_container.classList.add('search-container');
-      new_container.id = active_cfg.id;
+      // add postcode lookup button
+      var search_button_html = '<button type="button" class="btn btn-primary action search-button">' + active_cfg.txt.search_buttontext + '</button>';
+      search_bar.insertAdjacentHTML('beforeend', search_button_html);
 
-      // add/show manual entry text
+      // add container for address results
+      var search_results_html = '<select class="block w-full form-input renderer-select search-list" style="width: 100%;"></select>';
+      search_bar.insertAdjacentHTML('beforeend', search_results_html);
+
+      // add container for errors
+      var search_subtext_html = '<div class="search-subtext"></div>';
+      search_bar.insertAdjacentHTML('beforeend', search_subtext_html);
+
+      // add manual entry button (if enabled)
       if (active_cfg.hide_fields) {
-        if (!document.getElementById(active_cfg.id + '_cp_manual_entry') && postcode_elem.value === '') {
-          var manual_entry_button =
-            '<div id="' + active_cfg.id + '_cp_manual_entry" class="col-span-12 field-wrapper field-type-text field field-reserved md:col-span-12 cp_manual_entry">' +
-              '<span style="cursor: pointer;">' + active_cfg.txt.manual_entry +
-                '<svg viewBox="0 0 305.67 179.25" style="display: inline-block; width: 1em;">' +
-                  '<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"></rect>' +
-                  '<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"></rect>' +
-                '</svg>' +
-              '</span>' +
-            '</div>';
+        var manual_entry_button_html =
+          '<div id="' + active_cfg.id + '_cp_manual_entry" class="cp_manual_entry">' +
+            '<span>' + active_cfg.txt.manual_entry +
+              '<svg viewBox="0 0 305.67 179.25">' +
+                '<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"></rect>' +
+                '<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"></rect>' +
+              '</svg>' +
+            '</span>' +
+          '</div>';
+        search_bar.insertAdjacentHTML('beforeend', manual_entry_button_html);
 
-          postcode_elem.closest('.field-wrapper').insertAdjacentHTML('afterend', manual_entry_button);
+        // Company, Address Line 2, and State/Province can all be disabled in Magento config
+        if (active_cfg.dom.company) active_cfg.dom.company.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        active_cfg.dom.address_1.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        if (active_cfg.dom.address_2) active_cfg.dom.address_2.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        if (active_cfg.dom.address_3) active_cfg.dom.address_3.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        if (active_cfg.dom.address_4) active_cfg.dom.address_4.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        active_cfg.dom.town.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        if (active_cfg.dom.county) active_cfg.dom.county.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
+        if (active_cfg.dom.county_list) active_cfg.dom.county_list.closest('.field-wrapper').classList.add('crafty_address_field', 'cc_hidden');
 
-          var style = document.createElement('style');
-          style.textContent = '.crafty_address_field_hidden { display: none; }';
-          document.head.append(style);
-
-          // Company, Address Line 2, and State/Province can all be disabled in Magento config
-          if (active_cfg.dom.company) active_cfg.dom.company.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          active_cfg.dom.address_1.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          if (active_cfg.dom.address_2) active_cfg.dom.address_2.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          if (active_cfg.dom.address_3) active_cfg.dom.address_3.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          if (active_cfg.dom.address_4) active_cfg.dom.address_4.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          active_cfg.dom.town.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          if (active_cfg.dom.county) active_cfg.dom.county.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-          if (active_cfg.dom.county_list) active_cfg.dom.county_list.closest('.field-wrapper').classList.add('crafty_address_field', 'crafty_address_field_hidden');
-
-          document.getElementById('shipping-country_id').addEventListener('change', function() {
-            var active_countries = ['GB', 'IM', 'JE', 'GG'];
-            if (active_countries.indexOf(this.value) !== -1) {
-              form.querySelectorAll('.crafty_address_field:not(.crafty_address_field_hidden)').forEach(function(element) {
-                element.classList.add('crafty_address_field_hidden');
-              });
-
-              document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'block';
-            } else {
-              form.querySelectorAll('.crafty_address_field.crafty_address_field_hidden').forEach(function(element) {
-                element.classList.remove('crafty_address_field_hidden');
-              });
-
-              document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'none';
-            }
-          });
-
-          document.getElementById(active_cfg.id + '_cp_manual_entry').addEventListener('click', function() {
-            form.querySelectorAll('.crafty_address_field').forEach(function(element) {
-              element.classList.remove('crafty_address_field_hidden');
+        document.getElementById('shipping-country_id').addEventListener('change', function() {
+          var active_countries = ['GB', 'IM', 'JE', 'GG'];
+          if (active_countries.indexOf(this.value) !== -1) {
+            form.querySelectorAll('.crafty_address_field:not(.cc_hidden)').forEach(function(element) {
+              element.classList.add('cc_hidden');
             });
 
-            document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'none';
+            form.querySelector('.cp_manual_entry').style.display = 'block';
+          } else {
+            form.querySelectorAll('.crafty_address_field.cc_hidden').forEach(function(element) {
+              element.classList.remove('cc_hidden');
+            });
+
+            form.querySelector('.cp_manual_entry').style.display = 'none';
+          }
+        });
+
+        postcode_field.closest('form').querySelector('.cp_manual_entry > span').addEventListener('click', function(event) {
+          event.target.closest('form').querySelectorAll('.crafty_address_field').forEach(function(element) {
+            element.classList.remove('cc_hidden');
           });
-        }
+          event.target.parentNode.style.display = 'none';
+        });
       }
 
       var cc_generic = new cc_ui_handler(active_cfg);
@@ -431,7 +429,7 @@ function cc_hide_fields(dom, action) {
       form.querySelectorAll('.cc_hide').forEach(function(item) {
         item.classList.add('cc_hidden');
       });
-      form.querySelector('.cc_hide_fields_action').classList.remove('cc_slider_on');
+      form.querySelector('.cp_manual_entry').classList.remove('cc_slider_on');
       form.dataset.cc_hidden = 1;
       break;
     case 'manual-show':
@@ -440,7 +438,7 @@ function cc_hide_fields(dom, action) {
       form.querySelectorAll('.cc_hide').forEach(function(item) {
         item.classList.remove('cc_hidden');
       });
-      form.querySelector('.cc_hide_fields_action').style.display = 'none';
+      form.querySelector('.cp_manual_entry').style.display = 'none';
       form.dataset.cc_hidden = 0;
       break;
     case 'toggle':
@@ -465,7 +463,7 @@ function cc_reveal_fields_on_error(dom) {
 
   if (errors_present) {
     cc_hide_fields(dom, 'show');
-    form.find('.cc_hide_fields_action').style.display = 'none'; // prevent the user from hiding the fields again
+    form.find('.cp_manual_entry').style.display = 'none'; // prevent the user from hiding the fields again
   }
 }
 

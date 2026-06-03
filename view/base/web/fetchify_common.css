@@ -1,0 +1,18 @@
+.cc_hidden {
+	display: none !important;
+}
+
+div.cp_manual_entry {
+	margin-top: 8px;
+	font-style: italic;
+}
+
+div.cp_manual_entry > span {
+	cursor: pointer;
+}
+
+div.cp_manual_entry > span > svg {
+	width: 0.8em;
+	margin-left: 0.5em;
+	margin-bottom: 0.1em;
+}
