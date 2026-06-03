@@ -1,4 +1,6 @@
 var cc_activate_flags = [];
+
+// Address Auto-Complete
 function cc_m2_c2a() {
 	/**
 	 * wait for form to exist before continuing
@@ -46,39 +48,17 @@ function cc_m2_c2a() {
 		}
 
 		if (c2a_config.autocomplete.advanced.hide_fields) {
-			var rect1_elem = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-			rect1_elem.setAttribute('x', '-22.85');
-			rect1_elem.setAttribute('y', '66.4');
-			rect1_elem.setAttribute('width', '226.32');
-			rect1_elem.setAttribute('height', '47.53');
-			rect1_elem.setAttribute('rx', '17.33');
-			rect1_elem.setAttribute('ry', '17.33');
-			rect1_elem.setAttribute('transform', 'translate(89.52 -37.99) rotate(45)');
+			var manual_entry_button_html =
+				'<div class="cp_manual_entry">' +
+					'<span>' + c2a_config.autocomplete.texts.manual_entry_toggle +
+						'<svg viewBox="0 0 305.67 179.25">' +
+							'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"></rect>' +
+							'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"></rect>' +
+						'</svg>' +
+					'</span>' +
+				'</div>';
 
-			var rect2_elem = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-			rect2_elem.setAttribute('x', '103.58');
-			rect2_elem.setAttribute('y', '66.4');
-			rect2_elem.setAttribute('width', '226.32');
-			rect2_elem.setAttribute('height', '47.53');
-			rect2_elem.setAttribute('rx', '17.33');
-			rect2_elem.setAttribute('ry', '17.33');
-			rect2_elem.setAttribute('transform', 'translate(433.06 0.12) rotate(135)');
-
-			var svg_elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-			svg_elem.setAttribute('viewBox', '0 0 305.67 179.25');
-			svg_elem.appendChild(rect1_elem);
-			svg_elem.appendChild(rect2_elem);
-
-			var manual_entry_label_elem = document.createElement('label');
-			manual_entry_label_elem.innerText = c2a_config.autocomplete.texts.manual_entry_toggle;
-			manual_entry_label_elem.style.cursor = 'pointer';
-
-			var manual_entry_wrapper_elem = document.createElement('div');
-			manual_entry_wrapper_elem.classList.add('field', 'cc_hide_fields_action');
-			manual_entry_wrapper_elem.appendChild(manual_entry_label_elem);
-			manual_entry_wrapper_elem.appendChild(svg_elem);
-
-			form.querySelector('.cc_search_input').closest('div.field').after(manual_entry_wrapper_elem);
+			form.querySelector('.cc_search_input').closest('div.field').insertAdjacentHTML('beforeend', manual_entry_button_html);
 		}
 
 		if (c2a_config.autocomplete.advanced.lock_country_to_dropdown) {
@@ -158,7 +138,7 @@ function cc_m2_c2a() {
 					line_3.value = '';
 					line_3.dispatchEvent(new Event('change'));
 				}
-				
+
 				var line_4 = elements.search.closest('form').querySelector('#street_4');
 				if (line_4) {
 					line_4.value = '';
@@ -208,7 +188,7 @@ function cc_m2_c2a() {
 		};
 
 		if (c2a_config.autocomplete.advanced.hide_fields) {
-			form.querySelector('.cc_hide_fields_action').addEventListener('click', () => {
+			form.querySelector('.cp_manual_entry').addEventListener('click', function() {
 				cc_hide_fields(dom, 'manual-show');
 			});
 		}
@@ -255,19 +235,8 @@ function activate_cc_m2_uk() {
 			county_data: c2a_config.postcodelookup.advanced.county_data,
 			ui: {
 				onResultSelected: function(dataset, id, fields) {
-					if (active_cfg.county_data == 'former_postal') {
-						fields.county.value = dataset.postal_county;
-					} else if (active_cfg.county_data == 'traditional') {
-						fields.county.value = dataset.traditional_county;
-					} else {
-						fields.county.value = '';
-					}
-					if (fields.county) fields.county.dispatchEvent(new Event('change'));
-					fields.postcode.closest('form').querySelector('.cp_manual_entry').style.display = 'none';
-					if (fields.address_4) {
-						fields.address_4.value = '';
-						fields.address_4.dispatchEvent(new Event('change'));
-					}
+					var manual_entry_button = fields.postcode.closest('form').querySelector('.cp_manual_entry');
+					if (manual_entry_button) manual_entry_button.style.display = 'none';
 				}
 			}
 		};
@@ -275,93 +244,46 @@ function activate_cc_m2_uk() {
 		if (cc_activate_flags.indexOf(active_cfg.id) == -1 && active_cfg.dom.postcode) {
 			cc_activate_flags.push(active_cfg.id);
 
-			// modify the Layout
-			var postcode_elem = active_cfg.dom.postcode;
+			var postcode_field = active_cfg.dom.postcode;
 
-			var postcode_wrapper_elem = document.createElement('div');
-			postcode_wrapper_elem.classList.add('search-bar');
-			postcode_elem.replaceWith(postcode_wrapper_elem);
-			postcode_wrapper_elem.appendChild(postcode_elem);
+			var search_bar = postcode_field.parentNode;
+			search_bar.classList.add('search-bar');
+			var search_container = postcode_field.closest(active_cfg.sort_fields.parent);
+			search_container.id = active_cfg.id;
+			search_container.classList.add('search-container');
+			search_container.style.width = '100%'; // only frontend pages need width to be set
 
-			var button_text_elem = document.createElement('span');
-			button_text_elem.textContent = active_cfg.txt.search_buttontext;
+			// add postcode lookup button
+			var search_button_html = '<button type="button" class="action primary search-button">' + active_cfg.txt.search_buttontext + '</button>';
+			search_bar.insertAdjacentHTML('beforeend', search_button_html);
 
-			var button_elem = document.createElement('button');
-			button_elem.setAttribute('type', 'button'); // Required to prevent form from submitting
-			button_elem.classList.add('action', 'primary');
-			button_elem.appendChild(button_text_elem);
-			postcode_elem.before(button_elem);
+			// add container for address results
+			var search_results_html = '<select class="admin__control-select search-list" style="width: 100%;"></select>';
+			search_bar.insertAdjacentHTML('beforeend', search_results_html);
 
-			// STANDARD
-			var error_elem = document.createElement('div');
-			error_elem.classList.add('search-subtext');
+			// add container for errors
+			var search_subtext_html = '<div class="search-subtext"></div>';
+			search_bar.insertAdjacentHTML('beforeend', search_subtext_html);
 
-			var error_wrapper_elem = document.createElement('div');
-			error_wrapper_elem.classList.add('mage-error');
-			error_wrapper_elem.setAttribute('generated', '');
-			error_wrapper_elem.appendChild(error_elem);
-			postcode_wrapper_elem.after(error_wrapper_elem);
-
-			var results_elem = document.createElement('select');
-
-			var results_wrapper_elem = document.createElement('div');
-			results_wrapper_elem.classList.add('search-list');
-			results_wrapper_elem.style.display = 'none';
-			results_wrapper_elem.appendChild(results_elem);
-			postcode_wrapper_elem.after(results_wrapper_elem);
-
-			var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
-			new_container.id = active_cfg.id;
-			new_container.classList.add('search-container', 'type_3');
-			
-			// add/show manual entry text
-			var form = postcode_elem.closest('form');
+			// add manual entry button (if enabled)
 			if (active_cfg.hide_fields) {
-				if (!document.getElementById(active_cfg.id + '_cp_manual_entry') && postcode_elem.value === '') {
-					var rect1_elem = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-					rect1_elem.setAttribute('x', '-22.85');
-					rect1_elem.setAttribute('y', '66.4');
-					rect1_elem.setAttribute('width', '226.32');
-					rect1_elem.setAttribute('height', '47.53');
-					rect1_elem.setAttribute('rx', '17.33');
-					rect1_elem.setAttribute('ry', '17.33');
-					rect1_elem.setAttribute('transform', 'translate(89.52 -37.99) rotate(45)');
+				var manual_entry_button_html =
+					'<div id="' + active_cfg.id + '_cp_manual_entry" class="cp_manual_entry">' +
+						'<span>' + active_cfg.txt.manual_entry +
+							'<svg viewBox="0 0 305.67 179.25">' +
+								'<rect x="-22.85" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(89.52 -37.99) rotate(45)"></rect>' +
+								'<rect x="103.58" y="66.4" width="226.32" height="47.53" rx="17.33" ry="17.33" transform="translate(433.06 0.12) rotate(135)"></rect>' +
+							'</svg>' +
+						'</span>' +
+					'</div>';
+				search_bar.insertAdjacentHTML('beforeend', manual_entry_button_html);
 
-					var rect2_elem = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-					rect2_elem.setAttribute('x', '103.58');
-					rect2_elem.setAttribute('y', '66.4');
-					rect2_elem.setAttribute('width', '226.32');
-					rect2_elem.setAttribute('height', '47.53');
-					rect2_elem.setAttribute('rx', '17.33');
-					rect2_elem.setAttribute('ry', '17.33');
-					rect2_elem.setAttribute('transform', 'translate(433.06 0.12) rotate(135)');
-
-					var svg_elem = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-					svg_elem.setAttribute('viewBox', '0 0 305.67 179.25');
-					svg_elem.setAttribute('style', 'display: inline-block; width: 1em;');
-					svg_elem.appendChild(rect1_elem);
-					svg_elem.appendChild(rect2_elem);
-
-					var manual_entry_label_elem = document.createElement('label');
-					manual_entry_label_elem.textContent = active_cfg.txt.manual_entry;
-					manual_entry_label_elem.style.cursor = 'pointer';
-
-					var manual_entry_wrapper_elem = document.createElement('div');
-					manual_entry_wrapper_elem.id = active_cfg.id + '_cp_manual_entry';
-					manual_entry_wrapper_elem.classList.add('field', 'cp_manual_entry');
-					manual_entry_wrapper_elem.style.margin = '15px 0 15px 0';
-					manual_entry_wrapper_elem.appendChild(manual_entry_label_elem);
-					manual_entry_wrapper_elem.appendChild(svg_elem);
-
-					postcode_elem.after(manual_entry_wrapper_elem);
-
-					document.getElementById(active_cfg.id + '_cp_manual_entry').addEventListener('click', () => {
-						form.querySelectorAll('.crafty_address_field').forEach((element) => {
-							element.classList.remove('crafty_address_field_hidden');
-						});
-						document.getElementById(active_cfg.id + '_cp_manual_entry').style.display = 'none';
+				postcode_field.closest('form').querySelector('.cp_manual_entry > span').addEventListener('click', function(event) {
+					event.target.closest('form').querySelectorAll('.crafty_address_field').forEach(function(element) {
+						element.classList.remove('cc_hidden');
 					});
-				}
+					event.target.parentNode.style.display = 'none';
+				});
 			}
 
 			var cc_multishipping_register = new cc_ui_handler(active_cfg);
@@ -474,7 +396,7 @@ function cc_hide_fields(dom, action) {
 			form.querySelectorAll('.cc_hide').forEach(function(item) {
 				item.classList.add('cc_hidden');
 			});
-			form.querySelector('.cc_hide_fields_action').classList.remove('cc_slider_on');
+			form.querySelector('.cp_manual_entry').classList.remove('cc_slider_on');
 			form.dataset.cc_hidden = '1';
 			break;
 		case 'manual-show':
@@ -485,7 +407,7 @@ function cc_hide_fields(dom, action) {
 			form.querySelectorAll('.cc_hide').forEach(function(item) {
 				item.classList.remove('cc_hidden');
 			});
-			form.querySelector('.cc_hide_fields_action').style.display = 'none';
+			form.querySelector('.cp_manual_entry').style.display = 'none';
 			form.dataset.cc_hidden = '0';
 
 			if (action == 'manual-show') {
@@ -506,7 +428,7 @@ function cc_hide_fields(dom, action) {
 function cc_reveal_fields_on_error(dom) {
 	var form = dom.country.closest('form');
 	var errors_present = false;
-	
+
 	form.querySelectorAll('.cc_hide').forEach(function(item) {
 		if (item.classList.contains('_error')) {
 			errors_present = true;
@@ -515,7 +437,7 @@ function cc_reveal_fields_on_error(dom) {
 
 	if (errors_present) {
 		cc_hide_fields(dom, 'show');
-		form.querySelector('.cc_hide_fields_action').style.display = 'none'; // prevent the user from hiding the fields again
+		form.querySelector('.cp_manual_entry').style.display = 'none'; // prevent the user from hiding the fields again
 	}
 }
 
@@ -544,10 +466,8 @@ function cc_init() {
 	}
 }
 
-requirejs(['jquery'], function($) {
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', cc_init);
-	} else {
-		cc_init();
-	}
-});
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', cc_init);
+} else {
+	cc_init();
+}

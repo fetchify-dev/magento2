@@ -2,9 +2,9 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>
-		<script src="Fetchify_Fetchify::form_integrations/cc_customer_register.js"/>
 		<script src="Fetchify_Fetchify::cc_c2a.min.js"/>
 		<css src="Fetchify_Fetchify::cc_c2a.min.css"/>
+		<script src="Fetchify_Fetchify::form_integrations/fetchify_customer_register.js"/>
 	</head>
 	<body>
 		<referenceContainer name="content.top">

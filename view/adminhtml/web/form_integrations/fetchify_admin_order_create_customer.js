@@ -1,8 +1,8 @@
 var cc_activate_flags = [];
 
-// address autocomplete
+// Address Auto-Complete
 function activate_cc_m2() {
-	document.querySelectorAll('[name$="_address][postcode]"]').forEach((elem, index) => {
+	document.querySelectorAll('[name$="_address][postcode]"]').forEach(function(elem, index) {
 		if (elem.dataset.cc_attach != '1' && !elem.disabled) {
 			elem.dataset.cc_attach = '1';
 
@@ -50,7 +50,7 @@ function activate_cc_m2() {
 
 var cc_index = 0;
 
-// postcode lookup
+// Postcode Lookup
 var cc_activate_flags = [];
 function activate_cc_m2_uk() {
 	if (c2a_config.postcodelookup.enabled) {
@@ -67,9 +67,9 @@ function activate_cc_m2_uk() {
 			country:	'select[name$="_address][country_id]"]'
 		};
 
-		document.querySelectorAll(dom.postcode).forEach((postcode_elem) => {
-			if (postcode_elem.dataset.cc != '1') {
-				var form = postcode_elem.closest('fieldset');
+		document.querySelectorAll(dom.postcode).forEach(function(postcode_field) {
+			if (postcode_field.dataset.cc != '1') {
+				var form = postcode_field.closest('fieldset');
 
 				var active_cfg = {
 					id: 'm2_' + cc_index,
@@ -89,7 +89,7 @@ function activate_cc_m2_uk() {
 						address_2: form.querySelector(dom.address_2),
 						address_3: form.querySelector(dom.address_3),
 						address_4: form.querySelector(dom.address_4),
-						postcode: postcode_elem,
+						postcode: postcode_field,
 						town: form.querySelector(dom.town),
 						county: form.querySelector(dom.county),
 						county_list: form.querySelector(dom.county_list),
@@ -103,57 +103,30 @@ function activate_cc_m2_uk() {
 					error_msg: c2a_config.postcodelookup.error_msg,
 					county_data: c2a_config.postcodelookup.advanced.county_data,
 					ui: {
-						onResultSelected: function(dataset, id, fields) {
-							if (fields.address_4) {
-								fields.address_4.value = '';
-								fields.address_4.dispatchEvent(new Event('change'));
-							}
-						}
+						top_elem: 'div.admin__page-section-item'
 					}
 				};
 
 				cc_index++;
 
-				// modify the Layout
-				var button_text_elem = document.createElement('span');
-				button_text_elem.textContent = active_cfg.txt.search_buttontext;
+				var search_bar = postcode_field.parentNode;
+				search_bar.classList.add('search-bar');
+				var search_container = postcode_field.closest(active_cfg.sort_fields.parent);
+				search_container.id = active_cfg.id;
+				search_container.classList.add('search-container');
 
-				var button_elem = document.createElement('button');
-				button_elem.setAttribute('type', 'button');
-				button_elem.classList.add('action', 'primary');
-				button_elem.appendChild(button_text_elem);
+				// add postcode lookup button
+				var search_button_html = '<button type="button" class="action primary search-button">' + active_cfg.txt.search_buttontext + '</button>';
+				search_bar.insertAdjacentHTML('beforeend', search_button_html);
 
-				var postcode_wrapper_elem = document.createElement('div');
-				postcode_wrapper_elem.classList.add('search-bar');
-				postcode_elem.replaceWith(postcode_wrapper_elem);
-				postcode_wrapper_elem.appendChild(postcode_elem);
-				postcode_wrapper_elem.appendChild(button_elem);
+				// add container for address results
+				var search_results_html = '<select class="admin__control-select search-list" style="width: 100%;"></select>';
+				search_bar.insertAdjacentHTML('beforeend', search_results_html);
 
-				// ADMIN
-				var error_elem = document.createElement('div');
-				error_elem.classList.add('search-subtext');
+				// add container for errors
+				var search_subtext_html = '<div class="search-subtext"></div>';
+				search_bar.insertAdjacentHTML('beforeend', search_subtext_html);
 
-				var error_wrapper_elem = document.createElement('div');
-				error_wrapper_elem.classList.add('mage-error');
-				error_wrapper_elem.setAttribute('generated', '');
-				error_wrapper_elem.appendChild(error_elem);
-				postcode_wrapper_elem.after(error_wrapper_elem);
-
-				var results_elem = document.createElement('select');
-				results_elem.classList.add('admin__control-select');
-
-				var results_wrapper_elem = document.createElement('div');
-				results_wrapper_elem.classList.add('search-list');
-				results_wrapper_elem.style.display = 'none';
-				results_wrapper_elem.appendChild(results_elem);
-				postcode_wrapper_elem.after(results_wrapper_elem);
-
-				// input after postcode
-				var new_container = postcode_elem.closest(active_cfg.sort_fields.parent);
-				new_container.id = active_cfg.id;
-				new_container.classList.add('search-container', 'type_3');
-
-				active_cfg.ui.top_elem = 'div.admin__page-section-item';
 				active_cfg.dom.postcode.dataset.cc = '1';
 
 				var cc_generic = new cc_ui_handler(active_cfg);
@@ -281,6 +254,21 @@ function cc_init() {
 	}
 
 	if (c2a_config.postcodelookup.enabled) {
+		// this page has two columns; for some reason magento doesn't trigger change event on shipping country when it is changed programatically
+
+		document.querySelector('#order-billing_address_country_id').addEventListener('change', function() {
+			if (document.querySelector('#order-shipping_same_as_billing').checked) {
+				document.querySelector('#order-shipping_address_country_id').value = this.value;
+				document.querySelector('#order-shipping_address_country_id').dispatchEvent(new Event('change'));
+			}
+		});
+
+		document.querySelector('#order-shipping_same_as_billing').addEventListener('change', function() {
+			if (this.checked) {
+				document.querySelector('#order-shipping_address_country_id').dispatchEvent(new Event('change'));
+			}
+		});
+
 		setInterval(activate_cc_m2_uk, 200);
 	}
 
@@ -326,10 +314,8 @@ function cc_init() {
 	}
 }
 
-requirejs(['jquery'], function($) {
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', cc_init);
-	} else {
-		cc_init();
-	}
-});
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', cc_init);
+} else {
+	cc_init();
+}

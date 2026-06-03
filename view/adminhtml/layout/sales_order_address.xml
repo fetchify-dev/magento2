@@ -2,11 +2,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>
-		<script src="Fetchify_Fetchify::form_integrations/cc_admin_order.js"/>
+		<css src="Fetchify_Fetchify::fetchify_common.css"/>
 		<script src="Fetchify_Fetchify::cc_c2a.min.js"/>
 		<css src="Fetchify_Fetchify::cc_c2a.min.css"/>
-		<script src="Fetchify_Fetchify::cc_ukpcl_lib.js"/>
-		<css src="Fetchify_Fetchify::cc_rapid2.css"/>
+		<script src="Fetchify_Fetchify::fetchify_ukpcl.js"/>
+		<css src="Fetchify_Fetchify::fetchify_ukpcl.css"/>
+		<script src="Fetchify_Fetchify::form_integrations/fetchify_admin_order.js"/>
 	</head>
 	<body>
 		<referenceContainer name="header">
