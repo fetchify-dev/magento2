@@ -13,7 +13,7 @@
 				<field id="enable_extension" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Extension</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-					<comment>Fetchify Version: 2.9.0</comment>
+					<comment>Fetchify Version: 2.10.0</comment>
 				</field>
 				<field id="accesstoken" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Access Token</label>
@@ -119,6 +119,11 @@
 				<field id="fill_uk_counties" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Fill UK counties</label>
 					<comment>County data is not required for UK addressing. Enable county data if you need it for legacy software requirements. This setting does not affect non-UK addresses.</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="exclude_zip_plus_four" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Remove +4 from US ZIP codes</label>
+					<comment>Removes plus-four codes from US ZIP codes. Not recommended unless you need it for legacy software requirements. This setting does not affect non-US addresses.</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>

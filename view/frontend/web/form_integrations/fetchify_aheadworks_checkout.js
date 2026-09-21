@@ -297,6 +297,7 @@ function cc_init() {
 				}
 			},
 			transliterate: c2a_config.autocomplete.advanced.transliterate,
+			excludeZipPlusFour: c2a_config.autocomplete.advanced.exclude_zip_plus_four,
 			excludeAreas: c2a_config.autocomplete.exclusions.areas,
 			excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 			debug: c2a_config.autocomplete.advanced.debug,

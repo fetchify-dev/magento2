@@ -71,6 +71,7 @@
 				<use_first_line>0</use_first_line>
 				<debug>0</debug>
 				<fill_uk_counties>1</fill_uk_counties>
+				<exclude_zip_plus_four>0</exclude_zip_plus_four>
 			</advanced>
 			<exclusions>
 				<areas></areas>

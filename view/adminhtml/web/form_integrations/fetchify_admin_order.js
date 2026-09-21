@@ -196,6 +196,7 @@ function cc_init() {
 			showLogo: false,
 			texts: c2a_config.autocomplete.texts,
 			transliterate: c2a_config.autocomplete.advanced.transliterate,
+			excludeZipPlusFour: c2a_config.autocomplete.advanced.exclude_zip_plus_four,
 			excludeAreas: c2a_config.autocomplete.exclusions.areas,
 			excludePoBox: c2a_config.autocomplete.exclusions.po_box,
 			debug: c2a_config.autocomplete.advanced.debug,
@@ -245,20 +246,23 @@ function cc_init() {
 	}
 
 	if (c2a_config.postcodelookup.enabled) {
-		// this page has two columns; for some reason magento doesn't trigger change event on shipping country when it is changed programatically
+		// the Create New Order page has two forms (Billing Address and Shipping Address) but the Edit Order page only has one at a time
+		if (document.querySelector('#order-shipping_same_as_billing')) {
+			// for some reason Magento doesn't trigger change event for Shipping Country when its value is changed by selecting a new Billing Country
+			document.querySelector('#order-billing_address_country_id').addEventListener('change', function() {
+				if (document.querySelector('#order-shipping_same_as_billing').checked) {
+					document.querySelector('#order-shipping_address_country_id').value = this.value;
+					document.querySelector('#order-shipping_address_country_id').dispatchEvent(new Event('change'));
+				}
+			});
 
-		document.querySelector('#order-billing_address_country_id').addEventListener('change', function() {
-			if (document.querySelector('#order-shipping_same_as_billing').checked) {
-				document.querySelector('#order-shipping_address_country_id').value = this.value;
-				document.querySelector('#order-shipping_address_country_id').dispatchEvent(new Event('change'));
-			}
-		});
-
-		document.querySelector('#order-shipping_same_as_billing').addEventListener('change', function() {
-			if (this.checked) {
-				document.querySelector('#order-shipping_address_country_id').dispatchEvent(new Event('change'));
-			}
-		});
+			// for some reason Magento doesn't trigger change event for Shipping Country when its value is changed by enabling Same As Billing Address
+			document.querySelector('#order-shipping_same_as_billing').addEventListener('change', function() {
+				if (this.checked) {
+					document.querySelector('#order-shipping_address_country_id').dispatchEvent(new Event('change'));
+				}
+			});
+		}
 
 		setInterval(activate_cc_m2_uk, 200);
 	}

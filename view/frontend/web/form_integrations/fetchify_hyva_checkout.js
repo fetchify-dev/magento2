@@ -75,6 +75,7 @@ function activate_address_autocomplete() {
       }
     },
     transliterate: c2a_config.autocomplete.advanced.transliterate,
+    excludeZipPlusFour: c2a_config.autocomplete.advanced.exclude_zip_plus_four,
     excludeAreas: c2a_config.autocomplete.exclusions.areas.concat(['gbr_channel_islands', 'gbr_isle_of_man']),
     excludePoBox: c2a_config.autocomplete.exclusions.po_box,
     debug: c2a_config.autocomplete.advanced.debug,
