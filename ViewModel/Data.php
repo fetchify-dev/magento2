@@ -87,11 +87,11 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
     public function getFrontendCfg()
     {
         $cfg = [
-        'main' => null,
-        'autocomplete' => null,
-        'postcodelookup' => null,
-        'phonevalidation' => null,
-        'emailvalidation' => null
+            'main' => null,
+            'autocomplete' => null,
+            'postcodelookup' => null,
+            'phonevalidation' => null,
+            'emailvalidation' => null
         ];
 
         $token = $this->scopeConfig->getValue(
@@ -99,12 +99,12 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        if (0 == preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/", $token)) {
+        if (0 == preg_match('/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/', $token)) {
             // not decrypted yet (php 7.0.X?)
             $token = $this->encryptor->decrypt($token);
         }
 
-        if (preg_match("/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/", $token)) {
+        if (preg_match('/^([a-zA-Z0-9]{5}-){3}[a-zA-Z0-9]{5}$/', $token)) {
             $cfg['main']['key'] = $this->escaper->escapeHtml($token);
         } else {
             $cfg['main']['key'] = null;
@@ -120,22 +120,22 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        $cfg['autocomplete']['gfx_mode']    = $this->getCfg('fetchify_global', 'gfx_options/mode');
-        $cfg['autocomplete']['gfx_ambient']    = $this->getCfg('fetchify_global', 'gfx_options/ambient');
-        $cfg['autocomplete']['gfx_accent']    = $this->getCfg('fetchify_global', 'gfx_options/accent');
+        $cfg['autocomplete']['gfx_mode'] = $this->getCfg('fetchify_global', 'gfx_options/mode');
+        $cfg['autocomplete']['gfx_ambient'] = $this->getCfg('fetchify_global', 'gfx_options/ambient');
+        $cfg['autocomplete']['gfx_accent'] = $this->getCfg('fetchify_global', 'gfx_options/accent');
 
         $cfg['autocomplete']['texts'] = [
-        "search_label"       => $this->getCfg('fetchify_global', 'txt_options/search_label'),
-        "default_placeholder"   => $this->escaper->escapeHtml(
-            $this->getCfg('fetchify_global', 'txt_options/search_placeholder')
-        ),
-        "country_placeholder"   => $this->escaper->escapeHtml(
-            $this->getCfg('fetchify_global', 'txt_options/country_placeholder')
-        ),
-        "country_button"     => $this->getCfg('fetchify_global', 'txt_options/country_button'),
-        "generic_error"       => $this->getCfg('fetchify_global', 'txt_options/error_msg_2'),
-        "no_results"       => $this->getCfg('fetchify_global', 'txt_options/error_msg_1'),
-        "manual_entry_toggle"       => $this->getCfg('fetchify_global', 'txt_options/manual_entry_toggle')
+            'search_label' => $this->getCfg('fetchify_global', 'txt_options/search_label'),
+            'default_placeholder' => $this->escaper->escapeHtml(
+                $this->getCfg('fetchify_global', 'txt_options/search_placeholder')
+            ),
+            'country_placeholder' => $this->escaper->escapeHtml(
+                $this->getCfg('fetchify_global', 'txt_options/country_placeholder')
+            ),
+            'country_button' => $this->getCfg('fetchify_global', 'txt_options/country_button'),
+            'generic_error' => $this->getCfg('fetchify_global', 'txt_options/error_msg_2'),
+            'no_results' => $this->getCfg('fetchify_global', 'txt_options/error_msg_1'),
+            'manual_entry_toggle' => $this->getCfg('fetchify_global', 'txt_options/manual_entry_toggle'),
         ];
     
         $cfg['autocomplete']['default_country'] = $this->escaper->escapeHtml(
@@ -153,20 +153,20 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
         ));
 
         $cfg['autocomplete']['advanced'] = [
-        "debug" => $this->getCfg('fetchify_global', 'advanced/debug') == "1",
-        "fill_uk_counties" => $this->getCfg('fetchify_global', 'advanced/fill_uk_counties') == "1",
-        "lock_country_to_dropdown" => $this->getCfg('fetchify_global', 'advanced/lock_country_to_dropdown') == "1",
-        "hide_fields" => $this->getCfg('fetchify_global', 'advanced/hide_fields') == "1",
-        "search_elem_id" => $this->getCfg('fetchify_global', 'advanced/search_elem_id'),
-        "transliterate" => $this->getCfg('fetchify_global', 'advanced/transliterate') == "1",
-        "use_first_line" => $this->getCfg('fetchify_global', 'advanced/use_first_line') == "1",
+            'debug' => $this->getCfg('fetchify_global', 'advanced/debug') === '1',
+            'fill_uk_counties' => $this->getCfg('fetchify_global', 'advanced/fill_uk_counties') === '1',
+            'lock_country_to_dropdown' => $this->getCfg('fetchify_global', 'advanced/lock_country_to_dropdown') === '1',
+            'hide_fields' => $this->getCfg('fetchify_global', 'advanced/hide_fields') === '1',
+            'search_elem_id' => $this->getCfg('fetchify_global', 'advanced/search_elem_id'),
+            'transliterate' => $this->getCfg('fetchify_global', 'advanced/transliterate') === '1',
+            'use_first_line' => $this->getCfg('fetchify_global', 'advanced/use_first_line') === '1',
+            'exclude_zip_plus_four' => $this->getCfg('fetchify_global', 'advanced/exclude_zip_plus_four') === '1',
         ];
 
-        $cfg['autocomplete']['exclusions']['areas'] = explode(
-            ",",
-            $this->getCfg('fetchify_global', 'exclusions/areas')
-        );
-        $cfg['autocomplete']['exclusions']['po_box'] = $this->getCfg('fetchify_global', 'exclusions/po_box') === "1";
+        $cfg['autocomplete']['exclusions'] = [
+            'areas' => explode(',', $this->getCfg('fetchify_global', 'exclusions/areas')),
+            'po_box' => $this->getCfg('fetchify_global', 'exclusions/po_box') === '1',
+        ];
 
       // PCL OPTIONS
         $cfg['postcodelookup']['enabled'] = $this->scopeConfig->isSetFlag(
@@ -180,13 +180,13 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
         );
 
         $cfg['postcodelookup']['error_msg'] = [];
-        $cfg['postcodelookup']['error_msg']["0001"] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_1');
-        $cfg['postcodelookup']['error_msg']["0002"] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_2');
-        $cfg['postcodelookup']['error_msg']["0003"] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_3');
-        $cfg['postcodelookup']['error_msg']["0004"] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_4');
+        $cfg['postcodelookup']['error_msg']['0001'] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_1');
+        $cfg['postcodelookup']['error_msg']['0002'] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_2');
+        $cfg['postcodelookup']['error_msg']['0003'] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_3');
+        $cfg['postcodelookup']['error_msg']['0004'] = $this->getCfg('fetchify_pcl', 'txt_options/error_msg_4');
         $cfg['postcodelookup']['txt'] = [];
-        $cfg['postcodelookup']['txt']["search_label"] = $this->getCfg('fetchify_pcl', 'txt_options/search_label');
-        $cfg['postcodelookup']['txt']["search_placeholder"] = $this->getCfg(
+        $cfg['postcodelookup']['txt']['search_label'] = $this->getCfg('fetchify_pcl', 'txt_options/search_label');
+        $cfg['postcodelookup']['txt']['search_placeholder'] = $this->getCfg(
             'fetchify_pcl',
             'txt_options/search_placeholder'
         );
@@ -194,7 +194,7 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
             'fetchify_pcl',
             'txt_options/search_buttontext'
         );
-        $cfg['postcodelookup']['txt']["manual_entry"] = $this->getCfg('fetchify_pcl', 'txt_options/manual_entry');
+        $cfg['postcodelookup']['txt']['manual_entry'] = $this->getCfg('fetchify_pcl', 'txt_options/manual_entry');
         $cfg['postcodelookup']['advanced']['county_data'] = $this->getCfg('fetchify_pcl', 'advanced/county_data');
 
       // phone & email validation
