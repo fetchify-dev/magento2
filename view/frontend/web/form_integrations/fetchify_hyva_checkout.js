@@ -2,6 +2,7 @@ window.cc_holder = null;
 var cc_index = 0;
 var cc_applied_phone = [];
 var cc_applied_email = [];
+var fetchify_pending_refresh = {};
 
 function fetchify_init() {
   if (!c2a_config.main.enable_extension) return;
@@ -9,6 +10,17 @@ function fetchify_init() {
   if (c2a_config.main.key == null) {
     console.warn('Fetchify: No token supplied');
     return;
+  }
+
+  // hooking into Livewire lets us release the lock on an element immediately after it attempts to refresh for the first time
+  if (window.Livewire) {
+    Livewire.hook('message.processed', function(message, component) {
+      var callbacks = fetchify_pending_refresh[component.id];
+      if (callbacks && callbacks.length) {
+        fetchify_pending_refresh[component.id] = [];
+        callbacks.forEach(function(cb) { cb(); });
+      }
+    });
   }
 
   if (c2a_config.autocomplete.enabled) activate_address_autocomplete();
@@ -249,6 +261,8 @@ function activate_postcode_lookup() {
         disable_country_change: true,
         ui: {
           onResultSelected: function(dataset, id, fields) {
+            fields.postcode.closest('.search-container').removeAttribute('wire:ignore');
+
             var manual_entry_button = fields.postcode.closest('form').querySelector('.cp_manual_entry');
             if (manual_entry_button) manual_entry_button.style.display = 'none';
 
@@ -280,6 +294,20 @@ function activate_postcode_lookup() {
       // add postcode lookup button
       var search_button_html = '<button type="button" class="btn btn-primary action search-button">' + active_cfg.txt.search_buttontext + '</button>';
       search_bar.insertAdjacentHTML('beforeend', search_button_html);
+
+      // prevent postcode field from being replaced after autosave while PCL is being used
+      search_bar.querySelector('button').addEventListener('click', function() {
+        search_container.setAttribute('wire:ignore', '');
+
+        var component_root = search_container.closest('[wire\\:id]');
+        var component_id = component_root ? component_root.getAttribute('wire:id') : null;
+
+        if (component_id) {
+          fetchify_watch_next_refresh(component_id, search_container.removeAttribute.bind(search_container, 'wire:ignore'));
+        }
+
+        setTimeout(search_container.removeAttribute.bind(search_container, 'wire:ignore'), 30000);
+      });
 
       // add container for address results
       var search_results_html = '<select class="block w-full form-input renderer-select search-list" style="width: 100%;"></select>';
@@ -466,6 +494,10 @@ function cc_reveal_fields_on_error(dom) {
     cc_hide_fields(dom, 'show');
     form.find('.cp_manual_entry').style.display = 'none'; // prevent the user from hiding the fields again
   }
+}
+
+function fetchify_watch_next_refresh(componentId, callback) {
+  (fetchify_pending_refresh[componentId] = fetchify_pending_refresh[componentId] || []).push(callback);
 }
 
 if (document.readyState === 'loading') {
