@@ -25,21 +25,29 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
     private \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig;
 
   /**
+   * @var \Magento\Directory\Model\CountryFactory
+   */
+    private \Magento\Directory\Model\CountryFactory $countryFactory;
+
+  /**
    * @param \Magento\Framework\Escaper $escaper
    * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
    * @param \Magento\Framework\ObjectManagerInterface $objectManager
    * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+   * @param \Magento\Directory\Model\CountryFactory $countryFactory
    */
     public function __construct(
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Directory\Model\CountryFactory $countryFactory
     ) {
         $this->escaper = $escaper;
         $this->encryptor = $encryptor;
         $this->objectManager = $objectManager;
         $this->scopeConfig = $scopeConfig;
+        $this->countryFactory = $countryFactory;
     }
 
   /**
@@ -138,11 +146,14 @@ class Data implements \Magento\Framework\View\Element\Block\ArgumentInterface
             'manual_entry_toggle' => $this->getCfg('fetchify_global', 'txt_options/manual_entry_toggle'),
         ];
     
-        $cfg['autocomplete']['default_country'] = $this->escaper->escapeHtml(
-            $this->scopeConfig->getValue(
+        $defaultCountry = $this->countryFactory->create()->loadByCode(
+            (string)$this->scopeConfig->getValue(
                 'general/country/default',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
+        );
+        $cfg['autocomplete']['default_country'] = $this->escaper->escapeHtml(
+            strtolower((string)$defaultCountry->getData('iso3_code'))
         );
 
         $cfg['autocomplete']['enabled_countries'] = explode(',', $this->escaper->escapeHtml(

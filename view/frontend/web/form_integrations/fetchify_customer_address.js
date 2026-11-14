@@ -153,6 +153,10 @@ function cc_m2_c2a() {
 			config.dom.country = form.querySelector('[name="country_id"]');
 		}
 
+		if (c2a_config.autocomplete.default_country) {
+			config.defaultCountry = c2a_config.autocomplete.default_country;
+		}
+
 		if (typeof c2a_config.autocomplete.enabled_countries !== 'undefined') {
 			config.countryMatchWith = 'iso_2';
 			config.enabledCountries = c2a_config.autocomplete.enabled_countries;
